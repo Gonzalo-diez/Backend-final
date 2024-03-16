@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "title": "PS4",
+    "description": "PS4",
+    "price": "75000",
+    "stock": "10",
+    "category": "Electrónico",
+    "image": "ps4.png"
+  },
+  {
+    "id": 2,
+    "title": "PS5",
+    "description": "PS5",
+    "price": "1350000",
+    "stock": "10",
+    "category": "Electrónico",
+    "image": "ps.png"
+  },
+  {
+    "id": 3,
+    "title": "Nintendo",
+    "description": "Nintendo switch",
+    "price": "450000",
+    "stock": "10",
+    "category": "Electrónico",
+    "image": "nintendo.png"
+  },
+  {
+    "id": 4,
+    "title": "Libros de jk Rowling",
+    "description": "Saga harry potter",
+    "price": "95000",
+    "stock": "10",
+    "category": "Libros",
+    "image": "saga.jpg"
+  },
+  {
+    "id": 5,
+    "title": "PS4",
+    "description": "PS4",
+    "price": "750000",
+    "stock": "10",
+    "category": "Electrónica",
+    "image": "ps4.png"
+  },
+  {
+    "id": 6,
+    "title": "PS5",
+    "description": "PS5",
+    "price": "1500000",
+    "stock": "10",
+    "category": "Electrónica",
+    "image": "ps.png"
+  },
+  {
+    "id": 7,
+    "title": "PS5",
+    "description": "PS5",
+    "price": "7500000",
+    "stock": "10",
+    "category": "Electrónica",
+    "image": "ps.png"
+  }
+]
