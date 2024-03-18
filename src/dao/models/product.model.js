@@ -8,10 +8,6 @@ const productSchema = new mongoose.Schema({
     stock: Number,
     category: String,
     image: String,
-    messages: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Message'
-    },
     cart: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Cart'

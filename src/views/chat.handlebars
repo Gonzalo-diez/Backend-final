@@ -1,8 +1,9 @@
 <h1>Chat</h1>
-<div id="chat-messages"></div>
-<input type="email" id="user" placeholder="Email">
-<input type="text" id="message" placeholder="Mensaje">
-<button id="send">Send</button>
+<form action="messages/addMessage" method="POST" id="messageForm">
+    <input type="text" id="user" name="user" placeholder="Nombre de usuario" required>
+    <input type="text" id="message" name="message" placeholder="Mensaje" required>
+    <button type="submit">Enviar mensaje</button>
+</form>
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>

@@ -69,7 +69,7 @@ io.on('connection', socket => {
     });
 
     socket.on("addMessage", (addMessage) => {
-        console.log("Mensaje agregado");
+        console.log("Mensaje agregado", addMessage);
         io.emit("addMessage", addMessage);
     })
 })

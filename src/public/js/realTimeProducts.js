@@ -1,24 +1,23 @@
 const socket = io();
 
-socket.on('addProduct', (newProduct) => {
-    // Actualizar la interfaz de usuario con el nuevo producto
-    // Por ejemplo, puedes insertar el nuevo producto en la lista de productos existente
+socket.on('addProduct', (addProduct) => {
+    socket.emit("addProduct", addProduct);
     const productList = document.getElementById('productList');
     const productElement = document.createElement('div');
     productElement.classList.add('col-md-4', 'mb-4');
     productElement.innerHTML = `
         <div class="card">
-            <img src="/img/${newProduct.image}" class="card-img-top img-fluid" alt="${newProduct.title}"
+            <img src="/img/${addProduct.image}" class="card-img-top img-fluid" alt="${addProduct.title}"
                 style="max-height: 400px; aspect-ratio: 3/2; object-fit: contain;">
             <div class="card-body">
-                <h5 class="card-title">${newProduct.title}</h5>
+                <h5 class="card-title">${addProduct.title}</h5>
                 <p class="card-text">${newProduct.brand}</p>
-                <p class="card-text">${newProduct.description}</p>
-                <p class="card-text">Precio: $${newProduct.price}</p>
-                <p class="card-text">Stock: ${newProduct.stock}</p>
-                <p class="card-text">Categoría: ${newProduct.category}</p>
-                <button class="btn btn-danger delete-btn" data-product-id="${newProduct._id}"
-                    data-delete-url="/realtimeproducts/deleteProduct/${newProduct._id}">Eliminar
+                <p class="card-text">${addProduct.description}</p>
+                <p class="card-text">Precio: $${addProduct.price}</p>
+                <p class="card-text">Stock: ${addProduct.stock}</p>
+                <p class="card-text">Categoría: ${addProduct.category}</p>
+                <button class="btn btn-danger delete-btn" data-product-id="${addProduct._id}"
+                    data-delete-url="/realtimeproducts/deleteProduct/${addProduct._id}">Eliminar
                     Producto</button>
             </div>
         </div>`;
@@ -33,7 +32,7 @@ document.getElementById('addProductForm').addEventListener('submit', async (even
     const formData = new FormData(event.target);
 
     try {
-        const response = await fetch('/realtimeproducts/addProduct', {
+        const response = await fetch('http://localhost:8080/products/addProduct', {
             method: 'POST',
             body: formData
         });
@@ -79,21 +78,13 @@ function deleteProduct(productId, deleteUrl) {
             }
             return response.json();
         })
-        .then(data => {
-            console.log('Producto eliminado exitosamente:', data.productId);
+        .then(() => {
+            console.log('Producto eliminado exitosamente');
         })
         .catch(error => {
             console.error('Error al eliminar el producto:', error);
         });
 }
-
-socket.on('connection', () => {
-    console.log("Websocket del lado cliente funciona");
-})
-
-socket.on('addProduct', (addProduct) => {
-    console.log("Se agregado el producto:", addProduct);
-})
 
 // Escuchar el evento de eliminación de producto
 socket.on('deleteProduct', (productId) => {

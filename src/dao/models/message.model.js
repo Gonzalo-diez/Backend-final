@@ -2,20 +2,7 @@ import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema({
     user: String,
-    message: String,
-    date: {
-        type: Date,
-        default: Date.now,
-    },
-    // Implementación de respuesta de mensajes más adelante
-    responses: [{
-        user: String,
-        message: String,
-        date: {
-            type: Date,
-            default: Date.now,
-        }
-    }]
+    text: String,
 });
 
 const Message = mongoose.model("Message", messageSchema);
