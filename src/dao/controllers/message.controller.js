@@ -1,22 +1,28 @@
 import mongoose from "mongoose";
 import Message from "../models/message.model.js";
-import Product from "../models/product.model.js";
 
 const messageController = {
+    getMessages: async (req, res) => {
+        try {
+            const messages = await Message.find().lean();
+
+            if (req.accepts('html')) {
+                return res.render('chat', { messages });
+            }
+            res.json(messages);
+        } catch (err) {
+            console.error('Error:', err);
+            return res.status(500).json({ error: "Error en la base de datos", details: err.message });
+        }
+    },
+
     addMessage: async (req, res) => {
-        const { text, productId, name } = req.body;
+        const { user, message } = req.body;
 
         try {
-            const product = await Product.findById(productId).exec();
-
-            if (!product) {
-                return res.status(404).json({ error: 'Producto no encontrado' });
-            }
-
             const newMessage = new Message({
-                text,
-                product: productId,
-                name,
+                user,
+                message,
             });
 
             await newMessage.save();
@@ -29,19 +35,19 @@ const messageController = {
     },
 
     updateMessage: async (req, res) => {
-        const messageId = req.params.id;
-        const { text } = req.body;
+        const id = req.params.id;
+        const { message } = req.body;
 
         try {
-            const message = await Message.findById(messageId).exec();
+            const messageId = await Message.findById(id).lean().exec();
 
-            if (!message) {
+            if (!messageId) {
                 return res.status(404).json({ error: "Mensaje no encontrado" });
             }
 
             const updatedMessage = await Message.findByIdAndUpdate(
-                messageId,
-                { text },
+                id,
+                { message },
                 { new: true }
             );
 
@@ -60,7 +66,7 @@ const messageController = {
         const messageId = req.params.id;
 
         try {
-            const deleteMessage = await Message.deleteOne({ _id: messageId });
+            const deleteMessage = await Message.deleteOne({ _id: messageId }).lean();
 
             if (deleteMessage.deletedCount === 0) {
                 return res.status(404).json({ error: 'Mensaje no encontrado' });
@@ -74,24 +80,18 @@ const messageController = {
     },
 
     respondMessage: async (req, res) => {
-        const messageId = req.params.id;
-        const { text, name } = req.body;
+        const id = req.params.id;
+        const { user, message } = req.body;
 
         try {
-            const message = await Message.findById(messageId).exec();
-            if (!message) {
+            const messageId = await Message.findById(id).lean().exec();
+            if (!messageId) {
                 return res.status(404).json({ error: 'Mensaje no encontrado' });
             }
 
-            const product = await Product.findById(message.product).exec();
-            if (!product) {
-                return res.status(404).json({ error: 'Producto no encontrado' });
-            }
-
             message.responses.push({
-                text,
-                name,
-                productId: product._id,
+                user,
+                message,
                 date: new Date(),
             });
 

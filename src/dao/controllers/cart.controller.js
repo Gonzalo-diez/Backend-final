@@ -5,7 +5,7 @@ import Product from "../models/product.model.js";
 const cartController = {
   getCart: async (req, res) => {
     try {
-      const cart = await Cart.find();
+      const cart = await Cart.find().lean();
       return res.json(cart);
     }
     catch (err) {
@@ -18,7 +18,7 @@ const cartController = {
     const { productId, country, state, city, street, phone, card_bank, security_number, quantity } = req.body;
 
     try {
-      const product = await Product.findById(productId);
+      const product = await Product.findById(productId).lean();
 
       if (!product) {
         return res.status(404).json({ error: "Producto no encontrado" });

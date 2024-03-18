@@ -8,7 +8,11 @@ const productController = {
             const products = await Product.find().populate({
                 path: "messages",
                 model: "Message",
-            });
+            }).lean();
+
+            if (req.accepts('html')) {
+                return res.render('realTimeProducts', { products });
+            }
             res.json(products);
         } catch (err) {
             console.error('Error:', err);
@@ -21,12 +25,15 @@ const productController = {
 
         try {
             const productId = new mongoose.Types.ObjectId(productDetailId);
-            const product = await Product.findOne({ _id: productId }).exec();
+            const product = await Product.findOne({ _id: productId }).lean().exec();
 
             if (!product) {
                 return res.status(404).json({ error: "Producto no encontrado" });
             }
 
+            if (req.accepts('html')) {
+                return res.render('productDetail', { product });
+            }
             return res.json(product);
         } catch (err) {
             console.error('Error:', err);
@@ -38,7 +45,11 @@ const productController = {
         const category = req.params.category;
 
         try {
-            const product = await Product.find({ category }).exec();
+            const product = await Product.find({ category }).lean().exec();
+
+            if (req.accepts('html')) {
+                return res.render('productCategory', { product });
+            }
             return res.json(product);
         } catch (err) {
             console.error('Error:', err);
@@ -50,7 +61,7 @@ const productController = {
         const productId = req.params.id;
 
         try {
-            const message = await Message.find({ product: productId }).exec();
+            const message = await Message.find({ product: productId }).lean().exec();
             return res.json(message);
         } catch (err) {
             console.error('Error:', err);
@@ -95,7 +106,7 @@ const productController = {
         const { title, brand, description, price, stock, category } = req.body;
 
         try {
-            const product = await Product.findById(productId).exec();
+            const product = await Product.findById(productId).lean().exec();
 
             if (!product) {
                 return res.status(404).json({ error: "Producto no encontrado" });
@@ -136,7 +147,7 @@ const productController = {
         const productId = req.params.id;
 
         try {
-            const deleteProduct = await Product.deleteOne({ _id: productId });
+            const deleteProduct = await Product.deleteOne({ _id: productId }).lean();
 
             if (deleteProduct.deletedCount === 0) {
                 return res.status(404).json({ error: "Producto no encontrado" });

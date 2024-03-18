@@ -1,19 +1,16 @@
 import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema({
-    text: String,
-    name: String,
+    user: String,
+    message: String,
     date: {
         type: Date,
         default: Date.now,
     },
-    product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product'
-    },
+    // Implementación de respuesta de mensajes más adelante
     responses: [{
-        text: String,
-        name: String,
+        user: String,
+        message: String,
         date: {
             type: Date,
             default: Date.now,

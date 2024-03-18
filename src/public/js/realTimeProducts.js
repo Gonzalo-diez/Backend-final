@@ -1,41 +1,56 @@
 const socket = io();
 
-socket.on('connection', () => {
-    console.log("Websocket del lado cliente funciona");
-})
-
-socket.on('addProduct', (addProduct) => {
-    console.log("Se agregado el producto:", addProduct);
-})
+socket.on('addProduct', (newProduct) => {
+    // Actualizar la interfaz de usuario con el nuevo producto
+    // Por ejemplo, puedes insertar el nuevo producto en la lista de productos existente
+    const productList = document.getElementById('productList');
+    const productElement = document.createElement('div');
+    productElement.classList.add('col-md-4', 'mb-4');
+    productElement.innerHTML = `
+        <div class="card">
+            <img src="/img/${newProduct.image}" class="card-img-top img-fluid" alt="${newProduct.title}"
+                style="max-height: 400px; aspect-ratio: 3/2; object-fit: contain;">
+            <div class="card-body">
+                <h5 class="card-title">${newProduct.title}</h5>
+                <p class="card-text">${newProduct.brand}</p>
+                <p class="card-text">${newProduct.description}</p>
+                <p class="card-text">Precio: $${newProduct.price}</p>
+                <p class="card-text">Stock: ${newProduct.stock}</p>
+                <p class="card-text">Categoría: ${newProduct.category}</p>
+                <button class="btn btn-danger delete-btn" data-product-id="${newProduct._id}"
+                    data-delete-url="/realtimeproducts/deleteProduct/${newProduct._id}">Eliminar
+                    Producto</button>
+            </div>
+        </div>`;
+    productList.appendChild(productElement);
+});
 
 // Manejar el envío del formulario para agregar un producto
-document.getElementById('addProductForm').addEventListener('submit', (event) => {
+document.getElementById('addProductForm').addEventListener('submit', async (event) => {
     event.preventDefault();
 
     // Obtener los valores del formulario
-    const title = document.getElementById('title').value;
-    const description = document.getElementById('description').value;
-    const price = parseFloat(document.getElementById('price').value);
-    const stock = parseInt(document.getElementById('stock').value);
-    const category = document.getElementById('category').value;
-    const image = document.getElementById('image').files[0];
+    const formData = new FormData(event.target);
 
-    console.log('Datos del producto:', title, description, price, stock, category, image);
+    try {
+        const response = await fetch('/realtimeproducts/addProduct', {
+            method: 'POST',
+            body: formData
+        });
 
-    // Crear un objeto FormData para enviar datos de formulario y archivos
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('description', description);
-    formData.append('price', price);
-    formData.append('stock', stock);
-    formData.append('category', category);
-    formData.append('image', image);
+        if (!response.ok) {
+            throw new Error('Error al agregar el producto');
+        }
 
-    // Emitir el evento addProduct al servidor de WebSocket con los datos del producto
-    socket.emit('addProduct', formData);
+        const data = await response.json();
+        console.log('Producto agregado:', data.Product);
 
-    // Resetear el formulario después de enviar los datos
-    event.target.reset();
+        // Limpiar el formulario después de agregar el producto
+        event.target.reset();
+
+    } catch (error) {
+        console.error('Error al agregar el producto:', error);
+    }
 });
 
 // Manejar la eliminación de un producto
@@ -71,6 +86,14 @@ function deleteProduct(productId, deleteUrl) {
             console.error('Error al eliminar el producto:', error);
         });
 }
+
+socket.on('connection', () => {
+    console.log("Websocket del lado cliente funciona");
+})
+
+socket.on('addProduct', (addProduct) => {
+    console.log("Se agregado el producto:", addProduct);
+})
 
 // Escuchar el evento de eliminación de producto
 socket.on('deleteProduct', (productId) => {

@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import http from "http";
 import handlebars from "express-handlebars";
-import { Server } from "socket.io"
+import { Server } from "socket.io";
 import bodyParser from "body-parser";
 import __dirname from "./util.js";
 import path from "path";
@@ -53,12 +53,23 @@ httpServer.listen(PORT, () => {
 });
 
 // Servidor WebSocket
-export const io = new Server(httpServer);
+const io = new Server(httpServer);
 
 io.on('connection', socket => {
     console.log("Nuevo cliente conectado!!");
 
-    socket.on('message', data => {
-        console.log(data);
+    socket.on("deleteProduct", (deleteProduct) => {
+        console.log("Producto borrado:", deleteProduct);
+        io.emit("deleteProduct", deleteProduct);
+    });
+
+    socket.on("addProduct", (addProduct) => {
+        console.log("Producto agregado:", addProduct);
+        io.emit("addProduct", addProduct);
+    });
+
+    socket.on("addMessage", (addMessage) => {
+        console.log("Mensaje agregado");
+        io.emit("addMessage", addMessage);
     })
 })
