@@ -6,16 +6,17 @@
 </form>
 
 <div class="chat-container">
-    <div class="chatList">
+    <div class="row" id="chatList">
         {{#each messages}}
-        <div>
-            <h2>usuario: {{this.user}}</h2>
-            <p>mensaje: {{this.text}}</p>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <h2>usuario: {{this.user}}</h2>
+                <p>mensaje: {{this.text}}</p>
+            </div>
         </div>
         {{/each}}
     </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
-<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 <script type="module" src="/js/chat.js"></script>

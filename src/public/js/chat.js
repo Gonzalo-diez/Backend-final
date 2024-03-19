@@ -1,14 +1,13 @@
-const socket = io();
+const socket = io.connect('http://localhost:8080');
 
 socket.on('addMessage', (addMessage) => {
-    socket.emit("addMessage", addMessage);
     const chatList = document.getElementById('chatList');
     const chatElement = document.createElement('div');
     chatElement.classList.add('col-md-4', 'mb-4');
     chatElement.innerHTML = `
         <div class="card">
-            <h2>${addMessage.user}</h2>
-            <p>${addMessage.text}</p>
+            <h2>usuario: ${addMessage.user}</h2>
+            <p>mensaje: ${addMessage.text}</p>
         </div>`;
     chatList.appendChild(chatElement);
 });
@@ -21,7 +20,7 @@ document.getElementById('messageForm').addEventListener('submit', async (event) 
 
     if (user && message) {
         try {
-            const response = await fetch('http://localhost:8080/messages/addMessage', {
+            const response = await fetch('http://localhost:8080/api/messages/addMessage', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -34,6 +33,7 @@ document.getElementById('messageForm').addEventListener('submit', async (event) 
             }
 
             console.log("Mensaje agregado:", { user, message });
+            socket.emit("addMessage", { user, text: message });
             document.getElementById('message').value = '';
 
             event.target.reset();

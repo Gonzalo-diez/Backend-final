@@ -12,6 +12,6 @@ productRouter.get("/realtimeproducts", productController.getProducts);
 productRouter.post("/addProduct", imgUpload.single("image"), productController.addProduct);
 
 // Manejar la solicitud de eliminación de un producto en tiempo real
-productRouter.delete('/realtimeproducts/deleteProduct/:id', productController.deleteProduct);
+productRouter.delete('/deleteProduct/:id', productController.deleteProduct);
 
 export default productRouter;

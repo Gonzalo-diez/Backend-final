@@ -44,7 +44,7 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 app.use(express.static(path.join(__dirname, 'public')));
-app.use("/", router);
+app.use("/api/", router);
 
 const PORT = 8080;
 

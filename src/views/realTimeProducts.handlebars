@@ -54,7 +54,7 @@
                     <p class="card-text">Stock: {{this.stock}}</p>
                     <p class="card-text">Categoría: {{this.category}}</p>
                     <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}"
-                        data-delete-url="http://localhost:8080/products/realtimeproducts/deleteProduct/{{this._id}}">Eliminar
+                        data-delete-url="http://localhost:8080/api/products/deleteProduct/{{this._id}}">Eliminar
                         Producto</button>
                 </div>
             </div>
@@ -67,5 +67,4 @@
 
 
 <script src="/socket.io/socket.io.js"></script>
-<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 <script type="module" src="/js/realTimeProducts.js"></script>
