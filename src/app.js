@@ -8,6 +8,7 @@ import __dirname from "./util.js";
 import path from "path";
 import router from "./routes.js";
 
+
 const app = express();
 const httpServer = http.createServer(app);
 
@@ -18,7 +19,7 @@ app.use(express.json());
 //app.use("/api/products", productRouter);
 //app.use("/api/carts", cartRouter);
 
-mongoose.connect("mongodb://localhost:27017/ecommerce", {
+mongoose.connect(`mongodb+srv://gonza:Coder2001@ecommerce.salixhx.mongodb.net/`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
