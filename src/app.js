@@ -59,10 +59,15 @@ const io = new Server(httpServer);
 io.on('connection', socket => {
     console.log("Nuevo cliente conectado!!");
 
-    socket.on("deleteProduct", (deleteProduct) => {
-        console.log("Producto borrado:", deleteProduct);
-        io.emit("deleteProduct", deleteProduct);
+    socket.on("deleteProduct", (deleteProductId) => {
+        console.log("Producto borrado:", deleteProductId);
+        io.emit("deleteProduct", deleteProductId);
+        io.emit("updateProducts");
     });
+
+    socket.on("updateProducts", (updateProducts) => {
+        io.emit("updateProducts", updateProducts);
+    })
 
     socket.on("addProduct", (addProduct) => {
         console.log("Producto agregado:", addProduct);

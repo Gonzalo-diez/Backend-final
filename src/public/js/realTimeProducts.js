@@ -1,27 +1,40 @@
 const socket = io.connect('http://localhost:8080');
 
-socket.on('addProduct', (addProduct) => {
-    // Lógica para agregar el nuevo producto a la interfaz de usuario
+async function renderProducts(products) {
+    if (!products || !products.image) {
+        console.error('No se pudo renderizar el producto:', products);
+        return;
+    }
+
     const productList = document.getElementById('productList');
     const productElement = document.createElement('div');
     productElement.classList.add('col-md-4', 'mb-4');
     productElement.innerHTML = `
         <div class="card">
-            <img src="/img/${addProduct.image}" class="card-img-top img-fluid" alt="${addProduct.title}"
+            <img src="/img/${products.image}" class="card-img-top img-fluid" alt="${products.title}"
                 style="max-height: 400px; aspect-ratio: 3/2; object-fit: contain;">
             <div class="card-body">
-                <h5 class="card-title">${addProduct.title}</h5>
-                <p class="card-text">${addProduct.brand}</p>
-                <p class="card-text">${addProduct.description}</p>
-                <p class="card-text">Precio: $${addProduct.price}</p>
-                <p class="card-text">Stock: ${addProduct.stock}</p>
-                <p class="card-text">Categoría: ${addProduct.category}</p>
-                <button class="btn btn-danger delete-btn" data-product-id="${addProduct._id}"
-                    data-delete-url="/realtimeproducts/deleteProduct/${addProduct._id}">Eliminar
+                <h5 class="card-title">${products.title}</h5>
+                <p class="card-text">${products.brand}</p>
+                <p class="card-text">${products.description}</p>
+                <p class="card-text">Precio: $${products.price}</p>
+                <p class="card-text">Stock: ${products.stock}</p>
+                <p class="card-text">Categoría: ${products.category}</p>
+                <button class="btn btn-danger delete-btn" data-product-id="${products._id}"
+                    data-delete-url="/realtimeproducts/deleteProduct/${products._id}">Eliminar
                     Producto</button>
             </div>
         </div>`;
     productList.appendChild(productElement);
+}
+
+
+socket.on('updateProducts', (updateProducts) => {
+    renderProducts(updateProducts);
+});
+
+socket.on('addProduct', (addProduct) => {
+    renderProducts(addProduct);
 });
 
 // Manejar el envío del formulario para agregar un producto
@@ -79,6 +92,7 @@ document.getElementById('productList').addEventListener('click', async (event) =
 
             // Emitir un evento de socket para indicar la eliminación del producto
             socket.emit('deleteProduct', id);
+            socket.emit('updateProducts');
 
             // Eliminar el producto de la interfaz de usuario
             const deletedProductElement = document.getElementById(id);
@@ -87,8 +101,6 @@ document.getElementById('productList').addEventListener('click', async (event) =
             }
 
             console.log('Producto eliminado exitosamente');
-
-            location.reload();
         } catch (error) {
             console.error('Error al eliminar el producto:', error);
         }
