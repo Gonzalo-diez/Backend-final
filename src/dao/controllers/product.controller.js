@@ -54,11 +54,13 @@ const productController = {
         try {
             const deleteProduct = await Product.deleteOne({ _id: productId }).lean();
 
+            const products = await Product.find().lean();
+
             if (deleteProduct.deletedCount === 0) {
                 return res.status(404).json({ error: "Producto no encontrado" });
             }
 
-            return res.json("Producto eliminado!");
+            return res.json({message: "Producto eliminado!", listProduct: products});
         } catch (err) {
             console.error('Error:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });

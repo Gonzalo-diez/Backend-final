@@ -62,12 +62,7 @@ io.on('connection', socket => {
     socket.on("deleteProduct", (deleteProductId) => {
         console.log("Producto borrado:", deleteProductId);
         io.emit("deleteProduct", deleteProductId);
-        io.emit("updateProducts");
     });
-
-    socket.on("updateProducts", (updateProducts) => {
-        io.emit("updateProducts", updateProducts);
-    })
 
     socket.on("addProduct", (addProduct) => {
         console.log("Producto agregado:", addProduct);
