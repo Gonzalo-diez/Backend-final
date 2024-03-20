@@ -67,7 +67,6 @@ document.getElementById('productList').addEventListener('click', async (event) =
     if (event.target.classList.contains('delete-btn')) {
         // Obtener el ID del producto del atributo 'data-product-id'
         const id = event.target.getAttribute('data-product-id');
-        // Obtener la URL para eliminar el producto
 
         try {
             const response = await fetch(`http://localhost:8080/api/products/deleteProduct/${id}`, {
@@ -88,6 +87,8 @@ document.getElementById('productList').addEventListener('click', async (event) =
             }
 
             console.log('Producto eliminado exitosamente');
+
+            location.reload();
         } catch (error) {
             console.error('Error al eliminar el producto:', error);
         }
