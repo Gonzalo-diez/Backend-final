@@ -3,7 +3,7 @@ import Product from "../models/product.model.js";
 
 const productController = {
     getProducts: async (req, res) => {
-        const { category, brand } = req.query;
+        const { category, brand, sort } = req.query;
 
         try {
             let query = {};
@@ -16,9 +16,20 @@ const productController = {
                 query.brand = brand;
             }
 
-            const products = await Product.paginate(query, {limit: 3, page: 1});
+            const options = {
+                limit: 3,
+                page: 1,
+                sort: { price: sort === 'asc' ? 1 : -1 } 
+            };
 
-            res.json(products);
+            const products = await Product.find().lean();
+            const q = await Product.paginate(query, options)
+
+            if (req.accepts('html')) {
+                return res.render('realTimeProducts', { Products: products, Query: q });
+            }
+
+            res.json({ Products: products, Query: q });
         } catch (err) {
             console.error('Error:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
