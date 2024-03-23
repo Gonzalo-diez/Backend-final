@@ -23,13 +23,13 @@ const productController = {
             };
 
             const products = await Product.find().lean();
-            const q = await Product.paginate(query, options)
+            const filter = await Product.paginate(query, options)
 
             if (req.accepts('html')) {
-                return res.render('realTimeProducts', { Products: products, Query: q });
+                return res.render('realTimeProducts', { Products: products, Query: filter });
             }
 
-            res.json({ Products: products, Query: q });
+            res.json({ Products: products, Query: filter });
         } catch (err) {
             console.error('Error:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
@@ -69,15 +69,19 @@ const productController = {
     },
 
     getProductDetail: async (req, res) => {
-        const id = req.params.id;
+        const productId = req.params.id;
 
         try {
-            const productDetail = await Product.paginate({detail: id}, {limit: 3, page: 1});
+            const productDetail = await Product.findOne({ _id: productId }).lean();
+
+            if (req.accepts('html')) {
+                return res.render('product', { Product: productDetail });
+            }
 
             res.json(productDetail);
         }
         catch (error) {
-            console.error("Error al guardar el Producto:", err);
+            console.error("Error al ver los detalles:", err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
         }
     },
