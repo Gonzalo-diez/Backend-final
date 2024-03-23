@@ -1,5 +1,7 @@
 <h1 class="text-center">Productos en tiempo real</h1>
 
+<a href="http://localhost:8080/api/cart/" class="btn btn-primary">Ir al carrito</a>
+
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6 offset-md-3">
@@ -55,7 +57,7 @@
                     <p class="card-text">Categoría: {{this.category}}</p>
                     <button class="btn btn-primary detail-btn" data-product-id="{{this._id}}">Ver detalles</button>
                     <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
-                    <button class="btn btn-success cart-btn" data-product-id="{{this._id}}">Comprar</button>
+                    <button class="btn btn-success cart-btn" data-product-id="{{this._id}}">Agregar al carrito</button>
                 </div>
             </div>
         </div>

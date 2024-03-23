@@ -1,5 +1,37 @@
 const socket = io.connect('http://localhost:8080');
 
+function handleAddToCart(event) {
+    if (!event.target.classList.contains('cart-btn')) {
+        return;
+    }
+
+    const productId = event.target.getAttribute('data-product-id');
+
+    // Realizar una solicitud HTTP POST para agregar el producto al carrito
+    fetch("http://localhost:8080/api/cart/add", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ productId }) // Enviar el ID del producto en el cuerpo de la solicitud
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al agregar el producto al carrito');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Producto agregado al carrito:', data);
+        })
+        .catch(error => {
+            console.error('Error al agregar el producto al carrito:', error);
+        });
+}
+
+// Agregar un event listener para el evento click en el contenedor productList
+document.getElementById('productList').addEventListener('click', handleAddToCart);
+
 async function renderProducts(products) {
     if (!products || !products.image) {
         console.error('No se pudo renderizar el producto:', products);

@@ -4,13 +4,15 @@ import Product from "../models/product.model.js";
 
 const cartController = {
   getCart: async (req, res) => {
-    const cartId = req.params.id;
-
     try {
       // Obtener el carrito y poblar los productos asociados
-      const cart = await Cart.find(cartId).populate('product').lean();
+      const cart = await Cart.find().populate('product').lean();
 
-      return res.json(cart);
+      if (req.accepts("html")) {
+        return res.render("cart", { cart });
+      } else {
+        return res.json(cart);
+      }
     } catch (err) {
       console.error('Error:', err);
       return res.status(500).json({ error: "Error en la base de datos", details: err.message });
@@ -52,6 +54,48 @@ const cartController = {
       return res.json({ message: "Compra exitosa, stock actualizado", Product: product });
     } catch (err) {
       return res.status(500).json({ error: "Error en la base de datos", details: err.message });
+    }
+  },
+
+  // Método para agregar un producto al carrito
+  addProductToCart: async (req, res) => {
+    const { productId, quantity } = req.body;
+
+    try {
+      // Verificar si se proporcionó una cantidad válida
+      if (!quantity || quantity <= 0) {
+        return res.status(400).json({ error: "La cantidad proporcionada no es válida" });
+      }
+
+      // Buscar el producto en la base de datos
+      const product = await Product.findById(productId);
+
+      if (!product) {
+        return res.status(404).json({ error: "Producto no encontrado" });
+      }
+
+      // Verificar si hay suficiente stock
+      if (product.stock < quantity) {
+        return res.status(400).json({ error: "Cantidad solicitada superior al stock disponible" });
+      }
+
+      // Crear un nuevo elemento de carrito
+      const cartItem = new Cart({
+        product: productId,
+        quantity: quantity,
+        total: product.price * quantity,
+      });
+
+      await cartItem.save();
+
+      // Actualizar el stock del producto
+      product.stock -= quantity;
+      await product.save();
+
+      return res.json({ message: "Producto agregado al carrito correctamente", cartItem });
+    } catch (error) {
+      console.error('Error:', error);
+      return res.status(500).json({ error: "Error en la base de datos", details: error.message });
     }
   },
 

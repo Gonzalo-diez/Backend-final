@@ -1,0 +1,39 @@
+<div class="container mt-5">
+    <h1 class="text-center">Carrito de Compras</h1>
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Producto</th>
+                        <th scope="col">Precio Unitario</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each cart.products}}
+                    <tr>
+                        <td>{{this.title}}</td>
+                        <td>${{this.price}}</td>
+                        <td>{{this.quantity}}</td>
+                        <td>${{this.total}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Resumen del Pedido</h5>
+                    <p class="card-text">Total de Productos: {{cart.products.length}}</p>
+                    <p class="card-text">Total a Pagar: ${{cart.total}}</p>
+                    <a href="/api/products/realtimeproducts" class="btn btn-primary">Seguir Comprando</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
