@@ -22,8 +22,8 @@ const productController = {
                 sort: { price: sort === 'asc' ? 1 : -1 } 
             };
 
-            const products = await Product.find().lean();
-            const filter = await Product.paginate(query, options)
+            const filter = await Product.paginate(query, options);
+            const products = filter.docs.map(product => product.toObject());
 
             if (req.accepts('html')) {
                 return res.render('realTimeProducts', { Products: products, Query: filter });
@@ -95,7 +95,7 @@ const productController = {
             res.json(productByCategory);
         }
         catch (error) {
-            console.error("Error al guardar el Producto:", err);
+            console.error("Error al buscar la categoria:", err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
         }
     },
@@ -114,7 +114,7 @@ const productController = {
 
             return res.json({message: "Producto eliminado!", listProduct: products});
         } catch (err) {
-            console.error('Error:', err);
+            console.error('Error al borrar el producto:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
         }
     }
