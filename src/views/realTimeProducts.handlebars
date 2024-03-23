@@ -55,7 +55,7 @@
                     <p class="card-text">Precio: ${{this.price}}</p>
                     <p class="card-text">Stock: {{this.stock}}</p>
                     <p class="card-text">Categoría: {{this.category}}</p>
-                    <button class="btn btn-primary detail-btn" data-product-id="{{this._id}}">Ver detalles</button>
+                    <a href="http://localhost:8080/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a>
                     <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
                     <button class="btn btn-success cart-btn" data-product-id="{{this._id}}">Agregar al carrito</button>
                 </div>
