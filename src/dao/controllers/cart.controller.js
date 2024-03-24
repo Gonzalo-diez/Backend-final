@@ -88,37 +88,33 @@ const cartController = {
   },
 
   getCartById: async (req, res) => {
-    const cartId = req.params.id;
+    const cid = req.params.id;
 
     try {
-      const cartMongo = await Cart.findById(cartId).populate({
+      // Intenta encontrar el carrito en la base de datos
+      const cartMongo = await Cart.findById(cid).populate({
         path: 'product',
         model: 'Product',
       }).lean();
 
-      if (!cartMongo) {
-        // Si no se encuentra el carrito en MongoDB, buscar en el archivo JSON
-        const jsonCart = readJsonFile();
-        const cartJSON = jsonCart.find(cart => cart._id === cartId);
-
-        if (!cartJSON) {
-          return res.status(404).json({ error: "Carrito no encontrado" });
-        }
-
+      // Si se encuentra el carrito en la base de datos, devuelve la respuesta
+      if (cartMongo) {
         if (req.accepts('html')) {
-          return res.render('cart', { cart: cartJSON });
+          return res.render('cart', { cart: cartMongo });
         }
-
-        return res.json(cartJSON);
+        return res.json(cartMongo);
       }
+
+      // Si no se encuentra el carrito en MongoDB, buscar en el archivo JSON
+      const jsonCart = readJsonFile();
+      const cartJSON = jsonCart.find(cart => cart._id === cid);
 
       if (req.accepts('html')) {
-        return res.render('cart', { cart: cartMongo });
+        return res.render('cart', { cart: cartJSON });
       }
 
-      return res.json(cartMongo);
-    }
-    catch (error) {
+      return res.json(cartJSON);
+    } catch (error) {
       console.error("Error al obtener el carrito por ID:", error);
       return res.status(500).json({ error: "Internal Server Error" });
     }

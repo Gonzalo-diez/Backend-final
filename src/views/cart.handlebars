@@ -12,10 +12,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each cart.products}}
+                    {{#each cart}}
                     <tr>
-                        <td>{{this.title}}</td>
-                        <td>${{this.price}}</td>
+                        <td>{{this.product.title}}</td>
+                        <td>${{this.product.price}}</td>
                         <td>{{this.quantity}}</td>
                         <td>${{this.total}}</td>
                     </tr>
@@ -27,8 +27,8 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Resumen del Pedido</h5>
-                    <p class="card-text">Total de Productos: {{cart.products.length}}</p>
-                    <p class="card-text">Total a Pagar: ${{cart.total}}</p>
+                    <p class="card-text">Total de Productos: {{cart.length}}</p>
+                    <p class="card-text">Total a Pagar: ${{total}}</p>
                     <a href="/api/products/realtimeproducts" class="btn btn-primary">Seguir Comprando</a>
                 </div>
             </div>
