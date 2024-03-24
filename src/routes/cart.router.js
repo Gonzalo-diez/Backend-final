@@ -3,11 +3,14 @@ import cartController from "../dao/controllers/cart.controller.js";
 
 const cartRouter = express.Router();
 
-// Maneja la solicitud de renderizar el carrito
-cartRouter.get("/", cartController.getCart);
+// Maneja la solicitud para ver todos los carritos
+cartRouter.get("/", cartController.getCarts);
 
-// Maneja la solicitud para comprar productos en tiempo real
-cartRouter.post("/products/buy", cartController.addCart);
+// Maneja la solicitud de renderizar el carrito
+cartRouter.get("/:cid", cartController.getCartById);
+
+// Maneja la solicitud para comprar productos
+cartRouter.post("/products/buy", cartController.buyCart);
 
 /* Rutas para después del desafio
 // Maneja la solicitud de agregar el producto al carrito

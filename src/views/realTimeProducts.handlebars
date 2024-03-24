@@ -1,6 +1,6 @@
 <h1 class="text-center">Productos en tiempo real</h1>
 
-<a href="http://localhost:8080/api/cart/" class="btn btn-primary">Ir al carrito</a>
+<!-- Boton para siguiente desafio <a href="http://localhost:8080/api/cart/{{idDelCart}}" class="btn btn-primary">Ir al carrito</a> -->
 
 <div class="container mt-5">
     <div class="row">
@@ -57,7 +57,7 @@
                     <p class="card-text">Categoría: {{this.category}}</p>
                     <!-- Boton para proximo desafio <a href="http://localhost:8080/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a> -->
                     <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
-                    <!-- Boton para proximo desafio <button class="btn btn-success cart-btn" data-product-id="{{this._id}}">Agregar al carrito</button> -->
+                    <button class="btn btn-success cart-btn" data-product-id="{{this._id}}">Agregar al carrito</button>
                 </div>
             </div>
         </div>
