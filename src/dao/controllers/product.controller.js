@@ -1,11 +1,39 @@
 import mongoose from "mongoose";
 import Product from "../models/product.model.js";
+import fs from "fs";
+import { getProductsFilePath } from "../../util.js";
+
+// Ruta del archivo JSON
+const jsonFilePath = getProductsFilePath();
+
+// Función para leer datos del archivo JSON
+const readJsonFile = () => {
+    try {
+        const jsonData = fs.readFileSync(jsonFilePath);
+        return jsonData.length > 0 ? JSON.parse(jsonData) : [];
+    } catch (error) {
+        console.error("Error al leer el archivo JSON:", error);
+        return [];
+    }
+};
+
+// Función para escribir datos en el archivo JSON
+const writeJsonFile = (data) => {
+    try {
+        fs.writeFileSync(jsonFilePath, JSON.stringify(data, null, 2));
+    } catch (error) {
+        console.error("Error al escribir en el archivo JSON:", error);
+    }
+};
 
 const productController = {
     getProducts: async (req, res) => {
         const { category, brand, sort } = req.query;
 
         try {
+            // Obtener productos del archivo JSON
+            const jsonProducts = readJsonFile();
+
             let query = {};
 
             if (category) {
@@ -19,7 +47,7 @@ const productController = {
             const options = {
                 limit: 3,
                 page: 1,
-                sort: { price: sort === 'asc' ? 1 : -1 } 
+                sort: { price: sort === 'asc' ? 1 : -1 }
             };
 
             const filter = await Product.paginate(query, options);
@@ -29,13 +57,14 @@ const productController = {
                 return res.render('realTimeProducts', { Products: products, Query: filter });
             }
 
-            res.json({ Products: products, Query: filter });
+            res.json({ Products: jsonProducts });
         } catch (err) {
             console.error('Error:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
         }
     },
 
+    /* Metodos para proximo desafio
     getProductDetail: async (req, res) => {
         const productId = req.params.id;
 
@@ -71,6 +100,7 @@ const productController = {
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
         }
     },
+    */
 
     addProduct: async (req, res) => {
         const { title, brand, description, price, stock, category } = req.body;
@@ -89,10 +119,14 @@ const productController = {
                 price,
                 stock,
                 category,
-                image: imageName, 
+                image: imageName,
             });
 
             await newProduct.save();
+
+            const jsonData = readJsonFile();
+            jsonData.push(newProduct.toObject());
+            writeJsonFile(jsonData);
 
             return res.json({
                 message: "Producto creado!!!",
@@ -116,7 +150,22 @@ const productController = {
                 return res.status(404).json({ error: "Producto no encontrado" });
             }
 
-            return res.json({message: "Producto eliminado!", listProduct: products});
+            const rawData = fs.readFileSync(jsonFilePath);
+            let jsonData = JSON.parse(rawData);
+
+            const index = jsonData.findIndex(product => product.id === productId);
+
+            if (index === -1) {
+                return res.status(404).json({ error: "Producto no encontrado en el archivo JSON" });
+            }
+
+            // Elimina el producto del array de productos
+            jsonData.splice(index, 1);
+
+            // Guarda el array actualizado de productos en el archivo JSON
+            fs.writeFileSync(jsonFilePath, JSON.stringify(jsonData, null, 2));
+
+            return res.json({ message: "Producto eliminado!", listProduct: products });
         } catch (err) {
             console.error('Error al borrar el producto:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });

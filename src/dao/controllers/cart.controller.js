@@ -3,12 +3,10 @@ import Cart from "../models/cart.model.js";
 import Product from "../models/product.model.js";
 
 const cartController = {
-  getCartById: async (req, res) => {
-    const cid = req.params.id;
-
+  getCart: async (req, res) => {
     try {
       // Obtener el carrito y poblar los productos asociados
-      const cart = await Cart.findOne({_id: cid}).populate({
+      const cart = await Cart.find().populate({
         path: 'product',
         model: 'Product',
       }).lean();
@@ -62,6 +60,7 @@ const cartController = {
     }
   },
 
+/* Metodos para después del desafio
   // Método para agregar un producto al carrito
   addProductToCart: async (req, res) => {
     const { productId } = req.body;
@@ -98,7 +97,6 @@ const cartController = {
       return res.status(500).json({ error: "Error en la base de datos", details: error.message });
     }
   },
-
 
   addQuantityProductCart: async (req, res) => {
     const cartItemId = req.params.id;
@@ -184,6 +182,7 @@ const cartController = {
       return res.status(500).json({ error: "Error en la base de datos", details: error.message });
     }
   },
+*/
 }
 
 export default cartController;
