@@ -3,10 +3,15 @@ import Cart from "../models/cart.model.js";
 import Product from "../models/product.model.js";
 
 const cartController = {
-  getCart: async (req, res) => {
+  getCartById: async (req, res) => {
+    const cid = req.params.id;
+
     try {
       // Obtener el carrito y poblar los productos asociados
-      const cart = await Cart.find().populate('product').lean();
+      const cart = await Cart.findOne({_id: cid}).populate({
+        path: 'product',
+        model: 'Product',
+      }).lean();
 
       if (req.accepts("html")) {
         return res.render("cart", { cart });
@@ -59,14 +64,9 @@ const cartController = {
 
   // Método para agregar un producto al carrito
   addProductToCart: async (req, res) => {
-    const { productId, quantity } = req.body;
+    const { productId } = req.body;
 
     try {
-      // Verificar si se proporcionó una cantidad válida
-      if (!quantity || quantity <= 0) {
-        return res.status(400).json({ error: "La cantidad proporcionada no es válida" });
-      }
-
       // Buscar el producto en la base de datos
       const product = await Product.findById(productId);
 
@@ -75,21 +75,21 @@ const cartController = {
       }
 
       // Verificar si hay suficiente stock
-      if (product.stock < quantity) {
-        return res.status(400).json({ error: "Cantidad solicitada superior al stock disponible" });
+      if (product.stock < 1) {
+        return res.status(400).json({ error: "Producto fuera de stock" });
       }
 
       // Crear un nuevo elemento de carrito
       const cartItem = new Cart({
         product: productId,
-        quantity: quantity,
-        total: product.price * quantity,
+        quantity: 1, // Agregar solo una unidad al carrito
+        total: product.price,
       });
 
       await cartItem.save();
 
       // Actualizar el stock del producto
-      product.stock -= quantity;
+      product.stock -= 1;
       await product.save();
 
       return res.json({ message: "Producto agregado al carrito correctamente", cartItem });
@@ -98,6 +98,7 @@ const cartController = {
       return res.status(500).json({ error: "Error en la base de datos", details: error.message });
     }
   },
+
 
   addQuantityProductCart: async (req, res) => {
     const cartItemId = req.params.id;

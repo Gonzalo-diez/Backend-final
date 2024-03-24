@@ -29,6 +29,7 @@ function handleAddToCart(event) {
         });
 }
 
+
 // Agregar un event listener para el evento click en el contenedor productList
 document.getElementById('productList').addEventListener('click', handleAddToCart);
 
