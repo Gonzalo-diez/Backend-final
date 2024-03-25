@@ -1,35 +1,10 @@
 import mongoose from "mongoose";
 import Cart from "../models/cart.model.js";
 import Product from "../models/product.model.js";
-import fs from "fs";
-import { getCartFilePath } from "../../util.js";
-
-const jsonFilePath = getCartFilePath();
-
-// Función para leer datos del archivo JSON
-const readJsonFile = () => {
-  try {
-    const jsonData = fs.readFileSync(jsonFilePath);
-    return jsonData.length > 0 ? JSON.parse(jsonData) : [];
-  } catch (error) {
-    console.error("Error al leer el archivo JSON:", error);
-    return [];
-  }
-};
-
-// Función para escribir datos en el archivo JSON
-const writeJsonFile = (data) => {
-  try {
-    fs.writeFileSync(jsonFilePath, JSON.stringify(data, null, 2));
-  } catch (error) {
-    console.error("Error al escribir en el archivo JSON:", error);
-  }
-};
 
 const cartController = {
   getCarts: async (req, res) => {
     try {
-      const jsonCart = readJsonFile();
       // Obtener el carrito y poblar los productos asociados
       const cart = await Cart.find().populate({
         path: 'product',
@@ -40,7 +15,7 @@ const cartController = {
         res.render("carts", { cart: cart });
       }
 
-      return res.json(jsonCart);
+      return res.json(cart);
     } catch (err) {
       console.error('Error:', err);
       return res.status(500).json({ error: "Error en la base de datos", details: err.message });
@@ -72,10 +47,6 @@ const cartController = {
 
       await cartItem.save();
 
-      const jsonData = readJsonFile();
-      jsonData.push(cartItem.toObject());
-      writeJsonFile(jsonData);
-
       // Actualizar el stock del producto
       product.stock -= 1;
       await product.save();
@@ -92,28 +63,16 @@ const cartController = {
 
     try {
       // Intenta encontrar el carrito en la base de datos
-      const cartMongo = await Cart.findById(cid).populate({
+      const cart = await Cart.findById(cid).populate({
         path: 'product',
         model: 'Product',
       }).lean();
 
       // Si se encuentra el carrito en la base de datos, devuelve la respuesta
-      if (cartMongo) {
-        if (req.accepts('html')) {
-          return res.render('cart', { cart: cartMongo });
-        }
-        return res.json(cartMongo);
-      }
-
-      // Si no se encuentra el carrito en MongoDB, buscar en el archivo JSON
-      const jsonCart = readJsonFile();
-      const cartJSON = jsonCart.find(cart => cart._id === cid);
-
       if (req.accepts('html')) {
-        return res.render('cart', { cart: cartJSON });
+        return res.render('cart', { cart: cart });
       }
-
-      return res.json(cartJSON);
+      return res.json(cart);
     } catch (error) {
       console.error("Error al obtener el carrito por ID:", error);
       return res.status(500).json({ error: "Internal Server Error" });
