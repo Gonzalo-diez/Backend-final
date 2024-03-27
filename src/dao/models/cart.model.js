@@ -4,7 +4,6 @@ const cartSchema = new mongoose.Schema({
     quantity: {
         type: Number,
         required: true,
-        min: 1,
     },
     stock: Number,
     total: Number,
@@ -12,9 +11,10 @@ const cartSchema = new mongoose.Schema({
     state: String,
     city: String,
     street: String,
+    postal_code: Number,
     phone: Number,
-    cardBank: Number,
-    securityNumber: Number,
+    card_Bank: Number,
+    security_Number: Number,
     date: {
         type: Date,
         default: Date.now,

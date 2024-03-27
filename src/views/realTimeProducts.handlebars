@@ -41,6 +41,25 @@
     </div>
 </div>
 
+<!-- Filtro por categoría -->
+<form action="/api/products/realtimeproducts" method="GET">
+    <label for="category">Filtrar por categoría:</label>
+    <select name="category" id="category">
+        <option value="">Todas las categorías</option>
+        <option value="tecnologia">Tecnología</option>
+        <option value="libros">Libros</option>
+        <option value="ropa">Ropa</option>
+    </select>
+    <button type="submit">Filtrar</button>
+</form>
+
+<!-- Ordenar por precio -->
+<div>
+    <a href="?sort=desc">Mayor precio</a>
+    <a href="?sort=asc">Menor precio</a>
+</div>
+
+
 <div class="container mt-5">
     <div class="row" id="productList">
         {{#each Products}}
@@ -55,13 +74,35 @@
                     <p class="card-text">Precio: ${{this.price}}</p>
                     <p class="card-text">Stock: {{this.stock}}</p>
                     <p class="card-text">Categoría: {{this.category}}</p>
-                    <!-- Boton para proximo desafio <a href="http://localhost:8080/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a> -->
+                    <a href="http://localhost:8080/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a>
                     <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
-                    <button class="btn btn-success cart-btn" data-product-id="{{this._id}}">Agregar al carrito</button>
+                    <button class="btn btn-success cart-btn" data-product-id="{{this._id}}">Agregar al carrito</button> 
                 </div>
             </div>
         </div>
         {{/each}}
+    </div>
+</div>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {{#if Query.hasPrevPage}}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{Query.prevPage}}" tabindex="-1" aria-disabled="true">Anterior</a>
+                        </li>
+                    {{/if}}
+                    <li class="page-item disabled"><a class="page-link" href="#">Página {{currentPage}}</a></li>
+                    {{#if Query.hasNextPage}}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{Query.nextPage}}">Siguiente</a>
+                        </li>
+                    {{/if}}
+                </ul>
+            </nav>
+        </div>
     </div>
 </div>
 

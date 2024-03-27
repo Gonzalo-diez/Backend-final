@@ -4,6 +4,7 @@ import Product from "../models/product.model.js";
 const productController = {
     getProducts: async (req, res) => {
         const { category, brand, sort } = req.query;
+        const currentPage = 1;
 
         try {
             let query = {};
@@ -17,8 +18,8 @@ const productController = {
             }
 
             const options = {
-                limit: 3,
-                page: 1,
+                limit: 2,
+                page: currentPage,
                 sort: { price: sort === 'asc' ? 1 : -1 }
             };
 
@@ -36,7 +37,6 @@ const productController = {
         }
     },
 
-    /* Metodos para proximo desafio
     getProductDetail: async (req, res) => {
         const productId = req.params.id;
 
@@ -55,6 +55,7 @@ const productController = {
         }
     },
 
+    /* Metodos para proximo desafio
     getProductByCategory: async (req, res) => {
         const category = req.params.category
 

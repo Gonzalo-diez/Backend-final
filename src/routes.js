@@ -9,7 +9,7 @@ router.get("/", async(req, res) => {
     res.render("home");
 });
 
-router.use("/cart", cartRouter);
+router.use("/carts", cartRouter);
 router.use("/products", productRouter);
 router.use("/messages", messageRouter);
 
