@@ -18,7 +18,7 @@ const productController = {
             }
 
             const options = {
-                limit: 2,
+                limit: 10,
                 page: currentPage,
                 sort: { price: sort === 'asc' ? 1 : -1 }
             };

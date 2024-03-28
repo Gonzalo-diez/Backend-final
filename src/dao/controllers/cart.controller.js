@@ -7,10 +7,14 @@ const cartController = {
 
     try {
       // Intentar encontrar el carrito en la base de datos por su ID
-      const cart = await Cart.findById(cartId);
+      const cart = await Cart.findById(cartId).lean();
 
       if (!cart) {
         return res.status(404).json({ error: "Carrito no encontrado" });
+      }
+
+      if (req.accepts("html")) {
+        res.render("cart", cart);
       }
 
       return res.json(cart);
