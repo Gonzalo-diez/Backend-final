@@ -67,6 +67,7 @@ const cartController = {
     }
   },
 
+  /*
   buyCart: async (req, res) => {
     const { pid, country, state, city, street, postal_code, phone, card_bank, security_number, quantity } = req.body;
     const cartId = req.params.cid;
@@ -116,6 +117,7 @@ const cartController = {
       return res.status(500).json({ error: "Error en la base de datos", details: err.message });
     }
   },
+  */
 
   updateProductQuantityInCart: async (req, res) => {
     const { pid } = req.params;
@@ -123,7 +125,10 @@ const cartController = {
     const { quantity } = req.body;
 
     try {
-      const cart = await Cart.findById(cartId);
+      const cart = await Cart.findById(cartId).populate({
+        path: 'products',
+        model: 'Product'
+      });
 
       if (!cart) {
         return res.status(404).json({ error: "Carrito no encontrado" });
