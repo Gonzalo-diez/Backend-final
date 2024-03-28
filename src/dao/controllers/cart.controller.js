@@ -48,8 +48,12 @@ const cartController = {
 
       // Crear un nuevo elemento de carrito
       const cartItem = new Cart({
-        product: productId,
-        quantity: 1,
+        products: [{
+          product: productId,
+          productQuantity: 1,
+          productPrice: product.price,
+          productTotal: product.price * 1,
+        }],
         total: product.price,
       });
 
@@ -102,9 +106,9 @@ const cartController = {
       cart.phone = phone;
       cart.card_Bank = card_bank;
       cart.security_Number = security_number;
-      cart.total = product.price * quantity;
+      cart.total = product.productPrice * quantity;
 
-      cart.product.push({quantity: quantity, product: pid})
+      cart.products.push({ product: pid, productQuantity: quantity })
       await cart.save();
 
       return res.json({ message: "Compra exitosa, carrito actualizado", cart });
@@ -119,23 +123,43 @@ const cartController = {
     const { quantity } = req.body;
 
     try {
-      const cart = await Cart.findById(cartId).populate({
-        path: 'products',
-        model: 'Product',
-      }).exec();
+      const cart = await Cart.findById(cartId);
 
       if (!cart) {
         return res.status(404).json({ error: "Carrito no encontrado" });
       }
 
-      // Actualizar la cantidad del producto en el carrito
-      cart.quantity = parseInt(quantity);
+      // Buscar el índice del producto en la matriz de productos del carrito
+      const productIndex = cart.products.findIndex(item => item.product.toString() === pid);
 
+      if (productIndex === -1) {
+        return res.status(404).json({ error: "Producto no encontrado en el carrito" });
+      }
+
+      // Obtener el producto del carrito
+      const productInCart = cart.products[productIndex];
+
+      // Obtener el producto desde la base de datos para obtener su precio
+      const product = await Product.findById(productInCart.product);
+
+      if (!product) {
+        return res.status(404).json({ error: "Producto no encontrado en la base de datos" });
+      }
+
+      // Actualizar la cantidad del producto en el carrito
+      productInCart.productQuantity += parseInt(quantity);
+
+      // Actualizar el total en función del precio del producto y la nueva cantidad
+      productInCart.productTotal += product.price * parseInt(quantity);
+
+      // Recalcular el total del carrito sumando los precios de todos los productos
+      cart.total = cart.products.reduce((total, item) => total + item.productTotal, 0);
+
+      // Guardar los cambios en la base de datos
       await cart.save();
 
       return res.json({ message: "Cantidad del producto en el carrito actualizada correctamente", cart });
-    }
-    catch (error) {
+    } catch (error) {
       console.log("Error al intentar actualizar la cantidad del producto en el carrito:", error);
       return res.status(500).json({ error: "Error en la base de datos" });
     }
@@ -147,27 +171,42 @@ const cartController = {
 
     try {
       const cart = await Cart.findById(cartId).populate({
-        path: 'products',
+        path: 'products.product',
         model: 'Product',
       });
+
       if (!cart) {
         return res.status(404).json({ error: "Carrito no encontrado" });
       }
 
-      const productIndex = cart.products.findIndex(item => item._id === pid);
+      const productIndex = cart.products.findIndex(item => item.product._id.toString() === pid);
+
       if (productIndex === -1) {
         return res.status(404).json({ error: "Producto no encontrado" });
       }
 
+      const productToRemove = cart.products[productIndex];
+      const productPrice = productToRemove.product.price;
+      const productQuantity = productToRemove.productQuantity;
+
+      // Restar la cantidad y el total del producto eliminado
+      cart.quantity -= productQuantity;
+      cart.total -= productPrice * productQuantity;
+
+      // Eliminar el producto del array
       cart.products.splice(productIndex, 1);
+
+      // Si el carrito queda vacío, establecer el total en 0
+      if (cart.products.length === 0) {
+        cart.total = 0;
+      }
 
       await cart.save();
 
       return res.json({ message: "Producto eliminado del carrito correctamente", cart });
-    }
-    catch (error) {
+    } catch (error) {
       console.log("Error al eliminar el producto:", error);
-      return res.status(500).json({ error: "Error en la bases de datos" })
+      return res.status(500).json({ error: "Error en la base de datos" });
     }
   },
 
@@ -182,10 +221,9 @@ const cartController = {
       }
 
       // Vaciar la lista de productos del carrito
-      cart.products = null;
+      cart.products = [];
 
       // Restablecer quantity y total a cero
-      cart.quantity = 0;
       cart.total = 0;
       await cart.save();
 
