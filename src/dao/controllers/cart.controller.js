@@ -128,6 +128,61 @@ const cartController = {
   },
   */
 
+  updateCart: async (req, res) => {
+    const cartId = req.params.cid;
+
+    try {
+      const cart = await Cart.findById(cartId).populate({
+        path: 'products.product',
+        model: 'Product',
+      });
+
+      // Verificar si el carrito existe
+      if (!cart) {
+        return res.status(404).json({ error: "Carrito no encontrado" });
+      }
+
+      // Obtener los nuevos productos que se van a agregar al carrito desde el cuerpo de la solicitud
+      const newProducts = req.body.products;
+
+      // Iterar sobre los nuevos productos y actualizar el carrito
+      for (const newProduct of newProducts) {
+        const existingProductIndex = cart.products.findIndex(product => product.product._id.toString() === newProduct.productId);
+
+        if (existingProductIndex !== -1) {
+          // Si el producto ya está en el carrito, aumentar la cantidad y el subtotal
+          cart.products[existingProductIndex].productQuantity += newProduct.productQuantity;
+          cart.products[existingProductIndex].productTotal += (newProduct.productQuantity * cart.products[existingProductIndex].productPrice);
+        } else {
+          // Si el producto no está en el carrito, agregarlo al arreglo de productos del carrito
+          const product = await Product.findById(newProduct.productId);
+          if (!product) {
+            console.log(`Producto con ID ${newProduct.productId} no encontrado`);
+            continue;
+          }
+          cart.products.push({
+            product: product,
+            productQuantity: newProduct.productQuantity,
+            productPrice: product.price,
+            productTotal: newProduct.productQuantity * product.price,
+          });
+        }
+      }
+
+      // Calcular el nuevo total del carrito sumando los subtotales de todos los productos
+      cart.total = cart.products.reduce((total, product) => total + product.productTotal, 0);
+
+      // Guardar el carrito actualizado en la base de datos
+      await cart.save();
+
+      return res.json(cart);
+    }
+    catch (error) {
+      console.log("Error al intentar actualizar el carrito:", error);
+      return res.status(500).json({ error: "Error en la base de datos" });
+    }
+  },
+
   updateProductQuantityInCart: async (req, res) => {
     const { pid } = req.params;
     const cartId = req.params.cid;

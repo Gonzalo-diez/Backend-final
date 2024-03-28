@@ -55,26 +55,6 @@ const productController = {
         }
     },
 
-    /* Metodos para proximo desafio
-    getProductByCategory: async (req, res) => {
-        const category = req.params.category
-
-        try {
-            const productByCategory = await Product.find({category}).lean();
-
-            if (req.accepts("html")) {
-                return res.render("category", {Category: productByCategory});
-            }
-            
-            res.json(productByCategory);
-        }
-        catch (error) {
-            console.error("Error al buscar la categoria:", err);
-            return res.status(500).json({ error: "Error en la base de datos", details: err.message });
-        }
-    },
-    */
-
     addProduct: async (req, res) => {
         const { title, brand, description, price, stock, category } = req.body;
 

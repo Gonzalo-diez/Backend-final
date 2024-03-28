@@ -72,5 +72,15 @@ io.on('connection', socket => {
     socket.on("addMessage", (addMessage) => {
         console.log("Mensaje agregado", addMessage);
         io.emit("addMessage", addMessage);
-    })
+    });
+
+    socket.on("deleteProductCart", (deleteProductCartId) => {
+        console.log("Producto eliminado del carrito", deleteProductCartId);
+        io.emit("deleteProductCart", deleteProductCartId);
+    });
+
+    socket.on("clearCart", (clearCart) => {
+        console.log("Carrito vaciado:", clearCart);
+        io.emit("clearCart", clearCart);
+    });
 })
