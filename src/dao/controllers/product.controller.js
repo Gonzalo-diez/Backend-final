@@ -4,7 +4,7 @@ import Product from "../models/product.model.js";
 const productController = {
     getProducts: async (req, res) => {
         const { category, brand, sort } = req.query;
-        const currentPage = 1;
+        let currentPage = req.query.page || 1;
 
         try {
             let query = {};
@@ -111,17 +111,17 @@ const productController = {
         const productId = req.params.id;
 
         try {
-            const deleteProduct = await Product.deleteOne({ _id: productId });
+            const deleteProduct = await Product.deleteOne({ _id: productId }).lean();
 
-            const products = await Product.find();
+            const products = await Product.find().lean();
 
             if (deleteProduct.deletedCount === 0) {
                 return res.status(404).json({ error: "Producto no encontrado" });
             }
 
-            return res.json({ message: "Producto eliminado!", listProduct: products });
+            return res.json({message: "Producto eliminado!", listProduct: products});
         } catch (err) {
-            console.error('Error al borrar el producto:', err);
+            console.error('Error:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
         }
     }
