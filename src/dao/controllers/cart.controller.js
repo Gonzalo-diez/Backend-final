@@ -82,7 +82,10 @@ const cartController = {
       await product.save();
 
       // Obtener el carrito existente por su ID
-      const cart = await Cart.findById(cartId);
+      const cart = await Cart.findById(cartId).populate({
+        path: 'product',
+        model: 'Product',
+      });
 
       if (!cart) {
         return res.status(404).json({ error: "Carrito no encontrado" });
@@ -115,7 +118,10 @@ const cartController = {
     const { quantity } = req.body;
 
     try {
-      const cart = await Cart.findById(cartId);
+      const cart = await Cart.findById(cartId).populate({
+        path: 'product',
+        model: 'Product',
+      });
 
       if (!cart) {
         return res.status(404).json({ error: "Carrito no encontrado" });
@@ -139,7 +145,10 @@ const cartController = {
     const cartId = req.params.cid;
 
     try {
-      const cart = await Cart.findById(cartId);
+      const cart = await Cart.findById(cartId).populate({
+        path: 'product',
+        model: 'Product',
+      });
       if (!cart) {
         return res.status(404).json({ error: "Carrito no encontrado" });
       }
