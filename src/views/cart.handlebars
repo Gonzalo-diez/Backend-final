@@ -12,12 +12,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{#each cart}}
+                    {{#each cart.products}}
                     <tr>
-                        <td>{{this.product.title}}</td>
-                        <td>${{this.product.price}}</td>
-                        <td>{{this.quantity}}</td>
-                        <td>${{this.total}}</td>
+                        <td>{{this.product}}</td>
+                        <td>${{this.productPrice}}</td> <!-- Acceder al precio del producto en el carrito -->
+                        <td>{{this.productQuantity}}</td> <!-- Acceder a la cantidad del producto en el carrito -->
+                        <td>${{this.productTotal}}</td> <!-- Acceder al subtotal del producto en el carrito -->
                     </tr>
                     {{/each}}
                 </tbody>
@@ -27,8 +27,9 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Resumen del Pedido</h5>
-                    <p class="card-text">Total de Productos: {{cart.length}}</p>
-                    <p class="card-text">Total a Pagar: ${{total}}</p>
+                    <p class="card-text">Total de Productos: {{cart.products.length}}</p>
+                    <!-- No estoy seguro de dónde viene la variable 'total' en tu código, asegúrate de definirla -->
+                    <p class="card-text">Total a Pagar: ${{cart.total}}</p>
                     <a href="/api/products/realtimeproducts" class="btn btn-primary">Seguir Comprando</a>
                 </div>
             </div>

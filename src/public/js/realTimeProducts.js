@@ -8,7 +8,7 @@ function handleAddToCart(event) {
     const productId = event.target.getAttribute('data-product-id');
 
     // Realizar una solicitud HTTP POST para agregar el producto al carrito
-    fetch("http://localhost:8080/api/cart/add", {
+    fetch("http://localhost:8080/api/carts/add", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
