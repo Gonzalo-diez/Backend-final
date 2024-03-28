@@ -64,11 +64,11 @@ const cartController = {
   },
 
   buyCart: async (req, res) => {
-    const { productId, country, state, city, street, postal_code, phone, card_bank, security_number, quantity } = req.body;
+    const { pid, country, state, city, street, postal_code, phone, card_bank, security_number, quantity } = req.body;
     const cartId = req.params.cid;
 
     try {
-      const product = await Product.findById(productId).lean();
+      const product = await Product.findById(pid).lean();
 
       if (!product) {
         return res.status(404).json({ error: "Producto no encontrado" });
@@ -83,7 +83,7 @@ const cartController = {
 
       // Obtener el carrito existente por su ID
       const cart = await Cart.findById(cartId).populate({
-        path: 'product',
+        path: 'products',
         model: 'Product',
       });
 
@@ -92,7 +92,7 @@ const cartController = {
       }
 
       // Agregar detalles de la compra al carrito existente
-      cart.product = productId;
+      cart.products = pid;
       cart.quantity = quantity;
       cart.country = country;
       cart.state = state;
@@ -104,6 +104,7 @@ const cartController = {
       cart.security_Number = security_number;
       cart.total = product.price * quantity;
 
+      cart.product.push({quantity: quantity, product: pid})
       await cart.save();
 
       return res.json({ message: "Compra exitosa, carrito actualizado", cart });
@@ -119,9 +120,9 @@ const cartController = {
 
     try {
       const cart = await Cart.findById(cartId).populate({
-        path: 'product',
+        path: 'products',
         model: 'Product',
-      });
+      }).exec();
 
       if (!cart) {
         return res.status(404).json({ error: "Carrito no encontrado" });
@@ -141,24 +142,24 @@ const cartController = {
   },
 
   deleteProductFromCart: async (req, res) => {
-    const { pid } = req.body;
+    const pid = req.params.pid;
     const cartId = req.params.cid;
 
     try {
       const cart = await Cart.findById(cartId).populate({
-        path: 'product',
+        path: 'products',
         model: 'Product',
       });
       if (!cart) {
         return res.status(404).json({ error: "Carrito no encontrado" });
       }
 
-      const productIndex = cart.product.findIndex(item => item._id === pid);
+      const productIndex = cart.products.findIndex(item => item._id === pid);
       if (productIndex === -1) {
         return res.status(404).json({ error: "Producto no encontrado" });
       }
 
-      cart.product.splice(productIndex, 1);
+      cart.products.splice(productIndex, 1);
 
       await cart.save();
 
@@ -181,7 +182,7 @@ const cartController = {
       }
 
       // Vaciar la lista de productos del carrito
-      cart.product = null;
+      cart.products = null;
 
       // Restablecer quantity y total a cero
       cart.quantity = 0;
