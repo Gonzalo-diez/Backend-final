@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Product from "../models/product.model.js";
+import Cart from "../models/cart.model.js";
 
 const productController = {
     getProducts: async (req, res) => {
@@ -7,6 +8,8 @@ const productController = {
         let currentPage = req.query.page || 1;
 
         try {
+            const carts = await Cart.find({}).lean();
+
             let query = {};
 
             if (category) {
@@ -27,7 +30,7 @@ const productController = {
             const products = filter.docs.map(product => product.toObject());
 
             if (req.accepts('html')) {
-                return res.render('realTimeProducts', { Products: products, Query: filter });
+                return res.render('realTimeProducts', { Products: products, Query: filter, Carts: carts });
             }
 
             res.json({ Products: products });

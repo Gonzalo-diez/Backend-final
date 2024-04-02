@@ -1,6 +1,17 @@
 <h1 class="text-center">Productos en tiempo real</h1>
 
-<!-- Boton para ir al carrito <a href="/api/carts/{{cartId}}" class="btn btn-primary">Ir al carrito</a> -->
+<!-- Filtro de carritos -->
+<form action="/api/products/realtimeproducts" method="GET" id="cartForm">
+    <label for="cart">Filtrar por carrito:</label>
+    <select name="cart" id="cart">
+        <option value="">Todos los carritos</option>
+        <!-- Aquí iteramos sobre los IDs de los carritos disponibles -->
+        {{#each Carts}}
+            <option value="{{this._id}}">{{this._id}}</option>
+        {{/each}}
+    </select>
+    <button type="button" id="goToCartBtn">Ir al carrito</button>
+</form>
 
 <div class="container mt-5">
     <div class="row">

@@ -1,16 +1,19 @@
 const socket = io.connect('http://localhost:8080');
 
 // Función para eliminar un producto del carrito usando Fetch
-async function deleteProductFromCart(cartId, productId) {
+async function deleteProductFromCart(cid, pid) {
+    console.log("id del carrito:", cid);
+    console.log("id del producto:", pid);
+
     try {
-        const response = await fetch(`http://localhost:8080/api/carts/${cartId}/products/${productId}`, {
+        const response = await fetch(`http://localhost:8080/api/carts/${cid}/products/${pid}`, {
             method: 'DELETE'
         });
 
         if (response.ok) {
-            console.log(`Producto con ID ${productId} eliminado del carrito`);
+            console.log(`Producto con ID ${pid} eliminado del carrito ${cid}`);
         } else {
-            console.error(`Error al eliminar el producto con ID ${productId} del carrito`);
+            console.error(`Error al eliminar el producto con ID ${pid} del carrito`);
         }
     } catch (error) {
         console.error('Error de red:', error);
@@ -34,7 +37,7 @@ document.getElementById('cartList').addEventListener('click', handleDeleteProduc
 
 // Manejar el evento de producto borrado desde el servidor
 socket.on('deleteProductCart', (deleteProductCartId) => {
-    // Eliminar el producto de la interfaz
+    // Eliminar el producto del DOM
     const cartElement = document.querySelector(`[data-product-id="${deleteProductCartId}"]`);
     if (cartElement) {
         cartElement.parentElement.parentElement.remove();

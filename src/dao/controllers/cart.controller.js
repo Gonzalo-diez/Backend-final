@@ -18,7 +18,7 @@ const cartController = {
 
       if (req.accepts("html")) {
         // Renderizar el archivo Handlebars
-        return res.render("cart", { cart: cart });
+        return res.render("cart", { cid: cart._id, cart: cart });
       } else {
         // Enviar respuesta JSON si no se acepta HTML
         return res.json(cart);
