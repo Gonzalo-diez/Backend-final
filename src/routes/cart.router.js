@@ -12,7 +12,7 @@ cartRouter.post("/products/buy", cartController.buyCart);
 */
 
 // Maneja la solicitud de agregar el producto al carrito
-cartRouter.post("/add", cartController.addProductToCart);
+cartRouter.post("/", cartController.addProductToCart);
 
 // Maneja la solicitud para actualizar el carrito con nuevos productos
 cartRouter.put("/:cid", cartController.updateCart);
