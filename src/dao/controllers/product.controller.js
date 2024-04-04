@@ -52,8 +52,58 @@ const productController = {
 
             res.json(productDetail);
         }
-        catch (error) {
+        catch (err) {
             console.error("Error al ver los detalles:", err);
+            return res.status(500).json({ error: "Error en la base de datos", details: err.message });
+        }
+    },
+
+    getProductCategory: async (req, res) => {
+        const category = req.params.category;
+        const { brand, sort } = req.query;
+        let currentPage = parseInt(req.query.page) || 1;
+
+        try {
+            const options = {
+                page: currentPage,
+                limit: 10,
+                sort: { price: sort === 'asc' ? 1 : -1 }
+            };
+
+            let query = { category };
+
+            if (brand) {
+                query.brand = brand;
+            }
+
+            // Obtener productos de la categoría
+            const productCategory = await Product.find(query).lean();
+
+            // Paginar los productos de la categoría
+            const filter = await Product.paginate(query, options);
+            const filterDoc = filter.docs.map(product => product.toObject());
+
+            if (req.accepts('html')) {
+                return res.render('category', {
+                    Category: {
+                        category: category,
+                        products: filterDoc,
+                        totalPages: filter.totalPages,
+                        totalProducts: filter.totalDocs,
+                        currentPage: currentPage
+                    }
+                });
+            }
+
+            res.json({
+                category: category,
+                products: filterDoc,
+                totalPages: filter.totalPages,
+                totalProducts: filter.totalDocs,
+                currentPage: currentPage
+            });
+        } catch (err) {
+            console.error("Error al ver la categoria:", err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
         }
     },
@@ -102,7 +152,7 @@ const productController = {
                 return res.status(404).json({ error: "Producto no encontrado" });
             }
 
-            return res.json({message: "Producto eliminado!", listProduct: products});
+            return res.json({ message: "Producto eliminado!", listProduct: products });
         } catch (err) {
             console.error('Error:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });

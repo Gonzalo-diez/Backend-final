@@ -11,6 +11,8 @@ productRouter.get("/realtimeproducts", productController.getProducts);
 // Maneja la solicitud de para ver los detalles del producto
 productRouter.get("/:id", productController.getProductDetail);
 
+productRouter.get("/category/:category", productController.getProductCategory);
+
 // Manejar la solicitud de agregar un producto en tiempo real
 productRouter.post("/addProduct", imgUpload.single("image"), productController.addProduct);
 
