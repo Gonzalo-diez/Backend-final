@@ -6,14 +6,33 @@ import { Server } from "socket.io";
 import bodyParser from "body-parser";
 import __dirname from "./util.js";
 import path from "path";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import FileStore from "session-file-store";
+import MongoStore from "connect-mongo";
 import router from "./routes.js";
 
-
+const fileStore = FileStore(session);
 const app = express();
 const httpServer = http.createServer(app);
 
 // Middleware para analizar el cuerpo de la solicitud JSON
 app.use(express.json());
+
+// Middleware para utilizar cookies
+app.use(cookieParser());
+
+// Middleware para usar el session para autenticaciones de usuarios
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: `mongodb+srv://gonza:Coder2001@ecommerce.salixhx.mongodb.net/`,
+        mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+        ttl: 15,
+    }),
+    secret: "secret_key",
+    resave: false,
+    saveUninitialized: false,
+}))
 
 // Rutas para productos y carritos
 //app.use("/api/products", productRouter);

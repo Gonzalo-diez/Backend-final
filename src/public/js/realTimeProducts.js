@@ -86,7 +86,7 @@ document.getElementById('addProductForm').addEventListener('submit', async (even
     const formData = new FormData(event.target);
 
     try {
-        const response = await fetch('http://localhost:8080/api/products/addProduct', {
+        const response = await fetch('http://localhost:8080/api/products/', {
             method: 'POST',
             body: formData
         });

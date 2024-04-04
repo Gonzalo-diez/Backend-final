@@ -6,7 +6,7 @@ const productRouter = express.Router();
 const imgUpload = configureProductMulter();
 
 // Ruta para renderizar la vista de productos en tiempo real
-productRouter.get("/realtimeproducts", productController.getProducts);
+productRouter.get("/", productController.getProducts);
 
 // Maneja la solicitud de para ver los detalles del producto
 productRouter.get("/:id", productController.getProductDetail);
@@ -14,9 +14,9 @@ productRouter.get("/:id", productController.getProductDetail);
 productRouter.get("/category/:category", productController.getProductCategory);
 
 // Manejar la solicitud de agregar un producto en tiempo real
-productRouter.post("/addProduct", imgUpload.single("image"), productController.addProduct);
+productRouter.post("/", imgUpload.single("image"), productController.addProduct);
 
 // Manejar la solicitud de eliminación de un producto en tiempo real
-productRouter.delete('/deleteProduct/:id', productController.deleteProduct);
+productRouter.delete('/:id', productController.deleteProduct);
 
 export default productRouter;
