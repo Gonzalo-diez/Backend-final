@@ -26,7 +26,6 @@ app.use(cookieParser());
 app.use(session({
     store: MongoStore.create({
         mongoUrl: `mongodb+srv://gonza:Coder2001@ecommerce.salixhx.mongodb.net/`,
-        mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
         ttl: 15,
     }),
     secret: "secret_key",
@@ -102,4 +101,4 @@ io.on('connection', socket => {
         console.log("Carrito vaciado:", clearCart);
         io.emit("clearCart", clearCart);
     });
-})
+});

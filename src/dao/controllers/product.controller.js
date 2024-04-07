@@ -1,5 +1,6 @@
 import Product from "../models/product.model.js";
 import Cart from "../models/cart.model.js";
+import Query from "mysql/lib/protocol/sequences/Query.js";
 
 const productController = {
     getProducts: async (req, res) => {
@@ -32,7 +33,7 @@ const productController = {
                 return res.render('realTimeProducts', { Products: products, Query: filter, Carts: carts });
             }
 
-            res.json({ Products: products });
+            res.json({ Products: products, Query: filter });
         } catch (err) {
             console.error('Error:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
