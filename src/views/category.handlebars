@@ -6,7 +6,7 @@
 
 <div class="container mt-5">
     <div class="row" id="productList">
-        {{#each Category.products}}
+        {{#each Category}}
         <div class="col-md-4 mb-4">
             <div class="card">
                 <img src="/img/{{this.image}}" class="card-img-top img-fluid" alt="{{this.title}}"
@@ -32,16 +32,14 @@
                 <ul class="pagination justify-content-center">
                     {{#if Query.hasPrevPage}}
                     <li class="page-item">
-                        <a class="page-link"
-                            href="?page={{Query.prevPage}}{{#if Query.sort}}&sort={{Query.sort}}{{/if}}" tabindex="-1"
+                        <a class="page-link" href="?page={{Query.prevPage}}" tabindex="-1"
                             aria-disabled="true">Anterior</a>
                     </li>
                     {{/if}}
                     <li class="page-item disabled"><a class="page-link" href="#">Página {{currentPage}}</a></li>
                     {{#if Query.hasNextPage}}
                     <li class="page-item">
-                        <a class="page-link"
-                            href="?page={{Query.nextPage}}{{#if Query.sort}}&sort={{Query.sort}}{{/if}}">Siguiente</a>
+                        <a class="page-link" href="?page={{Query.nextPage}}">Siguiente</a>
                     </li>
                     {{/if}}
                 </ul>

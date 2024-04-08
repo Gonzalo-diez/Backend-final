@@ -61,7 +61,7 @@ const productController = {
     getProductCategory: async (req, res) => {
         const category = req.params.category;
         const { brand, sort } = req.query;
-        let currentPage = parseInt(req.query.page) || 1;
+        let currentPage = req.query.page || 1;
 
         try {
             const options = {
@@ -76,31 +76,20 @@ const productController = {
                 query.brand = brand;
             }
 
-            // Obtener productos de la categoría
-            const productCategory = await Product.find(query).lean();
-
             // Paginar los productos de la categoría
             const filter = await Product.paginate(query, options);
             const filterDoc = filter.docs.map(product => product.toObject());
 
             if (req.accepts('html')) {
                 return res.render('category', {
-                    Category: {
-                        category: category,
-                        products: filterDoc,
-                        totalPages: filter.totalPages,
-                        totalProducts: filter.totalDocs,
-                        currentPage: currentPage
-                    }
+                    Category: filterDoc,
+                    Query: filter,
                 });
             }
 
             res.json({
-                category: category,
-                products: filterDoc,
-                totalPages: filter.totalPages,
-                totalProducts: filter.totalDocs,
-                currentPage: currentPage
+                Category: filterDoc,
+                Query: filter,
             });
         } catch (err) {
             console.error("Error al ver la categoria:", err);

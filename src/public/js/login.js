@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(response => {
                     if (response.ok) {
                         // Si la respuesta es exitosa, redirigir al usuario al inicio
-                        window.location.href = 'api/products/';
+                        window.location.href = 'http://localhost:8080/api/products/';
                     } else {
                         // Si la respuesta no es exitosa, mostrar un mensaje de error
                         console.error('Error en el inicio de sesión');
