@@ -54,11 +54,6 @@ const userController = {
 
             req.session.isAuthenticated = true;
 
-            res.json({
-                message: "Inicio de sesión exitoso",
-                user,
-            });
-
             return res.redirect("/api/products");
 
         } catch (error) {
@@ -104,19 +99,6 @@ const userController = {
 
             req.session.isAuthenticated = true;
 
-            res.json({
-                message: "Usuario registrado con éxito!",
-                user: {
-                    _id: newUser._id,
-                    first_name: newUser.first_name,
-                    last_name: newUser.last_name,
-                    email: newUser.email,
-                    age: newUser.age,
-                    password: newUser.password,
-                    role: newUser.role
-                },
-            });
-
             return res.redirect("/api/products");
 
         } catch (error) {
@@ -130,7 +112,6 @@ const userController = {
         try {
             res.clearCookie("user_id");
             req.session.userId = null;
-            res.json({ message: "Sesión cerrada exitosamente" });
             return res.redirect("/api/users/login");
         } catch (error) {
             console.error("Error al cerrar sesión:", error);

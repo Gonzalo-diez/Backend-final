@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import http from "http";
+import Handlebars from "handlebars";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import bodyParser from "body-parser";
@@ -11,6 +12,10 @@ import session from "express-session";
 import FileStore from "session-file-store";
 import MongoStore from "connect-mongo";
 import router from "./routes.js";
+
+Handlebars.registerHelper('eq', function (a, b, options) {
+    return a === b ? options.fn(this) : options.inverse(this);
+});
 
 const fileStore = FileStore(session);
 const app = express();
