@@ -50,10 +50,17 @@ const userController = {
 
             req.session.userId = user._id;
 
-            return res.json({
+            req.session.user = user;
+
+            req.session.isAuthenticated = true;
+
+            res.json({
                 message: "Inicio de sesión exitoso",
                 user,
             });
+
+            return res.redirect("/api/products");
+
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
             return res.status(500).json({ error: "Error interno del servidor" });
@@ -89,11 +96,15 @@ const userController = {
 
             await newUser.save();
 
-            req.session.userId = newUser._id;
-
             res.cookie("user_id", newUser._id, { maxAge: 100000, httpOnly: true });
 
-            return res.json({
+            req.session.userId = newUser._id;
+
+            req.session.user = newUser;
+
+            req.session.isAuthenticated = true;
+
+            res.json({
                 message: "Usuario registrado con éxito!",
                 user: {
                     _id: newUser._id,
@@ -105,6 +116,9 @@ const userController = {
                     role: newUser.role
                 },
             });
+
+            return res.redirect("/api/products");
+
         } catch (error) {
             console.error("Error al registrar usuario:", error);
             next(error);
@@ -117,6 +131,7 @@ const userController = {
             res.clearCookie("user_id");
             req.session.userId = null;
             res.json({ message: "Sesión cerrada exitosamente" });
+            return res.redirect("/api/users/login");
         } catch (error) {
             console.error("Error al cerrar sesión:", error);
             res.status(500).json({ error: "Error interno del servidor" });

@@ -39,7 +39,11 @@
                                     href="http://localhost:8080/api/products/category/libros">Libros</a></li>
                         </ul>
                     </li>
-                    <li><a href="http://localhost:8080/api/users/login"><box-icon type='solid' name='user-circle'></box-icon></a></li>
+                    {{#if isAuthenticated}}
+                        <li><a href="http://localhost:8080/api/users/logout">Logout</a></li>
+                    {{else}}
+                        <li><a href="http://localhost:8080/api/users/login"><box-icon type='solid' name='user-circle'></box-icon></a></li>
+                    {{/if}}
                 </ul>
             </div>
         </div>

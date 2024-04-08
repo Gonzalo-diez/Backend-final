@@ -1,11 +1,12 @@
 import Product from "../models/product.model.js";
 import Cart from "../models/cart.model.js";
-import Query from "mysql/lib/protocol/sequences/Query.js";
 
 const productController = {
     getProducts: async (req, res) => {
         const { category, brand, sort } = req.query;
         let currentPage = req.query.page || 1;
+        const user = req.session.user;
+        const isAuthenticated = req.session.isAuthenticated;
 
         try {
             const carts = await Cart.find({}).lean();
@@ -30,7 +31,7 @@ const productController = {
             const products = filter.docs.map(product => product.toObject());
 
             if (req.accepts('html')) {
-                return res.render('realTimeProducts', { Products: products, Query: filter, Carts: carts });
+                return res.render('realTimeProducts', { Products: products, Query: filter, Carts: carts, user, isAuthenticated });
             }
 
             res.json({ Products: products, Query: filter });

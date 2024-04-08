@@ -1,5 +1,15 @@
 <h1 class="text-center">Productos en tiempo real</h1>
 
+<div class="container">
+    <!-- Mostrar un mensaje de bienvenida si el usuario está autenticado -->
+    {{#if isAuthenticated}}
+        <div class="alert alert-success" role="alert">
+            ¡Bienvenido, {{user.first_name}} {{user.last_name}}!
+        </div>
+    {{/if}}
+</div>
+
+
 <!-- Filtro de carritos -->
 <form action="/api/products/" method="GET" id="cartForm">
     <label for="cart">Filtrar por carrito:</label>
