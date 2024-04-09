@@ -1,18 +1,19 @@
-<h2 class="text-center">Detalles del producto</h2>
-
 <div class="container mt-5">
-    <div class="row" id="productList">
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                <img src="/img/{{Product.image}}" class="card-img-top img-fluid" alt="{{Product.title}}"
-                    style="max-height: 400px; aspect-ratio: 3/2; object-fit: contain;">
-                <div class="card-body">
-                    <h5 class="card-title">{{Product.title}}</h5>
-                    <p class="card-text">{{Product.brand}}</p>
-                    <p class="card-text">{{Product.description}}</p>
-                    <p class="card-text">Precio: ${{Product.price}}</p>
-                    <p class="card-text">Stock: {{Product.stock}}</p>
-                    <p class="card-text">Categoría: {{Product.category}}</p>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-center mb-5">Detalles del producto</h2>
+            <div id="productList">
+                <div class="card">
+                    <img src="/img/{{Product.image}}" class="card-img-top img-fluid" alt="{{Product.title}}"
+                        style="max-height: 400px; aspect-ratio: 3/2; object-fit: contain;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{Product.title}}</h5>
+                        <p class="card-text">{{Product.brand}}</p>
+                        <p class="card-text">{{Product.description}}</p>
+                        <p class="card-text">Precio: ${{Product.price}}</p>
+                        <p class="card-text">Stock: {{Product.stock}}</p>
+                        <p class="card-text">Categoría: {{Product.category}}</p>
+                    </div>
                 </div>
             </div>
         </div>

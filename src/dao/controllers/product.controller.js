@@ -43,15 +43,17 @@ const productController = {
 
     getProductDetail: async (req, res) => {
         const productId = req.params.id;
+        const user = req.session.user;
+        const isAuthenticated = req.session.isAuthenticated;
 
         try {
             const productDetail = await Product.findOne({ _id: productId }).lean();
 
             if (req.accepts('html')) {
-                return res.render('product', { Product: productDetail });
+                return res.render('product', { Product: productDetail, user, isAuthenticated });
             }
 
-            res.json(productDetail);
+            res.json(productDetail, user, isAuthenticated);
         }
         catch (err) {
             console.error("Error al ver los detalles:", err);
@@ -63,6 +65,8 @@ const productController = {
         const category = req.params.category;
         const { brand, sort } = req.query;
         let currentPage = req.query.page || 1;
+        const user = req.session.user;
+        const isAuthenticated = req.session.isAuthenticated;
 
         try {
             const options = {
@@ -85,12 +89,16 @@ const productController = {
                 return res.render('category', {
                     Category: filterDoc,
                     Query: filter,
+                    user,
+                    isAuthenticated,
                 });
             }
 
             res.json({
                 Category: filterDoc,
                 Query: filter,
+                user,
+                isAuthenticated,
             });
         } catch (err) {
             console.error("Error al ver la categoria:", err);

@@ -4,6 +4,8 @@ import Product from "../models/product.model.js";
 const cartController = {
   getCartById: async (req, res) => {
     const cartId = req.params.cid;
+    const user = req.session.user;
+    const isAuthenticated = req.session.isAuthenticated;
 
     try {
       // Intentar encontrar el carrito en la base de datos por su ID
@@ -18,10 +20,10 @@ const cartController = {
 
       if (req.accepts("html")) {
         // Renderizar el archivo Handlebars
-        return res.render("cart", { cid: cart._id, cart: cart });
+        return res.render("cart", { cid: cart._id, cart: cart, user, isAuthenticated });
       } else {
         // Enviar respuesta JSON si no se acepta HTML
-        return res.json(cart);
+        return res.json(cart, user, isAuthenticated);
       }
     } catch (error) {
       console.error("Error al obtener el carrito por ID:", error);
