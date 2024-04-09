@@ -28,6 +28,7 @@
     <button type="button" id="goToCartBtn">Ir al carrito</button>
 </form>
 
+{{#if isAuthenticated}}
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6 offset-md-3">
@@ -66,6 +67,7 @@
         </div>
     </div>
 </div>
+{{/if}}
 
 <!-- Filtro por categoría -->
 <form action="/api/products/" method="GET">
@@ -84,7 +86,6 @@
     <a href="?sort=desc" class="btn btn-primary">Mayor precio</a>
     <a href="?sort=asc" class="btn btn-primary">Menor precio</a>
 </div>
-
 
 <div class="container mt-5">
     <div class="row" id="productList">
