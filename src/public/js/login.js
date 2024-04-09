@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
 
             const formData = new FormData(loginForm);
+            const errorMessage = document.getElementById('errorMessage');
 
             fetch('http://localhost:8080/api/users/login', {
                 method: 'POST',
@@ -17,7 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         console.log("Inicio de sesión exitoso!")
                     } else {
                         // Si la respuesta no es exitosa, mostrar un mensaje de error
-                        console.error('Error en el inicio de sesión');
+                        errorMessage.textContent = 'Email o contraseña incorrectos. Por favor, inténtalo de nuevo.';
+                        errorMessage.style.display = 'block';
                     }
                 })
                 .catch(error => {

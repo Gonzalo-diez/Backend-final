@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
 
             const formData = new FormData(registerForm);
+            const errorMessage = document.getElementById('errorMessage');
 
             fetch('http://localhost:8080/api/users/register', {
                 method: 'POST',
@@ -17,7 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         console.log("Registro de usuario exitoso!")
                     } else {
                         // Si la respuesta no es exitosa, mostrar un mensaje de error
-                        console.error('Error en el registro');
+                        errorMessage.textContent = 'Este email ya tiene cuenta.';
+                        errorMessage.style.display = 'block';
                     }
                 })
                 .catch(error => {
