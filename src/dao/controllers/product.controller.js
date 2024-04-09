@@ -42,7 +42,7 @@ const productController = {
     },
 
     getProductDetail: async (req, res) => {
-        const productId = req.params.id;
+        const productId = req.params.pid;
         const user = req.session.user;
         const isAuthenticated = req.session.isAuthenticated;
 
@@ -139,7 +139,7 @@ const productController = {
     },
 
     deleteProduct: async (req, res) => {
-        const productId = req.params.id;
+        const productId = req.params.pid;
 
         try {
             const deleteProduct = await Product.deleteOne({ _id: productId }).lean();

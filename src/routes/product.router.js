@@ -9,7 +9,7 @@ const imgUpload = configureProductMulter();
 productRouter.get("/", productController.getProducts);
 
 // Maneja la solicitud para ver los detalles del producto
-productRouter.get("/:id", productController.getProductDetail);
+productRouter.get("/:pid", productController.getProductDetail);
 
 // Maneja la solicitud para ver las categorias de los productos
 productRouter.get("/category/:category", productController.getProductCategory);
@@ -18,6 +18,6 @@ productRouter.get("/category/:category", productController.getProductCategory);
 productRouter.post("/", imgUpload.single("image"), productController.addProduct);
 
 // Manejar la solicitud para la eliminación de un producto en tiempo real
-productRouter.delete('/:id', productController.deleteProduct);
+productRouter.delete('/:pid', productController.deleteProduct);
 
 export default productRouter;
