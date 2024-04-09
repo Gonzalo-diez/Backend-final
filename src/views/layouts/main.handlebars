@@ -40,9 +40,15 @@
                         </ul>
                     </li>
                     {{#if isAuthenticated}}
-                        <li><a href="http://localhost:8080/api/users/logout">Logout</a></li>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a href="http://localhost:8080/api/users/logout"
+                                class="nav-link">Logout</a></li>
+                    </ul>
                     {{else}}
-                        <li><a href="http://localhost:8080/api/users/login"><box-icon type='solid' name='user-circle'></box-icon></a></li>
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a href="http://localhost:8080/api/users/login" class="nav-link"><box-icon
+                                    type='solid' name='user-circle'></box-icon></a></li>
+                    </ul>
                     {{/if}}
                 </ul>
             </div>
@@ -51,11 +57,12 @@
 
     {{{body}}}
 
-    <footer class="footer mt-auto py-3 bg-body-tertiary">
+    <footer class="footer py-3 bg-body-tertiary fixed-bottom">
         <div class="container">
             <span class="text-muted">Gonzalo Diez</span>
         </div>
     </footer>
+
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
