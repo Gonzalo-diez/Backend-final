@@ -18,13 +18,13 @@ const cartController = {
         return res.status(404).json({ error: "Carrito no encontrado" });
       }
 
+      /* HTML
       if (req.accepts("html")) {
         // Renderizar el archivo Handlebars
         return res.render("cart", { cid: cart._id, cart: cart, user, isAuthenticated });
-      } else {
-        // Enviar respuesta JSON si no se acepta HTML
-        return res.json(cart, user, isAuthenticated);
-      }
+      }*/
+
+      return res.json(cart)
     } catch (error) {
       console.error("Error al obtener el carrito por ID:", error);
       return res.status(500).json({ error: "Error en la base de datos", details: error.message });

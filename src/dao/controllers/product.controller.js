@@ -30,11 +30,12 @@ const productController = {
             const filter = await Product.paginate(query, options);
             const products = filter.docs.map(product => product.toObject());
 
+            /* HTML
             if (req.accepts('html')) {
                 return res.render('realTimeProducts', { Products: products, Query: filter, Carts: carts, user, isAuthenticated });
-            }
+            } */
 
-            res.json({ Products: products, Query: filter });
+            res.json({ Products: products, Query: filter, Carts: carts });
         } catch (err) {
             console.error('Error:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
@@ -49,9 +50,10 @@ const productController = {
         try {
             const productDetail = await Product.findOne({ _id: productId }).lean();
 
+            /* HTML
             if (req.accepts('html')) {
                 return res.render('product', { Product: productDetail, user, isAuthenticated });
-            }
+            }*/
 
             res.json(productDetail, user, isAuthenticated);
         }
@@ -85,6 +87,7 @@ const productController = {
             const filter = await Product.paginate(query, options);
             const filterDoc = filter.docs.map(product => product.toObject());
 
+            /* HTML
             if (req.accepts('html')) {
                 return res.render('category', {
                     Category: filterDoc,
@@ -92,7 +95,7 @@ const productController = {
                     user,
                     isAuthenticated,
                 });
-            }
+            }*/
 
             res.json({
                 Category: filterDoc,

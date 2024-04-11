@@ -1,5 +1,5 @@
 import express from "express";
-import userController from "../dao/controllers/user.controller.js"
+import userController from "../dao/controllers/user.controller.js";
 
 const userRouter = express.Router();
 

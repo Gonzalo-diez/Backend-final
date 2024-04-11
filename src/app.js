@@ -11,7 +11,9 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import FileStore from "session-file-store";
 import MongoStore from "connect-mongo";
+import passport from "passport";
 import router from "./routes.js";
+import auth from "./config/auth.js";
 
 Handlebars.registerHelper('eq', function (a, b, options) {
     return a === b ? options.fn(this) : options.inverse(this);
@@ -20,6 +22,9 @@ Handlebars.registerHelper('eq', function (a, b, options) {
 const fileStore = FileStore(session);
 const app = express();
 const httpServer = http.createServer(app);
+
+// Inicializar Passport
+auth.initializePassport();
 
 // Middleware para analizar el cuerpo de la solicitud JSON
 app.use(express.json());
@@ -61,6 +66,10 @@ db.once("open", () => {
 app.use(bodyParser.json());
 
 app.use(express.urlencoded({ extended: true }));
+
+// Middleware de Passport para la autenticación de sesión
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Middleware para utilizar plantillas html
 app.engine("handlebars", handlebars.engine());

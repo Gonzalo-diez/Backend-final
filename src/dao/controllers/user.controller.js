@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
+import auth from "../../config/auth.js";
 
 const userController = {
     /* Metodo para el proyecto en algun futuro
@@ -46,7 +47,10 @@ const userController = {
                 user.role = "admin";
             }
 
-            res.cookie("user_id", user._id, { maxAge: 100000, httpOnly: true });
+            // Generar token JWT
+            const token = auth.generateAuthToken(user);
+
+            res.cookie("jwt", token, { httpOnly: true });
 
             req.session.userId = user._id;
 
@@ -54,7 +58,9 @@ const userController = {
 
             req.session.isAuthenticated = true;
 
-            return res.redirect("/api/products");
+            console.log("Datos del login:", user,  "token:", token);
+
+            res.redirect("/api/products/");
 
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
@@ -91,13 +97,17 @@ const userController = {
 
             await newUser.save();
 
-            res.cookie("user_id", newUser._id, { maxAge: 100000, httpOnly: true });
+            const token = auth.generateAuthToken(newUser);
+
+            res.cookie("jwt", token, { httpOnly: true });
 
             req.session.userId = newUser._id;
 
             req.session.user = newUser;
 
             req.session.isAuthenticated = true;
+
+            console.log("Datos del registro:", newUser, "token:", token);
 
             return res.redirect("/api/products");
 
@@ -110,7 +120,7 @@ const userController = {
 
     logOut: async (req, res) => {
         try {
-            res.clearCookie("user_id");
+            res.clearCookie("jwt");
             req.session.userId = null;
             return res.redirect("/api/users/login");
         } catch (error) {
