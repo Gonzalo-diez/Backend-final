@@ -18,11 +18,11 @@ const cartController = {
         return res.status(404).json({ error: "Carrito no encontrado" });
       }
 
-      /* HTML
+      
       if (req.accepts("html")) {
         // Renderizar el archivo Handlebars
         return res.render("cart", { cid: cart._id, cart: cart, user, isAuthenticated });
-      }*/
+      }
 
       return res.json(cart)
     } catch (error) {
