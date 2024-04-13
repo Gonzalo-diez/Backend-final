@@ -29,6 +29,7 @@ const cartController = {
       if (!cart) {
         return res.status(404).json({ error: "Carrito no encontrado" });
       }
+      
       if (req.accepts("html")) {
         // Renderizar el archivo Handlebars
         return res.render("cart", { cid: cart._id, cart: cart, user, isAuthenticated });
