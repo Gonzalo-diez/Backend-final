@@ -3,6 +3,9 @@ import cartController from "../dao/controllers/cart.controller.js";
 
 const cartRouter = express.Router();
 
+// Maneja la solicitud de busca de carritos
+cartRouter.get("/", cartController.getCarts);
+
 // Maneja la solicitud de renderizar el carrito
 cartRouter.get("/:cid", cartController.getCartById);
 

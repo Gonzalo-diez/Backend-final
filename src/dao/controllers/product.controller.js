@@ -9,7 +9,7 @@ const productController = {
         const isAuthenticated = req.session.isAuthenticated;
 
         try {
-            const carts = await Cart.find({}).lean();
+            //const carts = await Cart.find({});
 
             let query = {};
 
@@ -30,12 +30,43 @@ const productController = {
             const filter = await Product.paginate(query, options);
             const products = filter.docs.map(product => product.toObject());
 
+            let prevLink = null;
+            if (filter.hasPrevPage) {
+                prevLink = `${req.protocol}://${req.get('host')}${req.baseUrl}?page=${filter.prevPage}`;
+            }
+
+            // Determinar el link para la página siguiente
+            let nextLink = null;
+            if (filter.hasNextPage) {
+                nextLink = `${req.protocol}://${req.get('host')}${req.baseUrl}?page=${filter.nextPage}`;
+            }
+
             /* HTML
             if (req.accepts('html')) {
                 return res.render('realTimeProducts', { Products: products, Query: filter, Carts: carts, user, isAuthenticated });
             } */
 
-            res.json({ Products: products, Query: filter, Carts: carts });
+            // Construir la respuesta JSON
+            const response = {
+                status: 'success',
+                Products: products,
+                Query: {
+                    totalDocs: filter.totalDocs,
+                    limit: filter.limit,
+                    totalPages: filter.totalPages,
+                    page: filter.page,
+                    pagingCounter: filter.pagingCounter,
+                    hasPrevPage: filter.hasPrevPage,
+                    hasNextPage: filter.hasNextPage,
+                    prevPage: filter.prevPage,
+                    nextPage: filter.nextPage,
+                    prevLink: prevLink,
+                    nextLink: nextLink
+                },
+                //Carts: carts
+            };
+
+            res.json(response);
         } catch (err) {
             console.error('Error:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
