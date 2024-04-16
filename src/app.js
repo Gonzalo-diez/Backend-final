@@ -11,7 +11,7 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import FileStore from "session-file-store";
 import MongoStore from "connect-mongo";
-import passport from "passport";
+import passport from "./config/jwt.js";
 import router from "./routes.js";
 import auth from "./config/auth.js";
 
@@ -76,7 +76,7 @@ app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 app.use(express.static(path.join(__dirname, 'public')));
-app.use("/api/", router);
+app.use("/", router);
 
 const PORT = 8080;
 

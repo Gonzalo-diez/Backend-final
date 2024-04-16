@@ -1,7 +1,9 @@
 import express from "express";
+import passport from "passport";
 import cartController from "../dao/controllers/cart.controller.js";
 
 const cartRouter = express.Router();
+// Para rutas protegidas const protectWithJWT = passport.authenticate("jwt", { session: false });
 
 // Maneja la solicitud de renderizar el carrito
 cartRouter.get("/:cid", cartController.getCartById);

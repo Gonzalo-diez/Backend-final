@@ -10,9 +10,9 @@ router.get("/", async(req, res) => {
     res.render("home");
 });
 
-router.use("/carts", cartRouter);
-router.use("/products", productRouter);
-router.use("/messages", messageRouter);
+router.use("/api/carts", cartRouter);
+router.use("/api/products", productRouter);
+router.use("/api/messages", messageRouter);
 router.use("/users", userRouter);
 
 export default router;
