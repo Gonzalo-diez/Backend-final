@@ -2,18 +2,6 @@ import Cart from "../models/cart.model.js";
 import Product from "../models/product.model.js";
 
 const cartController = {
-  getCarts: async (req, res) => {
-    try {
-      const carts = await Cart.find({});
-
-      res.json(carts);
-    }
-    catch (error) {
-      console.error("Error al obtener los carritos:", error);
-      return res.status(500).json({ error: "Error en la base de datos", details: error.message });
-    }
-  },
-
   getCartById: async (req, res) => {
     const cartId = req.params.cid;
     const user = req.session.user;

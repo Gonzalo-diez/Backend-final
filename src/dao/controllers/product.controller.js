@@ -9,7 +9,7 @@ const productController = {
         const isAuthenticated = req.session.isAuthenticated;
 
         try {
-            //const carts = await Cart.find({});
+            const carts = await Cart.find({}).lean();
 
             let query = {};
 
@@ -41,11 +41,6 @@ const productController = {
                 nextLink = `${req.protocol}://${req.get('host')}${req.baseUrl}?page=${filter.nextPage}`;
             }
 
-            /* HTML
-            if (req.accepts('html')) {
-                return res.render('realTimeProducts', { Products: products, Query: filter, Carts: carts, user, isAuthenticated });
-            } */
-
             // Construir la respuesta JSON
             const response = {
                 status: 'success',
@@ -63,10 +58,14 @@ const productController = {
                     prevLink: prevLink,
                     nextLink: nextLink
                 },
-                //Carts: carts
             };
 
-            res.json(response);
+            console.log(response);
+
+            if (req.accepts('html')) {
+                return res.render('realTimeProducts', { response, Carts: carts, user, isAuthenticated });
+            }
+
         } catch (err) {
             console.error('Error:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
@@ -81,12 +80,11 @@ const productController = {
         try {
             const productDetail = await Product.findOne({ _id: productId }).lean();
 
-            /* HTML
+            console.log(productDetail);
+
             if (req.accepts('html')) {
                 return res.render('product', { Product: productDetail, user, isAuthenticated });
-            }*/
-
-            res.json(productDetail, user, isAuthenticated);
+            }
         }
         catch (err) {
             console.error("Error al ver los detalles:", err);
@@ -118,22 +116,50 @@ const productController = {
             const filter = await Product.paginate(query, options);
             const filterDoc = filter.docs.map(product => product.toObject());
 
-            /* HTML
-            if (req.accepts('html')) {
-                return res.render('category', {
-                    Category: filterDoc,
-                    Query: filter,
-                    user,
-                    isAuthenticated,
-                });
-            }*/
+            let prevLink = null;
+            if (filter.hasPrevPage) {
+                prevLink = `${req.protocol}://${req.get('host')}${req.baseUrl}${req.path}?page=${filter.prevPage}`;
+            }
 
-            res.json({
+            // Determinar el link para la página siguiente
+            let nextLink = null;
+            if (filter.hasNextPage) {
+                nextLink = `${req.protocol}://${req.get('host')}${req.baseUrl}${req.path}?page=${filter.nextPage}`;
+            }
+
+
+            // Construir la respuesta JSON
+            const response = {
+                status: 'success',
                 Category: filterDoc,
-                Query: filter,
+                Query: {
+                    totalDocs: filter.totalDocs,
+                    limit: filter.limit,
+                    totalPages: filter.totalPages,
+                    page: filter.page,
+                    pagingCounter: filter.pagingCounter,
+                    hasPrevPage: filter.hasPrevPage,
+                    hasNextPage: filter.hasNextPage,
+                    prevPage: filter.prevPage,
+                    nextPage: filter.nextPage,
+                    prevLink: prevLink,
+                    nextLink: nextLink
+                },
+            };
+
+            console.log({
+                response,
                 user,
                 isAuthenticated,
             });
+
+            if (req.accepts('html')) {
+                return res.render('category', {
+                    response,
+                    user,
+                    isAuthenticated,
+                });
+            }
         } catch (err) {
             console.error("Error al ver la categoria:", err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
