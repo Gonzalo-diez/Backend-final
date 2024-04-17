@@ -86,9 +86,34 @@ const generateAuthToken = (user) => {
     return token;
 };
 
+const authToken = (req, res, next) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader) {
+        return res.status(401).send({ status: "error", message: "No autorizado" });
+    }
+
+    console.log(authHeader);
+
+    const token = authHeader.split(" ")[1];
+
+    // Error para ver, cada vez que realizo un logout, se produce el error de JsonWebTokenError: jwt malformed
+    jwt.verify(token, config.jwtSecret, (error, credentials) => {
+        console.log(error);
+
+        if (error) {
+            return res.status(201).send({ status: "error", message: "No autorizado" });
+        }
+
+        req.user = credentials.user;
+        next();
+    })
+}
+
 const auth = {
     initializePassport,
-    generateAuthToken
+    generateAuthToken,
+    authToken,
 };
 
 export default auth;

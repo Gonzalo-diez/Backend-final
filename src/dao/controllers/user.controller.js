@@ -138,12 +138,14 @@ const userController = {
         try {
             res.clearCookie("jwt");
             req.session.userId = null;
-            return res.redirect("/api/users/login");
+            req.session.user = null;
+            req.session.isAuthenticated = false;
+            return res.redirect("/users/login");
         } catch (error) {
             console.error("Error al cerrar sesión:", error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
-    }
+    }    
 }
 
 export default userController;

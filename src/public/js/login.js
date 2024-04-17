@@ -11,10 +11,14 @@ document.addEventListener('DOMContentLoaded', function () {
             fetch('http://localhost:8080/api/users/login', {
                 method: 'POST',
                 body: formData,
+                headers: {
+                    'Content-Type': 'application/json' 
+                }
             })
                 .then(response => {
                     if (response.ok) {
                         // La respuesta exitosa
+                        localStorage.setItem("token", json.token)
                         console.log("Inicio de sesión exitoso!");
                     } else {
                         // Si la respuesta no es exitosa, mostrar un mensaje de error

@@ -41,7 +41,7 @@
                     </li>
                     {{#if isAuthenticated}}
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a href="http://localhost:8080/users/logout" class="nav-link">Logout</a></li>
+                        <li class="nav-item"><button id="logoutButton" class="nav-link">Logout</button></li>
                     </ul>
                     {{else}}
                     <ul class="navbar-nav ml-auto">
@@ -71,6 +71,7 @@
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="/js/logout.js"></script>
 </body>
 
 </html>
