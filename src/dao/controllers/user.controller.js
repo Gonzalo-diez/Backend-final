@@ -1,6 +1,6 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
-import auth from "../../config/auth.js";
+import { generateAuthToken } from "../../config/auth.js";
 import passport from "passport";
 
 const userController = {
@@ -44,9 +44,9 @@ const userController = {
                 }
 
                 // Generar token JWT
-                const token = auth.generateAuthToken(user);
+                const access_token = generateAuthToken(user);
 
-                res.cookie("jwt", token, { httpOnly: true });
+                res.cookie("jwt", access_token, { httpOnly: true });
 
                 req.session.userId = user._id;
 
@@ -54,7 +54,7 @@ const userController = {
 
                 req.session.isAuthenticated = true;
 
-                console.log("Datos del login:", user, "token:", token);
+                console.log("Datos del login:", user, "token:", access_token);
 
                 return res.redirect("/api/products/");
             })(req, res, next);
@@ -94,9 +94,9 @@ const userController = {
 
             await newUser.save();
 
-            const token = auth.generateAuthToken(newUser);
+            const access_token = generateAuthToken(newUser);
 
-            res.cookie("jwt", token, { httpOnly: true });
+            res.cookie("jwt", access_token, { httpOnly: true });
 
             req.session.userId = newUser._id;
 
@@ -104,7 +104,7 @@ const userController = {
 
             req.session.isAuthenticated = true;
 
-            console.log("Datos del registro:", newUser, "token:", token);
+            console.log("Datos del registro:", newUser, "token:", access_token);
 
             return res.redirect("/api/products");
 
@@ -120,10 +120,10 @@ const userController = {
 
     // Redirige al usuario a la página de inicio después de iniciar sesión con GitHub
     handleGitHubCallback: async (req, res) => {
-        const token = auth.generateAuthToken(req.user);
+        const access_token = generateAuthToken(req.user);
 
         // Establecer la cookie jwt con el token
-        res.cookie("jwt", token, { httpOnly: true });
+        res.cookie("jwt", access_token, { httpOnly: true });
 
         // Establecer la sesión del usuario
         req.session.userId = req.user._id;
@@ -140,7 +140,7 @@ const userController = {
             req.session.userId = null;
             req.session.user = null;
             req.session.isAuthenticated = false;
-            return res.redirect("/users/login");
+            return res.json({message: "Logout funciona"});
         } catch (error) {
             console.error("Error al cerrar sesión:", error);
             res.status(500).json({ error: "Error interno del servidor" });

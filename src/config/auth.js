@@ -32,9 +32,9 @@ const initializePassport = () => {
         "github",
         new GitHubStrategy(
             {
-                clientID: "Iv1.05e58653a492fca1",//id de la app en github
-                clientSecret: "84ca8f4841b9954c1fb97c4bd334fe8bfafb5528",//clave secreta de github
-                callbackURL: "http://localhost:8080/users/githubcallback",//url callback de github
+                clientID: "Iv1.05e58653a492fca1",
+                clientSecret: "84ca8f4841b9954c1fb97c4bd334fe8bfafb5528",
+                callbackURL: "http://localhost:8080/users/githubcallback",
             },
             async (accessToken, refreshToken, profile, done) => {
                 try {
@@ -81,12 +81,12 @@ const initializePassport = () => {
     });
 };
 
-const generateAuthToken = (user) => {
+export const generateAuthToken = (user) => {
     const token = jwt.sign({ _id: user._id }, config.jwtSecret, { expiresIn: '1h' });
     return token;
 };
 
-const authToken = (req, res, next) => {
+export const authToken = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -102,7 +102,9 @@ const authToken = (req, res, next) => {
         console.log(error);
 
         if (error) {
-            return res.status(201).send({ status: "error", message: "No autorizado" });
+            console.error('JWT Verification Error:', error);
+            // Handle the error appropriately
+            return res.status(401).send({ status: "error", message: "Unauthorized" });
         }
 
         req.user = credentials.user;
@@ -112,8 +114,6 @@ const authToken = (req, res, next) => {
 
 const auth = {
     initializePassport,
-    generateAuthToken,
-    authToken,
 };
 
 export default auth;

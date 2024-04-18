@@ -1,9 +1,11 @@
 import express from "express";
 import userController from "../dao/controllers/user.controller.js";
-import auth from "../config/auth.js";
+import { authToken } from "../config/auth.js";
 
 const userRouter = express.Router();
-const protectWithJWT = auth.authToken;
+
+// Maneja la solicitud para cerrar la sesión del usuario
+userRouter.get("/logout", authToken, userController.logOut);
 
 // Maneja el renderizado del login
 userRouter.get("/login", userController.getLogin);
@@ -22,8 +24,5 @@ userRouter.post("/login", userController.login);
 
 // Maneja la solicitud de registros de usuarios
 userRouter.post("/register", userController.register);
-
-// Maneja la solicitud para cerrar la sesión del usuario
-userRouter.get("/logout", protectWithJWT, userController.logOut);
 
 export default userRouter;

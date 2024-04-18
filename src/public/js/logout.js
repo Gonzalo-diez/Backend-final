@@ -1,9 +1,12 @@
 const logout = async () => {
+    const token = localStorage.getItem('token');
+    console.log("Token antes de enviarlo al servidor:", token);
+
     try {
         const response = await fetch('http://localhost:8080/users/logout', {
             method: 'GET',
             headers: {
-                "authorization": `Bearer ${localStorage.getItem("token")}`
+                "authorization": `Bearer ${token}`
             }
         });
 
