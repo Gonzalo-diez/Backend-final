@@ -14,6 +14,7 @@ import MongoStore from "connect-mongo";
 import passport from "./config/jwt.js";
 import router from "./routes.js";
 import auth from "./config/auth.js";
+import { MONGO_URL } from "./util.js";
 
 Handlebars.registerHelper('eq', function (a, b, options) {
     return a === b ? options.fn(this) : options.inverse(this);
@@ -35,7 +36,7 @@ app.use(cookieParser());
 // Middleware para usar el session para autenticaciones de usuarios
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: "mongodb+srv://gonza:Coder2001@ecommerce.salixhx.mongodb.net/",
+        mongoUrl: MONGO_URL,
         ttl: 15,
     }),
     secret: "secret_key",
@@ -47,7 +48,7 @@ app.use(session({
 //app.use("/api/products", productRouter);
 //app.use("/api/carts", cartRouter);
 
-mongoose.connect("mongodb+srv://gonza:Coder2001@ecommerce.salixhx.mongodb.net/", {
+mongoose.connect(MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });

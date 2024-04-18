@@ -3,8 +3,8 @@ import { Strategy as LocalStrategy } from "passport-local";
 import GitHubStrategy from "passport-github2";
 import jwt from "jsonwebtoken";
 import User from "../dao/models/user.model.js";
-import config from "./config.js";
 import bcrypt from "bcrypt";
+import { JWT_SECRET, CLIENT_ID, CLIENT_SECRET, CALLBACK_URL } from "../util.js";
 
 const initializePassport = () => {
     // Configurar estrategia de autenticación local
@@ -32,9 +32,9 @@ const initializePassport = () => {
         "github",
         new GitHubStrategy(
             {
-                clientID: "Iv1.05e58653a492fca1",
-                clientSecret: "84ca8f4841b9954c1fb97c4bd334fe8bfafb5528",
-                callbackURL: "http://localhost:8080/users/githubcallback",
+                clientID: CLIENT_ID,
+                clientSecret: CLIENT_SECRET,
+                callbackURL: CALLBACK_URL,
             },
             async (accessToken, refreshToken, profile, done) => {
                 try {
@@ -82,7 +82,7 @@ const initializePassport = () => {
 };
 
 export const generateAuthToken = (user) => {
-    const token = jwt.sign({ _id: user._id }, config.jwtSecret, { expiresIn: '1h' });
+    const token = jwt.sign({ _id: user._id }, JWT_SECRET, { expiresIn: '1h' });
     return token;
 };
 
@@ -98,7 +98,7 @@ export const authToken = (req, res, next) => {
     const token = authHeader.split(" ")[1];
 
     // Error para ver, cada vez que realizo un logout, se produce el error de JsonWebTokenError: jwt malformed
-    jwt.verify(token, config.jwtSecret, (error, credentials) => {
+    jwt.verify(token, JWT_SECRET, (error, credentials) => {
         console.log(error);
 
         if (error) {

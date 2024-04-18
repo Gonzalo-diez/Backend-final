@@ -1,13 +1,13 @@
 import passport from "passport";
 import passportJWT from "passport-jwt";
-import config from "./config.js";
+import { JWT_SECRET } from "../util.js";
 
 const ExtractJWT = passportJWT.ExtractJwt;
 const JwtStrategy = passportJWT.Strategy;
 
 const jwtOptions = {
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: config.jwtSecret,
+    secretOrKey: JWT_SECRET,
 };
 
 const strategy = new JwtStrategy(jwtOptions, (jwt_payload, next) => {
