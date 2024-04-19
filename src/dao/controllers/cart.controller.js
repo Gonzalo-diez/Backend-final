@@ -23,7 +23,7 @@ const cartController = {
         return res.render("cart", { cid: cart._id, cart: cart, user, isAuthenticated });
       }
 
-      return res.json(cart)
+      return res.json(cart);
     } catch (error) {
       console.error("Error al obtener el carrito por ID:", error);
       return res.status(500).json({ error: "Error en la base de datos", details: error.message });

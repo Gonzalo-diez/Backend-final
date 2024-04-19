@@ -60,10 +60,11 @@ const productController = {
                 },
             };
 
-            console.log(response);
-
             if (req.accepts('html')) {
-                return res.render('realTimeProducts', { response, Carts: carts, user, isAuthenticated });
+                res.render('realTimeProducts', { response, Carts: carts, user, isAuthenticated });
+            }
+            else {
+                res.json({message: "Lista de productos:", response})
             }
 
         } catch (err) {
@@ -127,7 +128,6 @@ const productController = {
                 nextLink = `${req.protocol}://${req.get('host')}${req.baseUrl}${req.path}?page=${filter.nextPage}`;
             }
 
-
             // Construir la respuesta JSON
             const response = {
                 status: 'success',
@@ -147,18 +147,15 @@ const productController = {
                 },
             };
 
-            console.log({
-                response,
-                user,
-                isAuthenticated,
-            });
-
             if (req.accepts('html')) {
-                return res.render('category', {
+                res.render('category', {
                     response,
                     user,
                     isAuthenticated,
                 });
+            }
+            else {
+                res.json({message: "Lista de productos por categoria:", response});
             }
         } catch (err) {
             console.error("Error al ver la categoria:", err);
