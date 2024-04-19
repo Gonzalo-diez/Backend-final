@@ -18,9 +18,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             })
             .then(response => {
-                if (response.ok) {
+                if (response.status === 200) {
                     // La respuesta exitosa
-                    return response.json(); // Convertir la respuesta a JSON
+                    return response.json();
                 } else {
                     // Si la respuesta no es exitosa, mostrar un mensaje de error
                     errorMessage.textContent = 'Email o contraseña incorrectos. Por favor, inténtalo de nuevo.';
@@ -28,10 +28,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     throw new Error('Credenciales incorrectas');
                 }
             })
-            .then(json => {
+            .then(data => {
                 // Extraer el token de la respuesta JSON
                 // Almacenar el token en el almacenamiento local
-                localStorage.setItem('token', json.access_token);
+                const token = localStorage.setItem('token', data.access_token);
+                console.log("Token:", token);
                 console.log("Inicio de sesión exitoso!");
             })
             .catch(error => {
