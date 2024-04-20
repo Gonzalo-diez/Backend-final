@@ -60,6 +60,8 @@ const productController = {
                 },
             };
 
+            console.log(response);
+
             if (req.accepts('html')) {
                 res.render('realTimeProducts', { response, Carts: carts, user, isAuthenticated });
             }
