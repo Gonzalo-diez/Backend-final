@@ -114,19 +114,20 @@ const userController = {
 
     // Redirige al usuario a la página de inicio después de iniciar sesión con GitHub
     handleGitHubCallback: async (req, res) => {
+        const user = req.user;
         try {
             // Genera el token de acceso
-            const access_token = generateAuthToken(req.user);
+            const access_token = generateAuthToken(user);
 
             // Establece la sesión del usuario
-            req.session.userId = req.user._id;
-            req.session.user = req.user;
+            req.session.userId = user._id;
+            req.session.user = user;
             req.session.isAuthenticated = true;
 
             console.log("Token login github:", access_token);
 
             // Envia la respuesta con el token de acceso al frontend
-            res.redirect("/api/products/");
+            res.json({message: "success", user, access_token});
         } catch (error) {
             console.error('Error en el callback de GitHub:', error);
             res.status(500).json({ error: "Error interno del servidor" });
