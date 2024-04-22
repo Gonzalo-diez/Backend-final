@@ -100,12 +100,7 @@ const userController = {
 
             console.log("Datos del registro:", newUser, "token:", access_token);
 
-            if (req.accepts("html")) {
-                res.redirect("/api/products/");
-            }
-            else {
-                res.json({message: "Success", newUser, access_token});
-            }
+            res.json({message: "Success", newUser, access_token});
 
         } catch (error) {
             console.error("Error al registrar usuario:", error);
@@ -126,12 +121,7 @@ const userController = {
         req.session.user = req.user;
         req.session.isAuthenticated = true;
 
-        if (req.accepts("html")) {
-            res.redirect("/api/products/");
-        }
-        else {
-            res.json({message: "Success", access_token});
-        }
+        res.json({message: "Success", access_token});
     },
 
     logOut: async (req, res) => {
