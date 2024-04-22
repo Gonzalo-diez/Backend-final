@@ -30,7 +30,7 @@ const userController = {
 
     login: async (req, res, next) => {
         const { email, password } = req.body;
-    
+
         try {
             passport.authenticate("local", (err, user, info) => {
                 if (err) {
@@ -42,19 +42,19 @@ const userController = {
                 if (email === "adminCoder@coder.com" && password === "adminCod3er123") {
                     user.role = "admin";
                 }
-    
+
                 // Generar token JWT
                 const access_token = generateAuthToken(user);
-    
+
                 req.session.userId = user._id;
                 req.session.user = user;
                 req.session.isAuthenticated = true;
-    
+
                 console.log("Datos del login:", user, "token:", access_token);
 
                 res.json({ message: "Success", user, access_token });
             })(req, res, next);
-    
+
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
             return res.status(500).json({ error: "Error interno del servidor" });
@@ -100,7 +100,7 @@ const userController = {
 
             console.log("Datos del registro:", newUser, "token:", access_token);
 
-            res.json({message: "Success", newUser, access_token});
+            res.json({ message: "Success", newUser, access_token });
 
         } catch (error) {
             console.error("Error al registrar usuario:", error);
@@ -114,14 +114,23 @@ const userController = {
 
     // Redirige al usuario a la página de inicio después de iniciar sesión con GitHub
     handleGitHubCallback: async (req, res) => {
-        const access_token = generateAuthToken(req.user);
+        try {
+            // Genera el token de acceso
+            const access_token = generateAuthToken(req.user);
 
-        // Establecer la sesión del usuario
-        req.session.userId = req.user._id;
-        req.session.user = req.user;
-        req.session.isAuthenticated = true;
+            // Establece la sesión del usuario
+            req.session.userId = req.user._id;
+            req.session.user = req.user;
+            req.session.isAuthenticated = true;
 
-        res.json({message: "Success", access_token});
+            console.log("Token login github:", access_token);
+
+            // Envia la respuesta con el token de acceso al frontend
+            res.redirect("/api/products/");
+        } catch (error) {
+            console.error('Error en el callback de GitHub:', error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
     },
 
     logOut: async (req, res) => {
@@ -129,12 +138,12 @@ const userController = {
             req.session.userId = null;
             req.session.user = null;
             req.session.isAuthenticated = false;
-            return res.json({message: "Logout funciona"});
+            return res.json({ message: "Logout funciona" });
         } catch (error) {
             console.error("Error al cerrar sesión:", error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
-    }    
+    }
 }
 
 export default userController;
