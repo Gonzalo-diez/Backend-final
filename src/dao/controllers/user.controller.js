@@ -52,12 +52,7 @@ const userController = {
     
                 console.log("Datos del login:", user, "token:", access_token);
 
-                if (req.accepts("html")) {
-                    res.redirect("/api/products/");
-                }
-                else {
-                    res.json({message: "Success", newUser, access_token});
-                }
+                res.json({ message: "Success", user, access_token });
             })(req, res, next);
     
         } catch (error) {
