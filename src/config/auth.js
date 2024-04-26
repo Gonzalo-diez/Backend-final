@@ -82,11 +82,24 @@ const initializePassport = () => {
     });
 };
 
+// Función para extraer cookies
+export const cookieExtractor = (req) => {
+    //lógica a implementar
+
+    let token = null;
+    if (req && req.cookies) {
+        token = req.cookies["jwtToken"];
+    }
+    return token;
+};
+
+// Funcion para generar tokens
 export const generateAuthToken = (user) => {
     const token = jwt.sign({ _id: user._id }, config.jwtSecret, { expiresIn: '1h' });
     return token;
 };
 
+// Funcion para validar tokens
 export const authToken = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
