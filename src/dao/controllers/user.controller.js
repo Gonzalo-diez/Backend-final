@@ -54,7 +54,7 @@ const userController = {
 
                 res.cookie("jwtToken", access_token, {
                     httpOnly: true,
-                }).send({ status: "Success", message: user });
+                }).send({ status: "Success", message: user, access_token });
             })(req, res, next);
 
         } catch (error) {

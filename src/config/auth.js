@@ -84,12 +84,12 @@ const initializePassport = () => {
 
 // Función para extraer cookies
 export const cookieExtractor = (req) => {
-    //lógica a implementar
-
     let token = null;
+    
     if (req && req.cookies) {
         token = req.cookies["jwtToken"];
     }
+    
     return token;
 };
 
@@ -114,7 +114,6 @@ export const authToken = (req, res, next) => {
     jwt.verify(token, config.jwtSecret, (error, credentials) => {
         if (error) {
             console.error('JWT Verification Error:', error);
-            // Handle the error appropriately
             return res.status(401).send({ status: "error", message: "Unauthorized" });
         }
 
