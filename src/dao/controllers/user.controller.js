@@ -52,7 +52,9 @@ const userController = {
 
                 console.log("Datos del login:", user, "token:", access_token);
 
-                res.json({ message: "Success", user, access_token });
+                res.cookie("jwtToken", access_token, {
+                    httpOnly: true,
+                }).send({ status: "Success", message: user });
             })(req, res, next);
 
         } catch (error) {
@@ -100,7 +102,9 @@ const userController = {
 
             console.log("Datos del registro:", newUser, "token:", access_token);
 
-            res.json({ message: "Success", newUser, access_token });
+            res.cookie("jwtToken", access_token, {
+                httpOnly: true,
+            }).send({ status: "Success", message: user });
 
         } catch (error) {
             console.error("Error al registrar usuario:", error);
@@ -139,6 +143,7 @@ const userController = {
             req.session.userId = null;
             req.session.user = null;
             req.session.isAuthenticated = false;
+            res.clearCookie("jwtToken");
             return res.json({ message: "Logout funciona" });
         } catch (error) {
             console.error("Error al cerrar sesión:", error);

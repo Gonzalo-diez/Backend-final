@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import User from "../dao/models/user.model.js";
 import bcrypt from "bcrypt";
 import config from "./config.js";
-import { CLIENT_ID, CLIENT_SECRET, CALLBACK_URL } from "../util.js";
+import { CLIENT_ID, CLIENT_SECRET, CALLBACK_URL } from "../util.js"; 
 
 const initializePassport = () => {
     // Configurar estrategia de autenticación local
@@ -102,19 +102,16 @@ export const generateAuthToken = (user) => {
 // Funcion para validar tokens
 export const authToken = (req, res, next) => {
     const authHeader = req.headers.authorization;
+    const cookieToken = req.cookies.jwtToken;
 
-    if (!authHeader) {
+    // Verificar si el token está presente en el encabezado de autorización o en la cookie jwtToken
+    const token = authHeader ? authHeader.split(" ")[1] : cookieToken;
+
+    if (!token) {
         return res.status(401).send({ status: "error", message: "No autorizado" });
     }
 
-    console.log(authHeader);
-
-    const token = authHeader.split(" ")[1];
-
-    // Error para ver, cada vez que realizo un logout, se produce el error de JsonWebTokenError: jwt malformed
     jwt.verify(token, config.jwtSecret, (error, credentials) => {
-        console.log(error);
-
         if (error) {
             console.error('JWT Verification Error:', error);
             // Handle the error appropriately
@@ -123,8 +120,9 @@ export const authToken = (req, res, next) => {
 
         req.user = credentials.user;
         next();
-    })
-}
+    });
+};
+
 
 const auth = {
     initializePassport,
