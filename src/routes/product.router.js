@@ -2,6 +2,7 @@ import express from "express"
 import passport from "passport";
 import { configureProductMulter } from "../util.js";
 import productController from "../dao/controllers/product.controller.js";
+import { authToken } from "../config/auth.js";
 
 const productRouter = express.Router();
 const imgUpload = configureProductMulter();
@@ -17,9 +18,9 @@ productRouter.get("/:pid", productController.getProductDetail);
 productRouter.get("/category/:category", productController.getProductCategory);
 
 // Manejar la solicitud para agregar un producto en tiempo real
-productRouter.post("/", imgUpload.single("image"), productController.addProduct);
+productRouter.post("/", authToken, imgUpload.single("image"), productController.addProduct);
 
 // Manejar la solicitud para la eliminación de un producto en tiempo real
-productRouter.delete('/:pid', productController.deleteProduct);
+productRouter.delete('/:pid', authToken, productController.deleteProduct);
 
 export default productRouter;

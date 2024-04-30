@@ -54,7 +54,7 @@ const userController = {
 
                 res.cookie("jwtToken", access_token, {
                     httpOnly: true,
-                }).send({ status: "Success", message: user, access_token });
+                }).send({ status: "Success", message: user, access_token, userId: user._id });
             })(req, res, next);
 
         } catch (error) {
@@ -104,7 +104,7 @@ const userController = {
 
             res.cookie("jwtToken", access_token, {
                 httpOnly: true,
-            }).send({ status: "Success", message: newUser, access_token });
+            }).send({ status: "Success", message: newUser, access_token, userId: newUser._id });
 
         } catch (error) {
             console.error("Error al registrar usuario:", error);
@@ -133,7 +133,7 @@ const userController = {
             // Envia la respuesta con el token de acceso al frontend
             res.cookie("jwtToken", access_token, {
                 httpOnly: true,
-            }).send({ status: "Success", message: user, access_token });
+            }).send({ status: "Success", message: user, access_token, userId: user._id });
         } catch (error) {
             console.error('Error en el callback de GitHub:', error);
             res.status(500).json({ error: "Error interno del servidor" });

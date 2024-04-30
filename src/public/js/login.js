@@ -33,8 +33,13 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 // Extraer el token de la respuesta JSON
                 // Almacenar el token en el almacenamiento local
-                const token = localStorage.setItem('token', data.access_token);
+                const token = data.access_token;
+                const userId = data.userId;
+
+                localStorage.setItem('token', token);
+                localStorage.setItem('userId', userId)
                 console.log("Token:", token);
+                console.log("userId:", userId);
                 console.log("Inicio de sesión exitoso!");
                 window.location.href = "http://localhost:8080/api/products/"
             })

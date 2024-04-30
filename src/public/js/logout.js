@@ -13,6 +13,7 @@ const logout = async () => {
         if (response.ok) {
             console.log('Logout exitoso');
             localStorage.removeItem("token");
+            localStorage.removeItem("userId");
             window.location.replace("/users/login");
         } else {
             const errorMessage = await response.text();

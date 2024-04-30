@@ -26,6 +26,10 @@ const cartSchema = new mongoose.Schema({
             productTotal: Number,
         }
     ],
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 const Cart = mongoose.model("Cart", cartSchema);

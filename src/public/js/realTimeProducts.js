@@ -1,7 +1,7 @@
 const socket = io.connect('http://localhost:8080');
 
 const token = localStorage.getItem("token");
-console.log("Token:", token);
+const userId = localStorage.getItem("userId");
 
 function handleAddToCart(event) {
     if (!event.target.classList.contains('cart-btn')) {
@@ -16,7 +16,7 @@ function handleAddToCart(event) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ productId })
+        body: JSON.stringify({ productId, userId })
     })
         .then(response => {
             if (!response.ok) {

@@ -1,5 +1,6 @@
 import Cart from "../models/cart.model.js";
 import Product from "../models/product.model.js";
+import User from "../models/user.model.js";
 
 const cartController = {
   getCartById: async (req, res) => {
@@ -17,7 +18,7 @@ const cartController = {
       if (!cart) {
         return res.status(404).json({ error: "Carrito no encontrado" });
       }
-      
+
       if (req.accepts("html")) {
         // Renderizar el archivo Handlebars
         return res.render("cart", { cid: cart._id, cart: cart, user, isAuthenticated });
@@ -32,10 +33,17 @@ const cartController = {
 
   addProductToCart: async (req, res) => {
     const { productId } = req.body;
+    const userId = req.session.userId;
 
     try {
       // Buscar el producto en la base de datos
       const product = await Product.findById(productId);
+
+      const user = await User.findById(userId);
+
+      if (!user) {
+        return res.status(401).json({ error: "No esta autorizado" })
+      }
 
       if (!product) {
         return res.status(404).json({ error: "Producto no encontrado" });
@@ -65,6 +73,7 @@ const cartController = {
           productTotal: product.price * 1,
         }],
         total: product.price,
+        user: userId,
       });
 
       // Guardar el nuevo elemento de carrito en la base de datos
@@ -131,6 +140,7 @@ const cartController = {
 
   updateCart: async (req, res) => {
     const cartId = req.params.cid;
+    const { userId } = req.body;
 
     try {
       const cart = await Cart.findById(cartId).populate({
@@ -141,6 +151,11 @@ const cartController = {
       // Verificar si el carrito existe
       if (!cart) {
         return res.status(404).json({ error: "Carrito no encontrado" });
+      }
+
+      // Verificar si el usuario que intenta actualizar el carrito es el propietario del carrito
+      if (cart.user.toString() !== userId) {
+        return res.status(403).json({ error: "No tienes permiso para actualizar este carrito" });
       }
 
       // Obtener los nuevos productos que se van a agregar al carrito desde el cuerpo de la solicitud
@@ -187,7 +202,7 @@ const cartController = {
   updateProductQuantityInCart: async (req, res) => {
     const { pid } = req.params;
     const cartId = req.params.cid;
-    const { quantity } = req.body;
+    const { quantity, userId } = req.body;
 
     try {
       const cart = await Cart.findById(cartId).populate({
@@ -197,6 +212,11 @@ const cartController = {
 
       if (!cart) {
         return res.status(404).json({ error: "Carrito no encontrado" });
+      }
+
+      // Verificar si el usuario que intenta actualizar el carrito es el propietario del carrito
+      if (cart.user.toString() !== userId) {
+        return res.status(403).json({ error: "No tienes permiso para actualizar este carrito" });
       }
 
       // Buscar el índice del producto en la matriz de productos del carrito
@@ -238,6 +258,7 @@ const cartController = {
   deleteProductFromCart: async (req, res) => {
     const pid = req.params.pid;
     const cartId = req.params.cid;
+    const { userId } = req.body;
 
     try {
       const cart = await Cart.findById(cartId).populate({
@@ -247,6 +268,11 @@ const cartController = {
 
       if (!cart) {
         return res.status(404).json({ error: "Carrito no encontrado" });
+      }
+
+      // Verificar si el usuario que intenta actualizar el carrito es el propietario del carrito
+      if (cart.user.toString() !== userId) {
+        return res.status(403).json({ error: "No tienes permiso para borrar este producto del carrito" });
       }
 
       const productIndex = cart.products.findIndex(item => item.product._id.toString() === pid);
@@ -282,12 +308,18 @@ const cartController = {
 
   clearCart: async (req, res) => {
     const cartId = req.params.cid;
+    const { userId } = req.body;
 
     try {
       const cart = await Cart.findById(cartId);
 
       if (!cart) {
         return res.status(404).json({ error: "Carrito no encontrado" });
+      }
+
+      // Verificar si el usuario que intenta actualizar el carrito es el propietario del carrito
+      if (cart.user.toString() !== userId) {
+        return res.status(403).json({ error: "No tienes permiso para borrar el carrito" });
       }
 
       // Vaciar la lista de productos del carrito
