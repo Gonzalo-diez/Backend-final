@@ -7,6 +7,7 @@ const cartController = {
     const cartId = req.params.cid;
     const user = req.session.user;
     const isAuthenticated = req.session.isAuthenticated;
+    const jwtToken = req.session.token;
 
     try {
       // Intentar encontrar el carrito en la base de datos por su ID
@@ -21,7 +22,7 @@ const cartController = {
 
       if (req.accepts("html")) {
         // Renderizar el archivo Handlebars
-        return res.render("cart", { cid: cart._id, cart: cart, user, isAuthenticated });
+        return res.render("cart", { cid: cart._id, cart: cart, user, isAuthenticated, jwtToken });
       }
 
       return res.json(cart);
@@ -77,6 +78,8 @@ const cartController = {
 
       // Guardar el nuevo elemento de carrito en la base de datos
       const savedCartItem = await cartItem.save();
+
+      console.log("Producto en carrito:", savedCartItem);
 
       return res.json({ message: "Producto agregado al carrito correctamente", cartItemId: savedCartItem._id });
     } catch (error) {

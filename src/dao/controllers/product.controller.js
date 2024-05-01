@@ -8,6 +8,7 @@ const productController = {
         let currentPage = req.query.page || 1;
         const user = req.session.user;
         const isAuthenticated = req.session.isAuthenticated;
+        const jwtToken = req.session.token;
 
         try {
             const carts = await Cart.find({}).lean();
@@ -64,7 +65,7 @@ const productController = {
             console.log(response);
 
             if (req.accepts('html')) {
-                res.render('realTimeProducts', { response, Carts: carts, user, isAuthenticated });
+                res.render('realTimeProducts', { response, Carts: carts, user, isAuthenticated, jwtToken });
             }
             else {
                 res.json({ message: "Lista de productos:", response })
@@ -80,6 +81,7 @@ const productController = {
         const productId = req.params.pid;
         const user = req.session.user;
         const isAuthenticated = req.session.isAuthenticated;
+        const jwtToken = req.session.token;
 
         try {
             const productDetail = await Product.findOne({ _id: productId }).lean();
@@ -87,7 +89,7 @@ const productController = {
             console.log(productDetail);
 
             if (req.accepts('html')) {
-                return res.render('product', { Product: productDetail, user, isAuthenticated });
+                return res.render('product', { Product: productDetail, user, isAuthenticated, jwtToken });
             }
         }
         catch (err) {
@@ -102,6 +104,7 @@ const productController = {
         let currentPage = req.query.page || 1;
         const user = req.session.user;
         const isAuthenticated = req.session.isAuthenticated;
+        const jwtToken = req.session.token;
 
         try {
             const options = {
@@ -155,6 +158,7 @@ const productController = {
                     response,
                     user,
                     isAuthenticated,
+                    jwtToken
                 });
             }
             else {
@@ -222,8 +226,8 @@ const productController = {
 
             // Verificar si el usuario que intenta actualizar el carrito es el propietario del carrito
             if (deleteProduct.user.toString() !== userId) {
-                return res.status(403).json({ error: "No tienes permiso para actualizar este carrito" });
-            }
+                return res.status(403).json({ error: "No tienes permiso para eliminar este producto" });
+            }            
 
             if (deleteProduct.deletedCount === 0) {
                 return res.status(404).json({ error: "Producto no encontrado" });

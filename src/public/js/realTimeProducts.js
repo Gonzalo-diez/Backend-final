@@ -3,6 +3,10 @@ const socket = io.connect('http://localhost:8080');
 const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
 
+document.getElementById('userId').value = userId;
+
+console.log("Token:", token);
+
 function handleAddToCart(event) {
     if (!event.target.classList.contains('cart-btn')) {
         return;
@@ -100,7 +104,6 @@ document.getElementById('addProductForm').addEventListener('submit', async (even
             body: formData,
             headers: {
                 "authorization": `Bearer ${token}`,
-                'Content-Type': 'application/json'
             },
         });
 
@@ -129,7 +132,7 @@ function handleDeleteProduct(event) {
     const productId = event.target.getAttribute('data-product-id');
 
     // Emitir el evento "deleteProduct" al servidor con el ID del producto a eliminar
-    socket.emit('deleteProduct', { productId, userId });
+    socket.emit('deleteProduct', productId, userId );
 }
 
 // Agregar un event listener para el evento click en el contenedor productList

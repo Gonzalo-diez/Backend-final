@@ -46,6 +46,7 @@ const userController = {
                 // Generar token JWT
                 const access_token = generateAuthToken(user);
 
+                req.session.token = access_token;
                 req.session.userId = user._id;
                 req.session.user = user;
                 req.session.isAuthenticated = true;
