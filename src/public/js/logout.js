@@ -1,6 +1,8 @@
 const logout = async () => {
     const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
     console.log("Token antes de enviarlo al servidor:", token);
+    console.log("ID del usuario antes de enviarlo al servidor:", userId);
 
     try {
         const response = await fetch('http://localhost:8080/users/logout', {

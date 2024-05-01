@@ -1,5 +1,8 @@
 const socket = io.connect('http://localhost:8080');
 
+const token = localStorage.getItem("token");
+const userId = localStorage.getItem("userId");
+
 // Función para eliminar un producto del carrito usando Fetch
 async function deleteProductFromCart(cid, pid) {
     console.log("id del carrito:", cid);
@@ -7,7 +10,11 @@ async function deleteProductFromCart(cid, pid) {
 
     try {
         const response = await fetch(`http://localhost:8080/api/carts/${cid}/products/${pid}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                "authorization": `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
         });
 
         if (response.ok) {

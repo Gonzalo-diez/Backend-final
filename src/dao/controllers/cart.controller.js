@@ -32,8 +32,7 @@ const cartController = {
   },
 
   addProductToCart: async (req, res) => {
-    const { productId } = req.body;
-    const userId = req.session.userId;
+    const { productId, userId } = req.body;
 
     try {
       // Buscar el producto en la base de datos
