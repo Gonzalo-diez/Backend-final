@@ -5,7 +5,7 @@ const logout = async () => {
     console.log("ID del usuario antes de enviarlo al servidor:", userId);
 
     try {
-        const response = await fetch('http://localhost:8080/users/logout', {
+        const response = await fetch('http://localhost:8080/api/sessions/logout', {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${token}`
@@ -16,7 +16,7 @@ const logout = async () => {
             console.log('Logout exitoso');
             localStorage.removeItem("token");
             localStorage.removeItem("userId");
-            window.location.replace("/users/login");
+            window.location.replace("/api/sessions/login");
         } else {
             const errorMessage = await response.text();
             console.error('Error en el logout:', errorMessage);

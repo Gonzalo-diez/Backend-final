@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
             formData.forEach((val, key) => obj[key]=val);
             const errorMessage = document.getElementById('errorMessage');
 
-            fetch('http://localhost:8080/users/register', {
+            fetch('http://localhost:8080/api/sessions/register', {
                 method: 'POST',
                 body: JSON.stringify(obj),
                 headers: {

@@ -14,7 +14,7 @@ function handleAddToCart(event) {
 
     if (!token) {
         console.log("Usuario no logueado o registrado");
-        window.location.href = "http://localhost:8080/users/login"
+        window.location.href = "http://localhost:8080/api/sessions/login"
     }
 
     const productId = event.target.getAttribute('data-product-id');

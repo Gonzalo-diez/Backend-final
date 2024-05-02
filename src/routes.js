@@ -13,6 +13,6 @@ router.get("/", async(req, res) => {
 router.use("/api/carts", cartRouter);
 router.use("/api/products", productRouter);
 router.use("/api/messages", messageRouter);
-router.use("/users", userRouter);
+router.use("/api/sessions", userRouter);
 
 export default router;
