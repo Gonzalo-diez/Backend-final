@@ -1,5 +1,4 @@
 import express from "express"
-import passport from "passport";
 import { configureProductMulter } from "../util.js";
 import productController from "../dao/controllers/product.controller.js";
 import { authToken } from "../config/auth.js";

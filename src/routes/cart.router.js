@@ -1,5 +1,4 @@
 import express from "express";
-import passport from "passport";
 import cartController from "../dao/controllers/cart.controller.js";
 import { authToken } from "../config/auth.js";
 

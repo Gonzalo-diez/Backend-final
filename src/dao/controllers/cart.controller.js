@@ -3,12 +3,15 @@ import cartService from "../services/cart.service.js";
 const cartController = {
     getCartById: async (req, res) => {
         const cartId = req.params.cid;
+        const user = req.session.user;
+        const isAuthenticated = req.session.isAuthenticated;
+        const jwtToken = req.session.token;
 
         try {
             const cart = await cartService.getCartById(cartId);
 
             if (req.accepts("html")) {
-                return res.render("cart", { cid: cart._id, cart: cart });
+                return res.render("cart", { cid: cart._id, cart: cart, user, isAuthenticated, jwtToken });
             }
 
             return res.json(cart);
