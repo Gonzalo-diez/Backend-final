@@ -163,24 +163,28 @@ const productService = {
 
     deleteProduct: async (productId, userId) => {
         try {
-            const user = await User.findById(userId);
-
-            // Si el usuario no esta logueado o registrado
-            if (!user) {
-                throw new Error("No está autorizado");
-            }
-
-            const deleteProduct = await Product.deleteOne({ _id: productId });
-
-            if (deleteProduct.deletedCount === 0) {
+            const product = await Product.findOne({ _id: productId });
+    
+            if (!product) {
                 throw new Error("Producto no encontrado");
             }
-
+    
+            // Verificar si el usuario que intenta borrar el producto es el propietario del producto
+            if (product.user.toString() !== userId) {
+                throw new Error("No tienes permiso para borrar el producto");
+            }
+    
+            const deleteResult = await Product.deleteOne({ _id: productId });
+    
+            if (deleteResult.deletedCount === 0) {
+                throw new Error("Producto no encontrado");
+            }
+    
             return true;
         } catch (err) {
             throw new Error("Error al eliminar el producto: " + err.message);
         }
-    }
+    }    
 }
 
 export default productService;
