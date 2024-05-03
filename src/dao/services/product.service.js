@@ -125,30 +125,32 @@ const productService = {
         }
     },
 
-    addProduct: async (productData) => {
+    addProduct: async (productData, req) => {
+        const { title, brand, description, price, stock, category, userId } = productData;
+
         try {
-            const user = await User.findById(productData.userId).exec();
+            const user = await User.findById(userId).exec();
 
             // Si el usuario no esta logueado o registrado
             if (!user) {
                 throw new Error("No está autorizado");
             }
 
-            const imageName = productData.image ? productData.image.filename : null;
+            const imageName = req.file ? req.file.filename : null;
 
             if (!imageName) {
                 throw new Error('No se proporcionó una imagen válida');
             }
 
             const newProduct = new Product({
-                title: productData.title,
-                brand: productData.brand,
-                description: productData.description,
-                price: productData.price,
-                stock: productData.stock,
-                category: productData.category,
+                title: title,
+                brand: brand,
+                description: description,
+                price: price,
+                stock: stock,
+                category: category,
                 image: imageName,
-                user: productData.userId,
+                user: userId,
             });
 
             await newProduct.save();

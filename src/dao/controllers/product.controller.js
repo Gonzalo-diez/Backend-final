@@ -66,8 +66,10 @@ const productController = {
     },
 
     addProduct: async (req, res) => {
+        const productData = req.body;
+
         try {
-            const newProduct = await productService.addProduct(req.body);
+            const newProduct = await productService.addProduct(productData, req);
 
             return res.json({
                 message: "Producto creado!!!",
