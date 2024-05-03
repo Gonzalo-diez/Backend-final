@@ -4,6 +4,7 @@ import User from "../models/user.model.js";
 const productService = {
     getProducts: async (query, currentPage) => {
         try {
+            // Paginación
             const options = {
                 limit: 10,
                 page: currentPage,
@@ -12,6 +13,7 @@ const productService = {
 
             let dbQuery = {};
 
+            // Filtros 
             if (query.category) {
                 dbQuery.category = query.category;
             }
@@ -20,9 +22,11 @@ const productService = {
                 dbQuery.brand = query.brand;
             }
 
+            // El uso de paginate para utilizar los filtros antes dichos
             const filter = await Product.paginate(dbQuery, options);
             const products = filter.docs.map(product => product.toObject());
 
+            // Links para las páginas siguientes y anteriores
             let prevLink = null;
             if (filter.hasPrevPage) {
                 prevLink = `/products?page=${filter.prevPage}`;
@@ -68,6 +72,7 @@ const productService = {
 
     getProductCategory: async (category, query, currentPage) => {
         try {
+            // Paginación
             const options = {
                 page: currentPage,
                 limit: 10,
@@ -76,13 +81,16 @@ const productService = {
 
             let dbQuery = { category };
 
+            // Filtros
             if (query.brand) {
                 dbQuery.brand = query.brand;
             }
 
+            // El uso de paginate para utilizar los filtros antes dichos
             const filter = await Product.paginate(dbQuery, options);
             const filterDoc = filter.docs.map(product => product.toObject());
 
+            // Links para las páginas siguientes y anteriores
             let prevLink = null;
             if (filter.hasPrevPage) {
                 prevLink = `/products/${category}?page=${filter.prevPage}`;
@@ -121,6 +129,7 @@ const productService = {
         try {
             const user = await User.findById(productData.userId).exec();
 
+            // Si el usuario no esta logueado o registrado
             if (!user) {
                 throw new Error("No está autorizado");
             }
@@ -154,6 +163,7 @@ const productService = {
         try {
             const user = await User.findById(userId);
 
+            // Si el usuario no esta logueado o registrado
             if (!user) {
                 throw new Error("No está autorizado");
             }
