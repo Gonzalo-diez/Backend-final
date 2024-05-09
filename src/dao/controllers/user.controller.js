@@ -1,6 +1,18 @@
 import userService from "../services/user.service.js";
 
 const userController = {
+    getUserById: async (req, res) => {
+        const userId = req.params.uid;
+    
+        try {
+            const user = await userService.getUserById(userId);
+            res.json(user);
+        } catch (error) {
+            console.error("Error al obtener usuario por ID:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },    
+
     getLogin: async (req, res) => {
         try {
             const loginView = await userService.getLogin();
@@ -102,6 +114,33 @@ const userController = {
             }).send({ status: "Success", message: user, access_token, userId: user._id });
         } catch (error) {
             console.error('Error en el callback de GitHub:', error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },
+
+    updateUser: async (req, res) => {
+        const userId = req.params.uid;
+        const updatedUserData = req.body;
+    
+        try {
+            const updatedUser = await userService.updateUser(userId, updatedUserData);
+            res.json(updatedUser);
+        } catch (error) {
+            console.error("Error al actualizar usuario:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },    
+
+    changePassword: async (req, res) => {
+        const userId = req.params.uid;
+        const { oldPassword, newPassword } = req.body;
+
+        try {
+            const changedPassword = await userService.changePassword(userId, oldPassword, newPassword);
+            res.json(changedPassword);
+        }
+        catch (error) {
+            console.error("Error al cambiar la contraseña:", error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
     },

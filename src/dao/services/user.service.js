@@ -1,9 +1,19 @@
-import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import { generateAuthToken } from "../../config/auth.js";
 import passport from "passport";
+import userRepository from "../Repositories/user.repository.js";
+import UserDTO from "../DTO/user.dto.js";
 
 const userService = {
+    getUserById: async (userId) => {
+        try {
+            const user = await userRepository.findById(userId);
+            return user;
+        } catch (error) {
+            throw new Error("Error al obtener usuario por ID: " + error.message);
+        }
+    },
+
     getLogin: async () => {
         return "login";
     },
@@ -37,9 +47,8 @@ const userService = {
         const { first_name, last_name, email, age, password } = userData;
 
         try {
-            const existingUser = await User.findOne({ email });
-
-            // Verifica si el usuario ya existe
+            // Verificar si el usuario ya existe
+            const existingUser = await userRepository.findByEmail(email);
             if (existingUser) {
                 throw new Error("El usuario ya existe");
             }
@@ -47,23 +56,18 @@ const userService = {
             // Realiza el hash de la contraseña usando bcrypt para encriptarla en la base de datos
             const hashedPassword = await bcrypt.hash(password, 10);
 
-            const role = email === "adminCoder@coder.com" ? "admin" : "user";
+            // Crear un nuevo usuario utilizando el DTO
+            const newUserDTO = new UserDTO(first_name, last_name, email, age, hashedPassword);
 
-            const newUser = new User({
-                first_name: first_name,
-                last_name: last_name,
-                email: email,
-                age: age,
-                password: hashedPassword,
-                role,
-            });
+            // Convertir el DTO a un objeto plano
+            const newUser = { ...newUserDTO };
 
-            await newUser.save();
+            const createdUser = await userRepository.createUser(newUser);
 
             // Genera el token de acceso
-            const access_token = generateAuthToken(newUser);
+            const access_token = generateAuthToken(createdUser);
 
-            return { newUser, access_token };
+            return { newUser: createdUser, access_token };
         } catch (error) {
             throw error;
         }
@@ -82,13 +86,61 @@ const userService = {
         try {
             // Genera el token de acceso
             const access_token = generateAuthToken(user);
-
-            console.log("Token login github:", access_token);
-
             return { user, access_token };
         } catch (error) {
             console.error('Error en el callback de GitHub:', error);
             throw new Error("Error interno del servidor");
+        }
+    },
+
+    updateUser: async (userId, updatedUserData) => {
+        try {
+            // Verificar si el usuario existe
+            const existingUser = await userRepository.findById(userId);
+            if (!existingUser) {
+                throw new Error("El usuario no existe");
+            }
+
+            // Actualizar los campos del usuario con los datos del DTO
+            existingUser.first_name = updatedUserData.first_name || existingUser.first_name;
+            existingUser.last_name = updatedUserData.last_name || existingUser.last_name;
+            existingUser.email = updatedUserData.email || existingUser.email;
+
+            // Guardar los cambios en la base de datos
+            await existingUser.save();
+
+            return existingUser;
+        } catch (error) {
+            throw new Error("Error al actualizar usuario: " + error.message);
+        }
+    },
+
+    changePassword: async (userId, oldPassword, newPassword) => {
+        try {
+            // Verificar si el usuario existe
+            const existingUser = await userRepository.findById(userId);
+            if (!existingUser) {
+                throw new Error("El usuario no existe");
+            }
+
+            // Verificar si la contraseña antigua coincide
+            const isPasswordValid = await bcrypt.compare(oldPassword, existingUser.password);
+            if (!isPasswordValid) {
+                throw new Error("La contraseña antigua es incorrecta");
+            }
+
+            // Realizar el hash de la nueva contraseña
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+            // Actualizar la contraseña del usuario
+            existingUser.password = hashedPassword;
+
+            // Guardar los cambios en la base de datos
+            await existingUser.save();
+
+            return { message: "Contraseña actualizada correctamente" };
+        } catch (error) {
+            throw new Error("Error al cambiar la contraseña: " + error.message);
         }
     },
 

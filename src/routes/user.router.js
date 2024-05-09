@@ -4,6 +4,9 @@ import { authToken } from "../config/auth.js";
 
 const userRouter = express.Router();
 
+// Maneja la solicitud para buscar el usuario por id y ver el dashboard
+userRouter.get("/:uid", authToken, userController.getUserById);
+
 // Maneja la solicitud para cerrar la sesión del usuario
 userRouter.get("/logout", authToken, userController.logOut);
 
@@ -18,6 +21,12 @@ userRouter.get("/github", userController.getGitHub);
 
 // Callback de GitHub después de la autenticación
 userRouter.get("/githubcallback", userController.gitHubCallback, userController.handleGitHubCallback);
+
+// Maneja la solicitud para actualizar los datos del usuario
+userRouter.put("updateUser/:uid", authToken, userController.updateUser);
+
+// Maneja la solicitud para cambiar la contraseña del usuario
+userRouter.put("changePassword/:uid", authToken, userController.changePassword);
 
 // Maneja la solicitud de login de usuarios
 userRouter.post("/login", userController.login);

@@ -117,17 +117,17 @@
         <div class="col-md-6 offset-md-3">
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center">
-                    {{#if response.Query.prevLink}}
+                    {{#if response.query.prevLink}}
                     <li class="page-item">
-                        <a class="page-link" href="{{response.Query.prevLink}}" tabindex="-1" aria-disabled="true">Anterior</a>
+                        <a class="page-link" href="{{response.query.prevLink}}" tabindex="-1" aria-disabled="true">Anterior</a>
                     </li>
                     {{/if}}
                     <li class="page-item disabled">
-                        <span class="page-link">Página {{response.Query.page}}</span>
+                        <span class="page-link">Página {{response.query.page}}</span>
                     </li>
-                    {{#if response.Query.nextLink}}
+                    {{#if response.query.nextLink}}
                     <li class="page-item">
-                        <a class="page-link" href="{{response.Query.nextLink}}">Siguiente</a>
+                        <a class="page-link" href="{{response.query.nextLink}}">Siguiente</a>
                     </li>
                     {{/if}}
                 </ul>

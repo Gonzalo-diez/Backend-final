@@ -1,5 +1,5 @@
-import productService from "../services/product.service.js";
-import Cart from "../models/cart.model.js";
+import productService from "../Services/product.service.js";
+import Cart from "../Models/cart.model.js";
 
 const productController = {
     getProducts: async (req, res) => {
@@ -77,6 +77,20 @@ const productController = {
             });
         } catch (err) {
             console.error("Error al guardar el Producto:", err);
+            return res.status(500).json({ error: "Error en la base de datos", details: err.message });
+        }
+    },
+
+    updateProduct: async (req, res) => {
+        const productId = req.params.pid;
+
+        try {
+            await productService.updateProduct(productId, req);
+
+            return res.json({ message: "Producto actualizado!" });
+        }
+        catch (err) {
+            console.error('Error:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
         }
     },

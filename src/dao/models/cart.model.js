@@ -9,8 +9,8 @@ const cartSchema = new mongoose.Schema({
     street: String,
     postal_code: Number,
     phone: Number,
-    card_Bank: Number,
-    security_Number: Number,
+    card_bank: Number,
+    security_number: Number,
     date: {
         type: Date,
         default: Date.now,

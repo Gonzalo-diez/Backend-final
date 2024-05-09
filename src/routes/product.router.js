@@ -19,6 +19,9 @@ productRouter.get("/category/:category", productController.getProductCategory);
 // Manejar la solicitud para agregar un producto en tiempo real
 productRouter.post("/", authToken, imgUpload.single("image"), productController.addProduct);
 
+// Maneja la solicitud para actualizar el producto
+productRouter.put("/:pid", authToken, imgUpload.single("image"), productController.updateProduct);
+
 // Manejar la solicitud para la eliminación de un producto en tiempo real
 productRouter.delete('/:pid', authToken, productController.deleteProduct);
 
