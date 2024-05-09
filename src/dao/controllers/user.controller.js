@@ -137,12 +137,13 @@ const userController = {
     },    
 
     getUpdateUser: async (req, res) => {
+        const user = req.session.user;
         const isAuthenticated = req.session.isAuthenticated;
         const jwtToken = req.session.token;
     
         try {
             const updateUserView = await userService.getUpdateUser();
-            res.render(updateUserView, { isAuthenticated, jwtToken });
+            res.render(updateUserView, { isAuthenticated, jwtToken, user });
         } catch (error) {
             console.error("Error al obtener la vista de editar usuario:", error);
             res.status(500).json({ error: "Error interno del servidor" });
