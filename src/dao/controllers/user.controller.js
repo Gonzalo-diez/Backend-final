@@ -3,10 +3,15 @@ import userService from "../services/user.service.js";
 const userController = {
     getUserById: async (req, res) => {
         const userId = req.params.uid;
+        const isAuthenticated = req.session.isAuthenticated;
+        const jwtToken = req.session.token;
     
         try {
             const user = await userService.getUserById(userId);
-            res.json(user);
+
+            if (req.accepts("html")) {
+                return res.render("user", { User: user, user, isAuthenticated, jwtToken });
+            }
         } catch (error) {
             console.error("Error al obtener usuario por ID:", error);
             res.status(500).json({ error: "Error interno del servidor" });
@@ -131,6 +136,19 @@ const userController = {
         }
     },    
 
+    getUpdateUser: async (req, res) => {
+        const isAuthenticated = req.session.isAuthenticated;
+        const jwtToken = req.session.token;
+    
+        try {
+            const updateUserView = await userService.getUpdateUser();
+            res.render(updateUserView, { isAuthenticated, jwtToken });
+        } catch (error) {
+            console.error("Error al obtener la vista de editar usuario:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },
+
     changePassword: async (req, res) => {
         const userId = req.params.uid;
         const { oldPassword, newPassword } = req.body;
@@ -141,6 +159,19 @@ const userController = {
         }
         catch (error) {
             console.error("Error al cambiar la contraseña:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },
+
+    getChangePassword: async (req, res) => {
+        const isAuthenticated = req.session.isAuthenticated;
+        const jwtToken = req.session.token;
+    
+        try {
+            const changePasswordView = await userService.getChangePassword();
+            res.render(changePasswordView, { isAuthenticated, jwtToken });
+        } catch (error) {
+            console.error("Error al obtener la vista de cambiar contraseña:", error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
     },

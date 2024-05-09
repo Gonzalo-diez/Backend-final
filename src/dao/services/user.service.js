@@ -7,7 +7,7 @@ import UserDTO from "../DTO/user.dto.js";
 const userService = {
     getUserById: async (userId) => {
         try {
-            const user = await userRepository.findById(userId);
+            const user = await userRepository.findById(userId, true);
             return user;
         } catch (error) {
             throw new Error("Error al obtener usuario por ID: " + error.message);
@@ -115,6 +115,10 @@ const userService = {
         }
     },
 
+    getUpdateUser: async () => {
+        return "updateUser";
+    },
+
     changePassword: async (userId, oldPassword, newPassword) => {
         try {
             // Verificar si el usuario existe
@@ -142,6 +146,10 @@ const userService = {
         } catch (error) {
             throw new Error("Error al cambiar la contraseña: " + error.message);
         }
+    },
+
+    getChangePassword: async () => {
+        return "changePassword";
     },
 
     logOut: async (res, req) => {

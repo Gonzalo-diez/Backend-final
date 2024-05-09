@@ -5,7 +5,13 @@ import { authToken } from "../config/auth.js";
 const userRouter = express.Router();
 
 // Maneja la solicitud para buscar el usuario por id y ver el dashboard
-userRouter.get("/:uid", authToken, userController.getUserById);
+userRouter.get("/dashboard/:uid", authToken, userController.getUserById);
+
+// Maneja la solicitud para ver el formulario para editar el usuario
+userRouter.get("/updateUser/:uid", authToken, userController.getUpdateUser);
+
+// Maneja la solicitud para ver el formulario para cambiar la contraseña
+userRouter.get("/changePassword/:uid", authToken, userController.getChangePassword);
 
 // Maneja la solicitud para cerrar la sesión del usuario
 userRouter.get("/logout", authToken, userController.logOut);

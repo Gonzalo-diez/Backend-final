@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log("Token:", token);
                 console.log("userId:", userId);
                 console.log("Inicio de sesión exitoso!");
-                window.location.href = "http://localhost:8080/api/products/"
+                window.location.href = `http://localhost:8080/api/sessions/dashboard/${userId}`
             })
             .catch(error => {
                 console.error('Error en el inicio de sesión:', error);
