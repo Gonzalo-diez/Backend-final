@@ -23,10 +23,10 @@ userRouter.get("/github", userController.getGitHub);
 userRouter.get("/githubcallback", userController.gitHubCallback, userController.handleGitHubCallback);
 
 // Maneja la solicitud para actualizar los datos del usuario
-userRouter.put("updateUser/:uid", authToken, userController.updateUser);
+userRouter.put("/updateUser/:uid", authToken, userController.updateUser);
 
 // Maneja la solicitud para cambiar la contraseña del usuario
-userRouter.put("changePassword/:uid", authToken, userController.changePassword);
+userRouter.put("/changePassword/:uid", authToken, userController.changePassword);
 
 // Maneja la solicitud de login de usuarios
 userRouter.post("/login", userController.login);
