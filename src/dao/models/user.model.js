@@ -11,6 +11,20 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Cart"
     },
+    soldProducts: 
+    [
+        { 
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'Product' 
+        }
+    ],
+    createdProducts: 
+    [
+        { 
+            type: mongoose.Schema.Types.ObjectId, 
+            ref: 'Product' 
+        }
+    ],
     role: { type: String, default: "user" },
 });
 

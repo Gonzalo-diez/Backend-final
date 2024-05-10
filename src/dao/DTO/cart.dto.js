@@ -1,5 +1,5 @@
 class CartDTO {
-    constructor(products, total, country, state, city, street, postalCode, phone, cardBank, securityNumber, user) {
+    constructor(products, total, country, state, city, street, postalCode, phone, cardBank, securityNumber, userId) {
         this.products = products;
         this.total = total;
         this.country = country;
@@ -10,7 +10,7 @@ class CartDTO {
         this.phone = phone;
         this.cardBank = cardBank;
         this.securityNumber = securityNumber;
-        this.user = user;
+        this.userId = userId;
     }
 }
 

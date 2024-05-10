@@ -5,7 +5,7 @@ const userController = {
         const userId = req.params.uid;
         const isAuthenticated = req.session.isAuthenticated;
         const jwtToken = req.session.token;
-    
+
         try {
             const user = await userService.getUserById(userId);
 
@@ -16,7 +16,7 @@ const userController = {
             console.error("Error al obtener usuario por ID:", error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
-    },    
+    },
 
     getLogin: async (req, res) => {
         try {
@@ -123,10 +123,62 @@ const userController = {
         }
     },
 
+    soldProducts: async (req, res) => {
+        const userId = req.params.uid;
+
+        try {
+            const user = await userService.getUserById(userId).populate('soldProducts');
+            res.json(user.soldProducts);
+        } catch (error) {
+            console.error("Error al obtener los productos vendidos por el usuario:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },
+
+    boughtProducts: async (req, res) => {
+        const userId = req.params.uid;
+    
+        try {
+            // Consultar los productos comprados por el usuario
+            const user = await userService.getUserById(userId).populate({
+                path: 'cart',
+                populate: {
+                    path: 'products.product',
+                    model: 'Product'
+                }
+            });
+    
+            // Extraer los productos comprados del carrito del usuario
+            const boughtProducts = user.cart.products.map(item => ({
+                product: item.product,
+                quantity: item.productQuantity
+            }));
+    
+            res.json(boughtProducts);
+        } catch (error) {
+            console.error("Error al obtener los productos comprados por el usuario:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },
+    
+    getUserProducts: async (req, res) => {
+        const userId = req.params.uid;
+    
+        try {
+            // Consultar los productos que el usuario ha creado
+            const userProducts = await userService.getUserCreatedProducts(userId);
+            
+            res.json(userProducts);
+        } catch (error) {
+            console.error("Error al obtener los productos del usuario:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },     
+
     updateUser: async (req, res) => {
         const userId = req.params.uid;
         const updatedUserData = req.body;
-    
+
         try {
             const updatedUser = await userService.updateUser(userId, updatedUserData);
             res.json(updatedUser);
@@ -134,13 +186,13 @@ const userController = {
             console.error("Error al actualizar usuario:", error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
-    },    
+    },
 
     getUpdateUser: async (req, res) => {
         const user = req.session.user;
         const isAuthenticated = req.session.isAuthenticated;
         const jwtToken = req.session.token;
-    
+
         try {
             const updateUserView = await userService.getUpdateUser();
             res.render(updateUserView, { isAuthenticated, jwtToken, user });
@@ -167,7 +219,7 @@ const userController = {
     getChangePassword: async (req, res) => {
         const isAuthenticated = req.session.isAuthenticated;
         const jwtToken = req.session.token;
-    
+
         try {
             const changePasswordView = await userService.getChangePassword();
             res.render(changePasswordView, { isAuthenticated, jwtToken });

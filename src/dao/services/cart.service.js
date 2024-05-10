@@ -50,7 +50,24 @@ const cartService = {
         } catch (error) {
             throw new Error("Error al agregar producto al carrito: " + error.message);
         }
-    },    
+    },   
+    
+    /*
+    buyCart: async (cartId, cartData) => {
+        const {country, state, city, street, postalCode, phone, cardBank, securityNumber, userId} = cartData;
+
+        try {
+            if (!country || !state || !city || !street || !postalCode || !phone || !cardBank || !securityNumber || !userId) {
+                throw new Error("Por favor complete todos los campos del formulario.");
+            }
+
+            const result = await CartRepository.buyCart(cartId, cartData);
+            return result;
+        } catch (error) {
+            throw new Error("Error al comprar el carrito: " + error.message);
+        }
+    },
+    */
 
     updateCart: async (cartId, products, total) => {
         try {

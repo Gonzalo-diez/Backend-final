@@ -1,4 +1,4 @@
-import productService from "../Services/product.service.js";
+import productService from "../services/product.service.js";
 import Cart from "../Models/cart.model.js";
 
 const productController = {

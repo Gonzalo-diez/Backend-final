@@ -35,6 +35,21 @@ const cartController = {
         }
     },
 
+    /*
+    buyCart: async (req, res) => {
+        const cartId = req.params.cid;
+        const cartData = req.body;
+    
+        try {
+            const result = await cartService.buyCart(cartId, cartData);
+            return res.json({ message: result });
+        } catch (error) {
+            console.error("Error al comprar el carrito:", error);
+            return res.status(500).json({ error: "Error en la base de datos", details: error.message });
+        }
+    },   
+    */ 
+
     updateCart: async (req, res) => {
         const cartId = req.params.cid;
         const { products, userId } = req.body;
