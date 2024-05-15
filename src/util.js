@@ -13,6 +13,12 @@ export const JWT_SECRET = process.env.jwtSecret;
 export const CLIENT_ID = process.env.clientId;
 export const CLIENT_SECRET = process.env.clientSecret;
 export const CALLBACK_URL = process.env.callbackURL;
+export const EMAIL_USERNAME = process.env.EMAIL_USERNAME;
+export const EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
+export const TWILIO_SSID = process.env.TWILIO_SSID;
+export const AUTH_TOKEN = process.env.AUTH_TOKEN;
+export const PHONE_NUMBER = process.env.PHONE_NUMBER;
+export const PHONE_NUMBER_TO = process.env.PHONE_NUMBER_TO;
 
 export function getProductsFilePath() {
     return path.join(__dirname, "../productos.json");

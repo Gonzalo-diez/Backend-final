@@ -90,6 +90,7 @@
 
 <div class="container mt-5">
     <div class="row" id="productList">
+        {{#eq user.role "admin"}}
         {{#each response.Products}}
         <div class="col-md-4 mb-4">
             <div class="card">
@@ -104,7 +105,42 @@
                     <p class="card-text">Categoría: {{this.category}}</p>
                     <a href="http://localhost:8080/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a>
                     <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+        {{/eq}}
+        {{#eq user.role "user"}}
+        {{#each response.Products}}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="/img/{{this.image}}" class="card-img-top img-fluid" alt="{{this.title}}"
+                    style="max-height: 400px; aspect-ratio: 3/2; object-fit: contain;">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.title}}</h5>
+                    <p class="card-text">{{this.brand}}</p>
+                    <p class="card-text">{{this.description}}</p>
+                    <p class="card-text">Precio: ${{this.price}}</p>
+                    <p class="card-text">Stock: {{this.stock}}</p>
+                    <p class="card-text">Categoría: {{this.category}}</p>
                     <button class="btn btn-success cart-btn" data-product-id="{{this._id}}">Agregar al carrito</button>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+        {{/eq}}
+        {{#each response.Products}}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="/img/{{this.image}}" class="card-img-top img-fluid" alt="{{this.title}}"
+                    style="max-height: 400px; aspect-ratio: 3/2; object-fit: contain;">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.title}}</h5>
+                    <p class="card-text">{{this.brand}}</p>
+                    <p class="card-text">{{this.description}}</p>
+                    <p class="card-text">Precio: ${{this.price}}</p>
+                    <p class="card-text">Stock: {{this.stock}}</p>
+                    <p class="card-text">Categoría: {{this.category}}</p>
                 </div>
             </div>
         </div>

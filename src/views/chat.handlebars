@@ -1,6 +1,6 @@
 <h1>Chat</h1>
 <form action="messages/addMessage" method="POST" id="messageForm">
-    <input type="text" id="user" name="user" placeholder="Nombre de usuario" required>
+    <input type="hidden" id="user" name="user" value="{{user.email}}" required>
     <input type="text" id="message" name="message" placeholder="Mensaje" required>
     <button type="submit">Enviar mensaje</button>
 </form>
@@ -10,7 +10,7 @@
         {{#each messages}}
         <div class="col-md-4 mb-4">
             <div class="card">
-                <h2>usuario: {{this.user}}</h2>
+                <h2>usuario: {{this.user.email}}</h2>
                 <p>mensaje: {{this.text}}</p>
             </div>
         </div>

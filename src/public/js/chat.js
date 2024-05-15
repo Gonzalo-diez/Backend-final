@@ -6,7 +6,7 @@ socket.on('addMessage', (addMessage) => {
     chatElement.classList.add('col-md-4', 'mb-4');
     chatElement.innerHTML = `
         <div class="card">
-            <h2>usuario: ${addMessage.user}</h2>
+            <h2>usuario: ${addMessage.user.email}</h2>
             <p>mensaje: ${addMessage.text}</p>
         </div>`;
     chatList.appendChild(chatElement);
@@ -32,8 +32,8 @@ document.getElementById('messageForm').addEventListener('submit', async (event) 
                 throw new Error('Error al agregar el mensaje');
             }
 
-            console.log("Mensaje agregado:", { user, message });
-            socket.emit("addMessage", { user, text: message });
+            console.log("Mensaje agregado:", { user: user, message });
+            socket.emit("addMessage", { user: user, text: message });
             document.getElementById('message').value = '';
 
             event.target.reset();

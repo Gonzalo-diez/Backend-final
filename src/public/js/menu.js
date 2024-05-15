@@ -127,7 +127,6 @@ const editUser = async () => {
         });
 
         if (response.ok) {
-            console.log("Perfil")
             window.location.replace(`/api/sessions/updateUser/${userId}`);
         } else {
             const errorMessage = await response.text();
@@ -148,5 +147,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const editUserButton = document.getElementById('editUserButton'); 
     if (editUserButton) {
         editUserButton.addEventListener('click', handleEditUserClick);
+    }
+});
+
+
+const chat = async () => {
+    const token = localStorage.getItem('token');
+
+    try {
+        const response = await fetch(`http://localhost:8080/api/messages`, {
+            method: 'GET',
+            headers: {
+                "authorization": `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            window.location.replace(`http://localhost:8080/api/messages`);
+        } else {
+            const errorMessage = await response.text();
+            console.error('Error en ir al chat:', errorMessage);
+        }
+    } catch (error) {
+        console.error('Error en ir al chat:', error);
+    }
+}
+
+// Función para manejar el evento de clic en el botón de chat
+const handleChatClick = () => {
+    chat();
+};
+
+// Agregar un event listener al botón de chat
+document.addEventListener('DOMContentLoaded', () => {
+    const chatButton = document.getElementById('chatButton'); 
+    if (chatButton) {
+        chatButton.addEventListener('click', handleChatClick);
     }
 });

@@ -1,9 +1,10 @@
 import Message from "../models/message.model.js";
+import User from "../Models/user.model.js";
 
 const messageController = {
     getMessages: async (req, res) => {
         try {
-            const messages = await Message.find().lean();
+            const messages = await Message.find().populate('user', 'email').lean();
 
             if (req.accepts('html')) {
                 return res.render('chat', { messages });
@@ -16,11 +17,16 @@ const messageController = {
     },
 
     addMessage: async (req, res) => {
-        const { user, text } = req.body;
+        const { userEmail, text } = req.body;
 
         try {
+            const user = await User.findOne({ email: userEmail });
+            if (!user) {
+                return res.status(404).json({ error: 'Usuario no encontrado' });
+            }
+
             const newMessage = new Message({
-                user,
+                user: user._id,
                 text,
             });
 
