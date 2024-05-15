@@ -28,15 +28,6 @@ userRouter.get("/github", userController.getGitHub);
 // Callback de GitHub después de la autenticación
 userRouter.get("/githubcallback", userController.gitHubCallback, userController.handleGitHubCallback);
 
-// Maneja la solicitud de buscar los productos vendidos del usuario
-userRouter.get("/soldProducts/:uid", authToken, userController.soldProducts);
-
-// Maneja la solicitud de buscar los productos comprados por el usuario
-userRouter.get("/boughtProducts/:uid", authToken, userController.boughtProducts);
-
-// Maneja la solicitud de buscar los productos creados por el usuario
-userRouter.get("/createdProducts/:uid", authToken, userController.getUserProducts);
-
 // Maneja la solicitud para actualizar los datos del usuario
 userRouter.put("/updateUser/:uid", authToken, userController.updateUser);
 

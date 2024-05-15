@@ -12,39 +12,7 @@ const userService = {
         } catch (error) {
             throw new Error("Error al obtener usuario por ID: " + error.message);
         }
-    },
-
-    getUserSoldProducts: async (userId) => {
-        try {
-            const populatedUser = await userRepository.findById(userId).populate('soldProducts');
-            return populatedUser;
-        } catch (error) {
-            throw new Error("Error al obtener usuario por ID con productos vendidos: " + error.message);
-        }
-    },
-
-    getUserCreatedProducts: async (userId) => {
-        try {
-            const user = await userRepository.findById(userId);
-            return user;
-        } catch (error) {
-            throw new Error("Error al obtener usuario por ID con productos creados: " + error.message);
-        }
-    },    
-
-    createProduct: async (userId, productData) => {
-        try {
-            // Crear el producto
-            const newProduct = await productRepository.createProduct(productData);
-    
-            // Actualizar la referencia en el usuario
-            await userRepository.addCreatedProduct(userId, newProduct._id);
-    
-            return newProduct;
-        } catch (error) {
-            throw error;
-        }
-    },    
+    }, 
 
     getLogin: async () => {
         return "login";

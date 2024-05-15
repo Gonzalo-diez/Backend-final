@@ -40,7 +40,7 @@ const productService = {
 
             // Si el usuario no esta logueado o registrado
             if (!user) {
-                throw new Error("No está logueado o registrado");
+                throw new Error("No es el administrador");
             }
 
             const imageName = req.file ? req.file.filename : null;
@@ -54,12 +54,6 @@ const productService = {
 
             // Paso directamente el DTO al repositorio
             const newProduct = await productRepository.createProduct(productDTO);
-
-            // Agregar el ID del producto a la lista de createdProducts del usuario
-            user.createdProducts.push(newProduct._id);
-
-            // Guardar el usuario actualizado
-            await user.save();
 
             return newProduct;
         } catch (error) {

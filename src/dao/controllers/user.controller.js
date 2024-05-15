@@ -126,58 +126,6 @@ const userController = {
         }
     },
 
-    soldProducts: async (req, res) => {
-        const userId = req.params.uid;
-
-        try {
-            const user = await userService.getUserById(userId).populate('soldProducts');
-            res.json(user.soldProducts);
-        } catch (error) {
-            console.error("Error al obtener los productos vendidos por el usuario:", error);
-            res.status(500).json({ error: "Error interno del servidor" });
-        }
-    },
-
-    boughtProducts: async (req, res) => {
-        const userId = req.params.uid;
-    
-        try {
-            // Consultar los productos comprados por el usuario
-            const user = await userService.getUserById(userId).populate({
-                path: 'cart',
-                populate: {
-                    path: 'products.product',
-                    model: 'Product'
-                }
-            });
-    
-            // Extraer los productos comprados del carrito del usuario
-            const boughtProducts = user.cart.products.map(item => ({
-                product: item.product,
-                quantity: item.productQuantity
-            }));
-    
-            res.json(boughtProducts);
-        } catch (error) {
-            console.error("Error al obtener los productos comprados por el usuario:", error);
-            res.status(500).json({ error: "Error interno del servidor" });
-        }
-    },
-    
-    getUserProducts: async (req, res) => {
-        const userId = req.params.uid;
-    
-        try {
-            // Consultar los productos que el usuario ha creado
-            const userProducts = await userService.getUserCreatedProducts(userId);
-            
-            res.json(userProducts);
-        } catch (error) {
-            console.error("Error al obtener los productos del usuario:", error);
-            res.status(500).json({ error: "Error interno del servidor" });
-        }
-    },     
-
     updateUser: async (req, res) => {
         const userId = req.params.uid;
         const updatedUserData = req.body;
