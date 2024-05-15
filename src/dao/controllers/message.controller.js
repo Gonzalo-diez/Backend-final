@@ -3,11 +3,16 @@ import User from "../Models/user.model.js";
 
 const messageController = {
     getMessages: async (req, res) => {
+        const user = req.session.user;
+        const isAuthenticated = req.session.isAuthenticated;
+        const jwtToken = req.session.token;
+        const userRole = req.session.userRole;
+
         try {
             const messages = await Message.find().populate('user', 'email').lean();
 
             if (req.accepts('html')) {
-                return res.render('chat', { messages });
+                return res.render('chat', { messages, user, isAuthenticated, jwtToken, userRole });
             }
             res.json(messages);
         } catch (err) {

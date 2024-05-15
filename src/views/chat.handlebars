@@ -1,6 +1,6 @@
 <h1>Chat</h1>
 <form action="messages/addMessage" method="POST" id="messageForm">
-    <input type="hidden" id="user" name="user" value="{{user.email}}" required>
+    <input type="text" id="user" name="user" value="{{user.email}}" readonly>
     <input type="text" id="message" name="message" placeholder="Mensaje" required>
     <button type="submit">Enviar mensaje</button>
 </form>

@@ -1,4 +1,6 @@
 const socket = io.connect('http://localhost:8080');
+const token = localStorage.getItem('token');
+const userRole = localStorage.getItem('userRole')
 
 socket.on('addMessage', (addMessage) => {
     const chatList = document.getElementById('chatList');
@@ -23,7 +25,8 @@ document.getElementById('messageForm').addEventListener('submit', async (event) 
             const response = await fetch('http://localhost:8080/api/messages/addMessage', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    "authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({ user, text: message })
             });
