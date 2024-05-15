@@ -55,6 +55,12 @@ const productService = {
             // Paso directamente el DTO al repositorio
             const newProduct = await productRepository.createProduct(productDTO);
 
+            // Agregar el ID del producto a la lista de createdProducts del usuario
+            user.createdProducts.push(newProduct._id);
+
+            // Guardar el usuario actualizado
+            await user.save();
+
             return newProduct;
         } catch (error) {
             throw new Error("Error al guardar el producto: " + error.message);
@@ -87,27 +93,27 @@ const productService = {
     deleteProduct: async (productId, userId) => {
         try {
             const product = await productRepository.getProductById(productId);
-    
+
             if (!product) {
                 throw new Error("Producto no encontrado");
             }
-    
+
             // Verificar si el usuario que intenta borrar el producto es el propietario del producto
             if (product.user.toString() !== userId) {
                 throw new Error("No tienes permiso para borrar el producto");
             }
-    
+
             const deleteResult = await productRepository.deleteProductById(productId);
-    
+
             if (!deleteResult) {
                 throw new Error("Error al eliminar el producto");
             }
-    
+
             return true;
         } catch (error) {
             throw new Error("Error al eliminar el producto: " + error.message);
         }
-    }    
+    }
 };
 
 export default productService;
