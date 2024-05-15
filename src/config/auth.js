@@ -95,7 +95,7 @@ export const cookieExtractor = (req) => {
 
 // Funcion para generar tokens
 export const generateAuthToken = (user) => {
-    const token = jwt.sign({ _id: user._id }, config.jwtSecret, { expiresIn: '1h' });
+    const token = jwt.sign({ _id: user._id, role: user.role }, config.jwtSecret, { expiresIn: '1h' });
     return token;
 };
 
@@ -111,17 +111,37 @@ export const authToken = (req, res, next) => {
         return res.status(401).send({ status: "error", message: "No autorizado" });
     }
 
-    jwt.verify(token, config.jwtSecret, (error, credentials) => {
+    jwt.verify(token, config.jwtSecret, (error, user) => {
         if (error) {
             console.error('JWT Verification Error:', error);
             return res.status(401).send({ status: "error", message: "Unauthorized" });
         }
 
-        req.user = credentials.user;
+        req.user = user;
         next();
     });
 };
 
+// Middleware de autenticación para admin
+export const isAdmin = (req, res, next) => {
+    if (req.user && req.user.role === 'admin') {
+        return next();
+    } else {
+        return res.status(403).json({ message: 'Acceso no autorizado' });
+    }
+};
+
+// Middleware de autenticación para user
+export const isUser = (req, res, next) => {
+    if(req.user && req.user.role === 'user') {
+        // Si es usuario, permite el acceso
+        next();
+    } 
+    else {
+        // Si no es administrador, devolver un error de acceso no autorizado
+        return res.status(403).json({ error: 'Acceso no autorizado' });
+    }
+}
 
 const auth = {
     initializePassport,

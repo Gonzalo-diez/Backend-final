@@ -8,6 +8,7 @@ const productController = {
         const user = req.session.user;
         const isAuthenticated = req.session.isAuthenticated;
         const jwtToken = req.session.token;
+        const userRole = req.session.userRole;
 
         try {
             const carts = await Cart.find({}).lean();
@@ -15,7 +16,7 @@ const productController = {
             const response = await productService.getProducts({ category, brand, sort }, currentPage);
 
             if (req.accepts('html')) {
-                res.render('realTimeProducts', { response, Carts: carts, user, isAuthenticated, jwtToken });
+                res.render('realTimeProducts', { response, Carts: carts, user, isAuthenticated, jwtToken, userRole });
             } else {
                 res.json({ message: "Lista de productos:", response });
             }
@@ -30,12 +31,13 @@ const productController = {
         const user = req.session.user;
         const isAuthenticated = req.session.isAuthenticated;
         const jwtToken = req.session.token;
+        const userRole = req.session.userRole;
 
         try {
             const productDetail = await productService.getProductDetail(productId);
 
             if (req.accepts('html')) {
-                return res.render('product', { Product: productDetail, user, isAuthenticated, jwtToken });
+                return res.render('product', { Product: productDetail, user, isAuthenticated, jwtToken, userRole });
             }
         } catch (err) {
             console.error("Error al ver los detalles:", err);
@@ -50,12 +52,13 @@ const productController = {
         const user = req.session.user;
         const isAuthenticated = req.session.isAuthenticated;
         const jwtToken = req.session.token;
+        const userRole = req.session.userRole;
 
         try {
             const response = await productService.getProductCategory(category, { brand, sort }, currentPage);
 
             if (req.accepts('html')) {
-                res.render('category', { response, user, isAuthenticated, jwtToken });
+                res.render('category', { response, user, isAuthenticated, jwtToken, userRole });
             } else {
                 res.json({ message: "Lista de productos por categoria:", response });
             }

@@ -39,12 +39,13 @@ const userController = {
             req.session.userId = user._id;
             req.session.user = user;
             req.session.isAuthenticated = true;
+            req.session.userRole = user.role;
 
             console.log("Datos del login:", user, "token:", access_token);
 
             res.cookie("jwtToken", access_token, {
                 httpOnly: true,
-            }).send({ status: "Success", message: user, access_token, userId: user._id });
+            }).send({ status: "Success", message: user, access_token, userId: user._id, userRole: user.role });
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
             return res.status(500).json({ error: "Error interno del servidor" });
@@ -72,12 +73,13 @@ const userController = {
             req.session.userId = newUser._id;
             req.session.user = newUser;
             req.session.isAuthenticated = true;
+            req.session.userRole = newUser.role;
 
             console.log("Datos del registro:", newUser, "token:", access_token);
 
             res.cookie("jwtToken", access_token, {
                 httpOnly: true,
-            }).send({ status: "Success", message: newUser, access_token, userId: newUser._id });
+            }).send({ status: "Success", message: newUser, access_token, userId: newUser._id, userRole: newUser.role });
 
         } catch (error) {
             console.error("Error al registrar usuario:", error);
@@ -113,10 +115,11 @@ const userController = {
             req.session.userId = user._id;
             req.session.user = user;
             req.session.isAuthenticated = true;
+            req.session.userRole = user.role;
 
             res.cookie("jwtToken", access_token, {
                 httpOnly: true,
-            }).send({ status: "Success", message: user, access_token, userId: user._id });
+            }).send({ status: "Success", message: user, access_token, userId: user._id, userRole: user.role });
         } catch (error) {
             console.error('Error en el callback de GitHub:', error);
             res.status(500).json({ error: "Error interno del servidor" });

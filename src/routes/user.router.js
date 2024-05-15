@@ -1,11 +1,11 @@
 import express from "express";
 import userController from "../dao/controllers/user.controller.js";
-import { authToken } from "../config/auth.js";
+import { authToken, isAdmin } from "../config/auth.js";
 
 const userRouter = express.Router();
 
 // Maneja la solicitud para buscar el usuario por id y ver el dashboard
-userRouter.get("/dashboard/:uid", authToken, userController.getUserById);
+userRouter.get("/dashboard/:uid", authToken, isAdmin, userController.getUserById);
 
 // Maneja la solicitud para ver el formulario para editar el usuario
 userRouter.get("/updateUser/:uid", authToken, userController.getUpdateUser);

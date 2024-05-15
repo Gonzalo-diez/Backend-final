@@ -16,6 +16,7 @@ const logout = async () => {
             console.log('Logout exitoso');
             localStorage.removeItem("token");
             localStorage.removeItem("userId");
+            localStorage.removeItem("userRole");
             window.location.replace("/api/sessions/login");
         } else {
             const errorMessage = await response.text();

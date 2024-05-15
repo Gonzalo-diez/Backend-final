@@ -35,13 +35,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Almacenar el token en el almacenamiento local
                 const token = data.access_token;
                 const userId = data.userId;
+                const userRole = data.userRole;
 
                 localStorage.setItem('token', token);
-                localStorage.setItem('userId', userId)
+                localStorage.setItem('userId', userId);
+                localStorage.setItem('userRole', userRole);
                 console.log("Token:", token);
                 console.log("userId:", userId);
+                console.log("user rol:", userRole);
                 console.log("Inicio de sesión exitoso!");
-                window.location.href = `http://localhost:8080/api/sessions/dashboard/${userId}`
+
+                if (userRole === 'admin') {
+                    window.location.href = `http://localhost:8080/api/sessions/dashboard/${userId}`;
+                }
+                else {
+                    window.location.href = "http://localhost:8080/api/products";
+                }
             })
             .catch(error => {
                 console.error('Error en el inicio de sesión:', error);

@@ -2,6 +2,7 @@ const socket = io.connect('http://localhost:8080');
 
 const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
+const userRole = localStorage.getItem("userRole");
 
 document.getElementById('userId').value = userId;
 
@@ -14,6 +15,11 @@ function handleAddToCart(event) {
 
     if (!token) {
         console.log("Usuario no logueado o registrado");
+        window.location.href = "http://localhost:8080/api/sessions/login"
+    }
+
+    if (userRole === "admin") {
+        alert("Usted es el administrador");
         window.location.href = "http://localhost:8080/api/sessions/login"
     }
 
