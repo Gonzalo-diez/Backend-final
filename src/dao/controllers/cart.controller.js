@@ -12,7 +12,7 @@ const cartController = {
             const cart = await cartService.getCartById(cartId, userId);
 
             if (req.accepts("html")) {
-                return res.render("cart", { cid: cart._id, cart: cart, user, isAuthenticated, jwtToken });
+                return res.render("cart", { cid: cart._id, Cart: cart, user, isAuthenticated, jwtToken });
             }
 
             return res.json(cart);

@@ -19,38 +19,63 @@ const cartService = {
         try {
             const user = await User.findById(userId);
             const product = await Product.findById(productId);
-    
+
             if (!product) {
                 throw new Error("Producto no encontrado");
             }
-    
+
             if (product.stock < 1) {
                 throw new Error("Producto fuera de stock");
             }
-    
-            // Crear un objeto de carrito DTO
-            const cartDTO = new CartDTO({
-                products: [{
-                    product: productId,
-                    productQuantity: 1,
-                    productPrice: product.price,
-                    productTotal: product.price * 1,
-                }],
-                total: product.price,
-                user: user,
-            });
-    
-            // Convertir el DTO a un modelo de Mongoose
-            const cartData = new Cart(cartDTO);
-    
-            // Guardar el modelo en la base de datos
-            const newCart = await cartData.save();
-    
+
+            // Busca el carrito existente del usuario
+            let cart = await Cart.findOne({ user: userId });
+
+            if (cart) {
+                // Carrito existe, agregar o actualizar el producto
+                const productIndex = cart.products.findIndex(p => p.product.toString() === productId);
+
+                if (productIndex > -1) {
+                    // Producto ya existe en el carrito, actualizar cantidad y total
+                    cart.products[productIndex].productQuantity += 1;
+                    cart.products[productIndex].productTotal += product.price;
+                } else {
+                    // Producto no existe en el carrito, agregar nuevo producto
+                    cart.products.push({
+                        product: productId,
+                        productQuantity: 1,
+                        productPrice: product.price,
+                        productTotal: product.price,
+                    });
+                }
+
+                // Actualizar total del carrito
+                cart.total += product.price;
+            } else {
+                // Carrito no existe, crear nuevo carrito
+                const cartItem = new Cart({
+                    products: [{
+                        product: productId,
+                        productQuantity: 1,
+                        productPrice: product.price,
+                        productTotal: product.price,
+                    }],
+                    total: product.price,
+                    user: userId,
+                });
+
+                // Guardar el nuevo carrito en la base de datos
+                cart = await cartItem.save();
+            }
+
+            // Guardar el carrito actualizado o nuevo en la base de datos
+            const newCart = await cart.save();
+
             return newCart;
         } catch (error) {
             throw new Error("Error al agregar producto al carrito: " + error.message);
         }
-    },   
+    },
 
     updateCart: async (cartId, products, total) => {
         try {

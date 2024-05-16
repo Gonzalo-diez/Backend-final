@@ -134,11 +134,9 @@ export const isAdmin = (req, res, next) => {
 // Middleware de autenticación para user
 export const isUser = (req, res, next) => {
     if(req.user && req.user.role === 'user') {
-        // Si es usuario, permite el acceso
         next();
     } 
     else {
-        // Si no es administrador, devolver un error de acceso no autorizado
         return res.status(403).json({ error: 'Acceso no autorizado' });
     }
 }

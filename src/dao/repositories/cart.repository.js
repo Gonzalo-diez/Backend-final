@@ -5,8 +5,14 @@ const CartRepository = {
     getCartById: async (cartId, userId) => {
         try {
             const cart = await Cart.findOne({ _id: cartId, user: userId })
-                .populate("products.product")
-                .populate("user")
+                .populate({
+                    path: 'products',
+                    model: 'Product'
+                })
+                .populate({
+                    path: 'user',
+                    model: 'User'
+                })
                 .lean();
 
             if (!cart) {

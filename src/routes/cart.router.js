@@ -9,18 +9,18 @@ const cartRouter = express.Router();
 cartRouter.get("/:cid", authToken, isUser, cartController.getCartById);
 
 // Maneja la solicitud de agregar el producto al carrito
-cartRouter.post("/", isUser, authToken, cartController.addProductToCart);
+cartRouter.post("/", authToken, isUser, cartController.addProductToCart);
 
 // Maneja la solicitud para actualizar el carrito con nuevos productos
-cartRouter.put("/:cid", isUser, authToken, cartController.updateCart);
+cartRouter.put("/:cid", authToken, isUser, cartController.updateCart);
 
 // Maneja la solicitud para actualizar la cantidad de algun producto dentro del carrito
-cartRouter.put("/:cid/products/:pid", isUser, authToken, cartController.updateProductQuantityInCart);
+cartRouter.put("/:cid/products/:pid", authToken, isUser, cartController.updateProductQuantityInCart);
 
 // Maneja la solicitud para borrar el producto seleccionado del carrito
-cartRouter.delete("/:cid/products/:pid", isUser, authToken, cartController.deleteProductFromCart);
+cartRouter.delete("/:cid/products/:pid", authToken, isUser, cartController.deleteProductFromCart);
 
 // Maneja la solicitud para limpiar el carrito
-cartRouter.delete("/:cid", isUser, authToken, cartController.clearCart);
+cartRouter.delete("/:cid", authToken, isUser, cartController.clearCart);
 
 export default cartRouter;
