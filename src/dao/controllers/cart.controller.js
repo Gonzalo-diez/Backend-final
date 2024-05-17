@@ -50,6 +50,20 @@ const cartController = {
         }
     },
 
+    purchaseCart: async (req, res) => {
+        const cartId = req.params.cid;
+        const {userId} = req.body;
+
+        try {
+            const ticket = await cartService.purchaseCart(cartId, userId);
+
+            return res.json({ message: "Compra realizada exitosamente", ticket });
+        } catch (error) {
+            console.error("Error al realizar la compra:", error);
+            return res.status(500).json({ error: "Error al realizar la compra", details: error.message });
+        }
+    },
+
     updateProductQuantityInCart: async (req, res) => {
         const { cid, pid } = req.params;
         const { quantity, userId } = req.body;

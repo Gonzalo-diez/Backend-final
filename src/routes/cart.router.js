@@ -17,6 +17,9 @@ cartRouter.put("/:cid", authToken, isUser, cartController.updateCart);
 // Maneja la solicitud para actualizar la cantidad de algun producto dentro del carrito
 cartRouter.put("/:cid/products/:pid", authToken, isUser, cartController.updateProductQuantityInCart);
 
+// Maneja la solicitud de compra del carrito
+cartRouter.post("/:cid/purchase", authToken, isUser, cartController.purchaseCart);
+
 // Maneja la solicitud para borrar el producto seleccionado del carrito
 cartRouter.delete("/:cid/products/:pid", authToken, isUser, cartController.deleteProductFromCart);
 
