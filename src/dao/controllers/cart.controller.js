@@ -3,7 +3,7 @@ import cartService from "../services/cart.service.js";
 const cartController = {
     getCartById: async (req, res) => {
         const cartId = req.params.cid;
-        const userId = req.session.userId
+        const { userId } = req.body;
         const user = req.session.user;
         const isAuthenticated = req.session.isAuthenticated;
         const jwtToken = req.session.token;
@@ -38,7 +38,8 @@ const cartController = {
 
     updateCart: async (req, res) => {
         const cartId = req.params.cid;
-        const { products, userId } = req.body;
+        const userId = req.session.userId;
+        const { products } = req.body;
 
         try {
             const cart = await cartService.updateCart(cartId, userId, products);
@@ -52,10 +53,10 @@ const cartController = {
 
     purchaseCart: async (req, res) => {
         const cartId = req.params.cid;
-        const {userId} = req.body;
+        const cartData = req.body;
 
         try {
-            const ticket = await cartService.purchaseCart(cartId, userId);
+            const ticket = await cartService.purchaseCart(cartId, cartData);
 
             return res.json({ message: "Compra realizada exitosamente", ticket });
         } catch (error) {

@@ -5,6 +5,7 @@ import Cart from "../Models/cart.model.js";
 import Ticket from "../models/ticket.model.js";
 import CartDTO from "../DTO/cart.dto.js";
 import { generateRandomCode } from "../../util.js";
+import Purchase from "../models/purchase.model.js";
 
 const cartService = {
     getCartById: async (cartId, userId) => {
@@ -111,7 +112,9 @@ const cartService = {
         }
     },
 
-    purchaseCart: async (cartId, userId) => {
+    purchaseCart: async (cartId, cartData) => {
+        const { country, state, city, street, postal_code, phone, card_bank, security_number, userId } = cartData;
+
         try {
             const cart = await CartRepository.getCartById(cartId, userId);
 
@@ -143,6 +146,22 @@ const cartService = {
                 throw new Error("No hay productos suficientes en stock para realizar la compra");
             }
 
+            // Crear instancia DTO
+            const shippingDTO = new CartDTO(country, state, city, street, postal_code, phone);
+
+            const paymentDTO = new CartDTO(card_bank, security_number);
+
+            const purchase = new Purchase({
+                user: userId,
+                products: productsToPurchase.map(item => ({
+                    product: item.product,
+                    productQuantity: item.productQuantity,
+                    productTotal: item.productTotal,
+                })),
+                shipping: shippingDTO,
+                payment: paymentDTO,
+            })
+
             // Crear el ticket de compra con los productos que se pueden comprar
             const ticket = new Ticket({
                 code: generateRandomCode(10),
@@ -150,13 +169,16 @@ const cartService = {
                 amount: totalPurchaseAmount,
                 purchaser: userId,
                 products: productsToPurchase.map(item => ({
-                    product: item.product,
+                    id: item.product,
+                    product: item.product.title,
                     productQuantity: item.productQuantity,
                     productTotal: item.productTotal,
                 })),
             });
 
             await ticket.save();
+
+            await purchase.save();
 
             // Limpiar el carrito y mantener los productos que no se pudieron comprar
             await CartRepository.clearCart(cartId);
