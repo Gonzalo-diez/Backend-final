@@ -9,6 +9,20 @@ const cartService = {
         try {
             const cart = await CartRepository.getCartById(cartId, userId);
 
+            // Calcula el total de productos y el total a pagar
+            let totalProducts = 0;
+            let totalPrice = 0;
+
+            cart.products.forEach(product => {
+                totalProducts += product.productQuantity;
+                totalPrice += product.productTotal;
+            });
+
+            // Agrega los totales al objeto de carrito
+            cart.totalProducts = totalProducts;
+            cart.totalPrice = totalPrice;
+
+
             return cart;
         } catch (error) {
             throw new Error("Error al obtener el carrito por ID: " + error.message);
