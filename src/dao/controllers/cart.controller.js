@@ -3,7 +3,7 @@ import cartService from "../services/cart.service.js";
 const cartController = {
     getCartById: async (req, res) => {
         const cartId = req.params.cid;
-        const { userId } = req.body;
+        const userId = req.session.userId
         const user = req.session.user;
         const isAuthenticated = req.session.isAuthenticated;
         const jwtToken = req.session.token;
@@ -23,7 +23,8 @@ const cartController = {
     },
 
     addProductToCart: async (req, res) => {
-        const { productId, userId } = req.body;
+        const { productId } = req.body;
+        const userId = req.session.userId;
 
         try {
             const cart = await cartService.addProductToCart(productId, userId);

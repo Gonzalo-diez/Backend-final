@@ -4,7 +4,9 @@ const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
 const userRole = localStorage.getItem("userRole");
 
-document.getElementById('userId').value = userId;
+if (userId && userRole === "admin") {
+    document.getElementById('userId').value = userId;
+}
 
 console.log("Token:", token);
 
@@ -32,7 +34,7 @@ function handleAddToCart(event) {
             "authorization": `Bearer ${token}`,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ productId, userId })
+        body: JSON.stringify({ productId })
     })
         .then(response => {
             if (!response.ok) {
@@ -48,19 +50,47 @@ function handleAddToCart(event) {
         });
 }
 
-const goToCartBtn = document.getElementById('goToCartBtn');
-const cartForm = document.getElementById('cartForm');
+if (userRole === "user") {
+    const goToCartBtn = document.getElementById('goToCartBtn');
+    const cartForm = document.getElementById('cartForm');
 
-// Agregar un evento de clic al botón
-goToCartBtn.addEventListener('click', () => {
-    // Obtener el valor seleccionado en el select
-    const selectedCartId = document.getElementById('cart').value;
-    // Construir la URL del carrito utilizando el ID seleccionado
-    const cartUrl = `http://localhost:8080/api/carts/${selectedCartId}`;
-    // Redireccionar al usuario a la URL del carrito
-    window.location.href = cartUrl;
-});
+    // Agregar un evento de clic al botón
+    goToCartBtn.addEventListener('click', () => {
+        // Obtener el valor seleccionado en el select
+        const selectedCartId = document.getElementById('cart').value;
+        // Construir la URL del carrito utilizando el ID seleccionado
+        const cartUrl = `http://localhost:8080/api/carts/${selectedCartId}`;
 
+        // Obtener el token de localStorage
+        const token = localStorage.getItem('token');
+
+        // Verificar si el token está presente
+        if (!token) {
+            console.log("Token no encontrado. Usuario no autenticado.");
+            // Aquí podrías mostrar un mensaje al usuario o redirigirlo a la página de inicio de sesión
+            return;
+        }
+
+        // Realizar la solicitud al servidor utilizando fetch
+        fetch(cartUrl, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                // Verificar si la respuesta es exitosa
+                if (!response.ok) {
+                    throw new Error('Error al obtener el carrito');
+                }
+                // Redirigir al usuario a la URL del carrito
+                window.location.href = cartUrl;
+            })
+            .catch(error => {
+                console.error('Error al obtener el carrito:', error);
+            });
+    });
+}
 
 // Agregar un event listener para el evento click en el contenedor productList
 document.getElementById('productList').addEventListener('click', handleAddToCart);
@@ -97,61 +127,63 @@ socket.on('addProduct', (addProduct) => {
     renderProducts(addProduct);
 });
 
-// Manejar el envío del formulario para agregar un producto
-document.getElementById('addProductForm').addEventListener('submit', async (event) => {
-    event.preventDefault();
+if (userRole === "admin") {
+    // Manejar el envío del formulario para agregar un producto
+    document.getElementById('addProductForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
 
-    // Obtener los valores del formulario
-    const formData = new FormData(event.target);
+        // Obtener los valores del formulario
+        const formData = new FormData(event.target);
 
-    try {
-        const response = await fetch('http://localhost:8080/api/products/', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                "authorization": `Bearer ${token}`,
-            },
-        });
+        try {
+            const response = await fetch('http://localhost:8080/api/products/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    "authorization": `Bearer ${token}`,
+                },
+            });
 
-        if (!response.ok) {
-            throw new Error('Error al agregar el producto');
+            if (!response.ok) {
+                throw new Error('Error al agregar el producto');
+            }
+
+            const data = await response.json();
+            socket.emit("addProduct", data.Product);
+            console.log('Producto agregado:', data.Product);
+
+            // Limpiar el formulario después de agregar el producto
+            event.target.reset();
+
+        } catch (error) {
+            console.error('Error al agregar el producto:', error);
+        }
+    });
+
+    // Función para manejar el evento de hacer clic en el botón "Eliminar Producto"
+    function handleDeleteProduct(event) {
+        if (!event.target.classList.contains('delete-btn')) {
+            return;
         }
 
-        const data = await response.json();
-        socket.emit("addProduct", data.Product);
-        console.log('Producto agregado:', data.Product);
+        const productId = event.target.getAttribute('data-product-id');
 
-        // Limpiar el formulario después de agregar el producto
-        event.target.reset();
-
-    } catch (error) {
-        console.error('Error al agregar el producto:', error);
-    }
-});
-
-// Función para manejar el evento de hacer clic en el botón "Eliminar Producto"
-function handleDeleteProduct(event) {
-    if (!event.target.classList.contains('delete-btn')) {
-        return;
+        // Emitir el evento "deleteProduct" al servidor con el ID del producto a eliminar
+        socket.emit('deleteProduct', productId, userId);
     }
 
-    const productId = event.target.getAttribute('data-product-id');
+    // Agregar un event listener para el evento click en el contenedor productList
+    document.getElementById('productList').addEventListener('click', handleDeleteProduct);
 
-    // Emitir el evento "deleteProduct" al servidor con el ID del producto a eliminar
-    socket.emit('deleteProduct', productId, userId );
+    // Manejar el evento de producto borrado desde el servidor
+    socket.on('deleteProduct', (deletedProductId) => {
+        // Eliminar el producto de la interfaz
+        const productElement = document.querySelector(`[data-product-id="${deletedProductId}"]`);
+        if (productElement) {
+            productElement.parentElement.parentElement.remove();
+            console.log(`Producto con ID ${deletedProductId} eliminado`);
+        } else {
+            console.log(`No se encontró el producto con ID ${deletedProductId}`);
+        }
+    });
 }
-
-// Agregar un event listener para el evento click en el contenedor productList
-document.getElementById('productList').addEventListener('click', handleDeleteProduct);
-
-// Manejar el evento de producto borrado desde el servidor
-socket.on('deleteProduct', (deletedProductId) => {
-    // Eliminar el producto de la interfaz
-    const productElement = document.querySelector(`[data-product-id="${deletedProductId}"]`);
-    if (productElement) {
-        productElement.parentElement.parentElement.remove();
-        console.log(`Producto con ID ${deletedProductId} eliminado`);
-    } else {
-        console.log(`No se encontró el producto con ID ${deletedProductId}`);
-    }
-});

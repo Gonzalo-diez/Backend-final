@@ -5,13 +5,14 @@ const productController = {
     getProducts: async (req, res) => {
         const { category, brand, sort } = req.query;
         let currentPage = req.query.page || 1;
+        const userId = req.session.userId;
         const user = req.session.user;
         const isAuthenticated = req.session.isAuthenticated;
         const jwtToken = req.session.token;
         const userRole = req.session.userRole;
 
         try {
-            const carts = await Cart.find({}).lean();
+            const carts = await Cart.find({user: userId}).lean();
 
             const response = await productService.getProducts({ category, brand, sort }, currentPage);
 

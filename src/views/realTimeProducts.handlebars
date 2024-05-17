@@ -14,7 +14,7 @@
     {{/eq}}
 </div>
 
-
+{{#eq user.role "user"}}
 <!-- Filtro de carritos -->
 <form action="/api/products/" method="GET" id="cartForm">
     <label for="cart">Filtrar por carrito:</label>
@@ -27,6 +27,7 @@
     </select>
     <button type="button" id="goToCartBtn">Ir al carrito</button>
 </form>
+{{/eq}}
 
 {{#eq user.role "admin"}}
 <div class="container mt-5">

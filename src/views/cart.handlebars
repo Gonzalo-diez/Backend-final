@@ -5,6 +5,7 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th scope="col">Id</th>
                         <th scope="col">Producto</th>
                         <th scope="col">Precio Unitario</th>
                         <th scope="col">Cantidad</th>
@@ -15,7 +16,8 @@
                 <tbody id="cartList">
                     {{#each Cart.products}}
                     <tr>
-                        <td>{{this.product}}</td>
+                        <td>{{this.product._id}}</td>
+                        <td>{{this.product.title}}</td>
                         <td>${{this.productPrice}}</td> 
                         <td>{{this.productQuantity}}</td> 
                         <td>${{this.productTotal}}</td> 
