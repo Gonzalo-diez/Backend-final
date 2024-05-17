@@ -16,6 +16,9 @@ productRouter.get("/:pid", productController.getProductDetail);
 // Maneja la solicitud para ver las categorias de los productos
 productRouter.get("/category/:category", productController.getProductCategory);
 
+// Maneja la solicitud para renderizar el formulario para editar el producto
+productRouter.get("/updateProduct/:pid", authToken, isAdmin, productController.getUpdateProduct);
+
 // Manejar la solicitud para agregar un producto en tiempo real
 productRouter.post("/", authToken, isAdmin, imgUpload.single("image"), productController.addProduct);
 

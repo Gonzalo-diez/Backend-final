@@ -1,0 +1,46 @@
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center">Editar producto</h1>
+            <div id="errorMessage" class="alert alert-danger" role="alert" style="display: none;"></div>
+            <form method="PUT" id="editProductForm" enctype="multipart/form-data" data-product-id="{{product._id}}">
+                <div class="form-group">
+                    <label for="title">Titulo:</label>
+                    <input type="text" class="form-control" id="title" name="title" value="{{product.title}}">
+                </div>
+                <div class="form-group">
+                    <label for="brand">Marca:</label>
+                    <input type="text" class="form-control" id="brand" name="brand" value="{{product.brand}}">
+                </div>
+                <div class="form-group">
+                    <label for="description">Descripcion:</label>
+                    <textarea class="form-control" id="description" name="description">{{product.description}}</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="price">Precio:</label>
+                    <input type="text" class="form-control" id="price" name="price" value="{{product.price}}">
+                </div>
+                <div class="form-group">
+                    <label for="stock">Stock:</label>
+                    <input type="text" class="form-control" id="stock" name="stock" value="{{product.stock}}">
+                </div>
+                <div class="form-group">
+                    <label for="category">Categoria:</label>
+                    <select class="form-select" name="category" id="category">
+                        <option selected>{{product.category}}</option>
+                        <option value="tecnologia">Tecnología</option>
+                        <option value="libros">Libros</option>
+                        <option value="ropa">Ropa</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="imageName">Imagen:</label>
+                    <input type="file" class="form-control" name="image" id="image" accept="image/*">
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Editar producto</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="/js/editProduct.js"></script>

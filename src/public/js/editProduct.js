@@ -1,26 +1,30 @@
-// Editar el usuario de formulario
 const token = localStorage.getItem('token');
 const userId = localStorage.getItem('userId');
 
 document.addEventListener("DOMContentLoaded", () => {
-    const editUserForm = document.getElementById("editUserForm");
+    const editProductForm = document.getElementById("editProductForm");
     const errorMessage = document.getElementById("errorMessage");
+    const productId = editProductForm.getAttribute("data-product-id");
 
-    editUserForm.addEventListener("submit", async (event) => {
+    editProductForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        const firstName = document.getElementById("firstName").value;
-        const lastName = document.getElementById("lastName").value;
-        const email = document.getElementById("email").value;
+        const title = document.getElementById("title").value;
+        const brand = document.getElementById("brand").value;
+        const description = document.getElementById("description").value;
+        const price = document.getElementById("price").value;
+        const stock = document.getElementById("stock").value;
+        const category = document.getElementById("category").value;
+        const image = document.getElementById("image").value;
 
         try {
-            const response = await fetch(`http://localhost:8080/api/sessions/updateUser/${userId}`, {
+            const response = await fetch(`http://localhost:8080/api/products/${productId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     "authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ firstName, lastName, email }),
+                body: JSON.stringify({ title, brand, description, price, stock, category, image }),
             });
 
             const data = await response.json();

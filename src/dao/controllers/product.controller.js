@@ -87,15 +87,32 @@ const productController = {
 
     updateProduct: async (req, res) => {
         const productId = req.params.pid;
-
+    
         try {
-            await productService.updateProduct(productId, req);
-
-            return res.json({ message: "Producto actualizado!" });
-        }
-        catch (err) {
+            const updatedProduct = await productService.updateProduct(productId, req);
+    
+            return res.json({ message: "Producto actualizado!", product: updatedProduct });
+        } catch (err) {
             console.error('Error:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
+        }
+    },    
+
+    getUpdateProduct: async (req, res) => {
+        const productId = req.params.pid;
+        const user = req.session.user;
+        const isAuthenticated = req.session.isAuthenticated;
+        const jwtToken = req.session.token;
+
+        try {
+            const product = await productService.getProductDetail(productId);
+
+            const updateProductView = await productService.getUpdateProduct();
+
+            res.render(updateProductView, { isAuthenticated, jwtToken, user, product });
+        } catch (error) {
+            console.error("Error al obtener la vista de editar el producto:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
         }
     },
 
