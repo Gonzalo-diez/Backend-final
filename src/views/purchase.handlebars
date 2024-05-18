@@ -1,0 +1,47 @@
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-center">Realizar Compra</h1>
+            <div id="errorMessage" class="alert alert-danger" role="alert" style="display: none;"></div>
+            <form method="POST" id="purchaseForm" data-cart-id="{{Cart._id}}">
+                <h3>Información de Envío</h3>
+                <div class="form-group">
+                    <label for="country">País:</label>
+                    <input type="text" class="form-control" id="country" name="country" required>
+                </div>
+                <div class="form-group">
+                    <label for="state">Estado:</label>
+                    <input type="text" class="form-control" id="state" name="state" required>
+                </div>
+                <div class="form-group">
+                    <label for="city">Ciudad:</label>
+                    <input type="text" class="form-control" id="city" name="city" required>
+                </div>
+                <div class="form-group">
+                    <label for="street">Calle:</label>
+                    <input type="text" class="form-control" id="street" name="street" required>
+                </div>
+                <div class="form-group">
+                    <label for="postal_code">Código Postal:</label>
+                    <input type="text" class="form-control" id="postal_code" name="postal_code" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Teléfono:</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required>
+                </div>
+                <h3>Información de Pago</h3>
+                <div class="form-group">
+                    <label for="card_bank">Banco de la Tarjeta:</label>
+                    <input type="text" class="form-control" id="card_bank" name="card_bank" required>
+                </div>
+                <div class="form-group">
+                    <label for="security_number">Número de Seguridad:</label>
+                    <input type="text" class="form-control" id="security_number" name="security_number" required>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Realizar Compra</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="/js/purchase.js"></script>

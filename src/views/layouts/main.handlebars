@@ -8,6 +8,7 @@
     <title>{{title}}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 
 <body>
@@ -40,46 +41,39 @@
                         </ul>
                     </li>
                     {{#if isAuthenticated}}
-                        {{#eq user.role "admin"}}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <box-icon type='solid' name='cog'></box-icon>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" id="perfilButton">Dashboard</a></li>
-                                <li><a class="dropdown-item"
-                                        id="logoutButton">Logout</a></li>
-                                <li><a class="dropdown-item"
-                                        id="changePasswordButton">Cambiar contraseña</a></li>
-                                <li><a class="dropdown-item"
-                                        id="editUserButton">Editar perfil</a></li>
-                            </ul>
-                        </li>
-                        {{/eq}}
-                        {{#eq user.role "user"}}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <box-icon type='solid' name='cog'></box-icon>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item"
-                                        id="logoutButton">Logout</a></li>
-                                <li><a class="dropdown-item"
-                                        id="changePasswordButton">Cambiar contraseña</a></li>
-                                <li><a class="dropdown-item"
-                                        id="editUserButton">Editar perfil</a></li>
-                                <li><a class="dropdown-item"
-                                        id="chatButton">Chat</a></li>
-                            </ul>
-                        </li>
-                        {{/eq}}
-                    {{else}}
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item"><a href="http://localhost:8080/api/sessions/login"
-                                    class="nav-link"><box-icon type='solid' name='user-circle'></box-icon></a></li>
+                    {{#eq user.role "admin"}}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <box-icon type='solid' name='cog'></box-icon>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" id="perfilButton">Dashboard</a></li>
+                            <li><a class="dropdown-item" id="logoutButton">Logout</a></li>
+                            <li><a class="dropdown-item" id="changePasswordButton">Cambiar contraseña</a></li>
+                            <li><a class="dropdown-item" id="editUserButton">Editar perfil</a></li>
                         </ul>
+                    </li>
+                    {{/eq}}
+                    {{#eq user.role "user"}}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <box-icon type='solid' name='cog'></box-icon>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" id="logoutButton">Logout</a></li>
+                            <li><a class="dropdown-item" id="changePasswordButton">Cambiar contraseña</a></li>
+                            <li><a class="dropdown-item" id="editUserButton">Editar perfil</a></li>
+                            <li><a class="dropdown-item" id="chatButton">Chat</a></li>
+                        </ul>
+                    </li>
+                    {{/eq}}
+                    {{else}}
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a href="http://localhost:8080/api/sessions/login"
+                                class="nav-link"><box-icon type='solid' name='user-circle'></box-icon></a></li>
+                    </ul>
                     {{/if}}
                 </ul>
             </div>
@@ -103,6 +97,7 @@
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/menu.js"></script>
 </body>
 

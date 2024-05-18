@@ -8,6 +8,9 @@ const cartRouter = express.Router();
 // Maneja la solicitud de renderizar el carrito
 cartRouter.get("/:cid", authToken, isUser, cartController.getCartById);
 
+// Maneja el renderiza del formulario para realizar la compra del carrito
+cartRouter.get("/:cid/purchase", authToken, isUser, cartController.getPurchaseCart);
+
 // Maneja la solicitud de agregar el producto al carrito
 cartRouter.post("/", authToken, isUser, cartController.addProductToCart);
 

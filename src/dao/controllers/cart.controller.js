@@ -3,7 +3,7 @@ import cartService from "../services/cart.service.js";
 const cartController = {
     getCartById: async (req, res) => {
         const cartId = req.params.cid;
-        const { userId } = req.body;
+        const userId = req.session.userId;
         const user = req.session.user;
         const isAuthenticated = req.session.isAuthenticated;
         const jwtToken = req.session.token;
@@ -62,6 +62,22 @@ const cartController = {
         } catch (error) {
             console.error("Error al realizar la compra:", error);
             return res.status(500).json({ error: "Error al realizar la compra", details: error.message });
+        }
+    },
+
+    getPurchaseCart: async (req, res) => {
+        const cartId = req.params.cid;
+        const userId = req.session.userId;
+        const user = req.session.user;
+        const isAuthenticated = req.session.isAuthenticated;
+        const jwtToken = req.session.token;
+
+        try {
+            const cart = await cartService.getCartById(cartId, userId)
+            const purchaseCartView = await cartService.getPurchaseCart();
+            res.render(purchaseCartView, { user, isAuthenticated, jwtToken, Cart: cart })
+        } catch (error) {
+
         }
     },
 

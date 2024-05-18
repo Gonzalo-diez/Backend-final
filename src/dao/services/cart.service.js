@@ -190,6 +190,10 @@ const cartService = {
         }
     },
 
+    getPurchaseCart: async () => {
+        return "purchase";
+    },
+
     deleteProductFromCart: async (cartId, productId) => {
         try {
             const cart = await CartRepository.deleteProductFromCart(cartId, productId);
