@@ -118,10 +118,9 @@ const productController = {
 
     deleteProduct: async (req, res) => {
         const productId = req.params.pid;
-        const { userId } = req.body;
 
         try {
-            await productService.deleteProduct(productId, userId);
+            await productService.deleteProduct(productId);
 
             return res.json({ message: "Producto eliminado!" });
         } catch (err) {

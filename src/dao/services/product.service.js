@@ -99,17 +99,12 @@ const productService = {
         return "updateProduct";
     },
 
-    deleteProduct: async (productId, userId) => {
+    deleteProduct: async (productId) => {
         try {
             const product = await productRepository.getProductById(productId);
 
             if (!product) {
                 throw new Error("Producto no encontrado");
-            }
-
-            // Verificar si el usuario que intenta borrar el producto es el propietario del producto
-            if (product.user.toString() !== userId) {
-                throw new Error("No tienes permiso para borrar el producto");
             }
 
             const deleteResult = await productRepository.deleteProductById(productId);

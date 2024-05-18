@@ -62,7 +62,7 @@ const productRepository = {
 
     getProductById: async (productId) => {
         try {
-            const product = await Product.findById(productId).lean();
+            const product = await Product.findById(productId).populate('user').lean();
             return product;
         } catch (error) {
             throw new Error("Error al obtener el producto por ID: " + error.message);

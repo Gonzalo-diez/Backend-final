@@ -168,8 +168,27 @@ if (userRole === "admin") {
 
         const productId = event.target.getAttribute('data-product-id');
 
-        // Emitir el evento "deleteProduct" al servidor con el ID del producto a eliminar
-        socket.emit('deleteProduct', productId, userId);
+         // Realizar la solicitud HTTP DELETE para eliminar el producto
+         fetch(`http://localhost:8080/api/products/${productId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al eliminar el producto');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Producto eliminado:', data);
+            // Emitir el evento "deleteProduct" al servidor con el ID del producto a eliminar
+            socket.emit('deleteProduct', productId, userId);
+        })
+        .catch(error => {
+            console.error('Error al eliminar el producto:', error);
+        });
     }
 
     // Agregar un event listener para el evento click en el contenedor productList
