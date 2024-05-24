@@ -1,5 +1,5 @@
 import express from "express";
-import userController from "../dao/controllers/user.controller.js";
+import userController from "../controllers/user.controller.js";
 import { authToken, isAdmin } from "../config/auth.js";
 
 const userRouter = express.Router();

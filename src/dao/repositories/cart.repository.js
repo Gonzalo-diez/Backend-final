@@ -1,7 +1,17 @@
 import Cart from "../Models/cart.model.js";
-import User from "../Models/user.model.js";
 
-const CartRepository = {
+const cartRepository = {
+    findByUserId: async (userId) => {
+        try {
+            const cart = await Cart.findOne({ user: userId });
+
+            return cart;
+        }
+        catch (error) {
+            throw new Error("Error al obtener el carrito por ID: " + error.message);
+        }
+    },
+
     getCartById: async (cartId, userId) => {
         try {
             const cart = await Cart.findOne({ _id: cartId, user: userId })
@@ -12,13 +22,71 @@ const CartRepository = {
                 })
                 .lean();
 
-            if (!cart) {
-                throw new Error("El carrito no existe para este usuario");
+            return cart;
+        } catch (error) {
+            throw new Error("Error al obtener el carrito por ID: " + error.message);
+        }
+    },
+
+    getCartByUser: async(userId) => {
+        try {
+            const cart = await Cart.find({user: userId}).lean();
+
+            if(!cart) {
+                throw new Error("Usted no es el creador de este carrito");
             }
 
             return cart;
         } catch (error) {
-            throw new Error("Error al obtener el carrito por ID: " + error.message);
+            throw new Error("Error al obtener el carrito por userId: " + error.message);
+        }
+    },
+
+    addProductToCart: async (productId, userId, cart, product) => {
+        try {
+            if (cart) {
+                // Carrito existe, agregar o actualizar el producto
+                const productIndex = cart.products.findIndex(p => p.product.toString() === productId);
+
+                if (productIndex > -1) {
+                    // Producto ya existe en el carrito, actualizar cantidad y total
+                    cart.products[productIndex].productQuantity += 1;
+                    cart.products[productIndex].productTotal += product.price;
+                } else {
+                    // Producto no existe en el carrito, agregar nuevo producto
+                    cart.products.push({
+                        product: productId,
+                        productQuantity: 1,
+                        productPrice: product.price,
+                        productTotal: product.price,
+                    });
+                }
+
+                // Actualizar total del carrito
+                cart.total += product.price;
+            } else {
+                // Carrito no existe, crear nuevo carrito
+                const cartItem = new Cart({
+                    products: [{
+                        product: productId,
+                        productQuantity: 1,
+                        productPrice: product.price,
+                        productTotal: product.price,
+                    }],
+                    total: product.price,
+                    user: userId,
+                });
+
+                // Guardar el nuevo carrito en la base de datos
+                cart = await cartItem.save();
+            }
+
+            // Guardar el carrito actualizado o nuevo en la base de datos
+            const newCart = await cart.save();
+
+            return newCart;
+        } catch (error) {
+            throw new Error("Error al agregar producto al carrito: " + error.message);
         }
     },
 
@@ -89,4 +157,4 @@ const CartRepository = {
     }
 };
 
-export default CartRepository;
+export default cartRepository;

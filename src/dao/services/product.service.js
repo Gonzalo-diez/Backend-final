@@ -1,6 +1,6 @@
 import productRepository from "../Repositories/product.repository.js";
 import ProductDTO from "../DTO/product.dto.js";
-import User from "../Models/user.model.js";
+import userRepository from "../repositories/user.repository.js";
 
 const productService = {
     getProducts: async (query, currentPage) => {
@@ -36,7 +36,7 @@ const productService = {
         const { title, brand, description, price, stock, category, userId } = productData;
 
         try {
-            const user = await User.findById(userId).exec();
+            const user = await userRepository.findById(userId);
 
             // Si el usuario no esta logueado o registrado
             if (!user) {
@@ -61,8 +61,8 @@ const productService = {
         }
     },
 
-    updateProduct: async (productId, req) => {
-        const { title, brand, description, price, stock, category, userId } = req.body;
+    updateProduct: async (productId, req, productUpdateData) => {
+        const { title, brand, description, price, stock, category, userId } = productUpdateData;
 
         try {
             // Verificar si el producto existe
@@ -83,7 +83,7 @@ const productService = {
                 stock !== undefined ? stock : existingProduct.stock,
                 category || existingProduct.category,
                 imageName,
-                userId || existingProduct.userId
+                userId || existingProduct.user
             );
 
             // Paso directamente el DTO al repositorio

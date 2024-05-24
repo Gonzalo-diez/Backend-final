@@ -1,5 +1,4 @@
-import Message from "../models/message.model.js";
-import User from "../Models/user.model.js";
+import messageService from "../dao/services/message.service.js";
 
 const messageController = {
     getMessages: async (req, res) => {
@@ -9,7 +8,7 @@ const messageController = {
         const userRole = req.session.userRole;
 
         try {
-            const messages = await Message.find().populate('user', 'email').lean();
+            const messages = await messageService.getMessages()
 
             if (req.accepts('html')) {
                 return res.render('chat', { messages, user, isAuthenticated, jwtToken, userRole });
@@ -25,17 +24,7 @@ const messageController = {
         const { userEmail, text } = req.body;
 
         try {
-            const user = await User.findOne({ email: userEmail });
-            if (!user) {
-                return res.status(404).json({ error: 'Usuario no encontrado' });
-            }
-
-            const newMessage = new Message({
-                user: user._id,
-                text,
-            });
-
-            await newMessage.save();
+            const newMessage = await messageService.addMessage(userEmail, text);
 
             return res.json({
                 message: 'Mensaje agregado',

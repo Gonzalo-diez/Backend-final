@@ -60,9 +60,28 @@ const productRepository = {
         }
     },
 
+    findProductById: async (productId) => {
+        try {
+            const product = await Product.findById(productId);
+            return product;
+        }
+        catch (error) {
+            throw new Error("Error al obtener el producto por ID: " + error.message);
+        }
+    },
+
     getProductById: async (productId) => {
         try {
             const product = await Product.findById(productId).populate('user').lean();
+            return product;
+        } catch (error) {
+            throw new Error("Error al obtener el producto por ID: " + error.message);
+        }
+    },
+
+    getProductForCart: async (productId) => {
+        try {
+            const product = await Product.findById(productId);
             return product;
         } catch (error) {
             throw new Error("Error al obtener el producto por ID: " + error.message);

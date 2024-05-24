@@ -9,8 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
     editUserForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        const firstName = document.getElementById("firstName").value;
-        const lastName = document.getElementById("lastName").value;
+        const first_name = document.getElementById("firstName").value;
+        const last_name = document.getElementById("lastName").value;
         const email = document.getElementById("email").value;
 
         try {
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Content-Type": "application/json",
                     "authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ firstName, lastName, email }),
+                body: JSON.stringify({ first_name, last_name, email }),
             });
 
             const data = await response.json();

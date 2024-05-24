@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { generateAuthToken } from "../../config/auth.js";
 import passport from "passport";
-import userRepository from "../Repositories/user.repository.js";
+import userRepository from "../repositories/user.repository.js";
 import UserDTO from "../DTO/user.dto.js";
 
 const userService = {
@@ -96,7 +96,7 @@ const userService = {
     updateUser: async (userId, updatedUserData) => {
         try {
             // Verificar si el usuario existe
-            const existingUser = await userRepository.findById(userId);
+            const existingUser = await userRepository.findUser(userId);
             if (!existingUser) {
                 throw new Error("El usuario no existe");
             }
@@ -122,7 +122,7 @@ const userService = {
     changePassword: async (userId, oldPassword, newPassword) => {
         try {
             // Verificar si el usuario existe
-            const existingUser = await userRepository.findById(userId);
+            const existingUser = await userRepository.findUser(userId);
             if (!existingUser) {
                 throw new Error("El usuario no existe");
             }

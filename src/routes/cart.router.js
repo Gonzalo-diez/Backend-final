@@ -1,5 +1,5 @@
 import express from "express";
-import cartController from "../dao/controllers/cart.controller.js";
+import cartController from "../controllers/cart.controller.js";
 import { authToken, isUser } from "../config/auth.js";
 
 const cartRouter = express.Router();

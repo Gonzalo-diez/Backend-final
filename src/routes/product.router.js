@@ -1,6 +1,6 @@
 import express from "express"
 import { configureProductMulter } from "../util.js";
-import productController from "../dao/controllers/product.controller.js";
+import productController from "../controllers/product.controller.js";
 import { authToken, isAdmin } from "../config/auth.js";
 
 const productRouter = express.Router();

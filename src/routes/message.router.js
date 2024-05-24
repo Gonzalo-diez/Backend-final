@@ -1,5 +1,5 @@
 import express from "express";
-import messageController from "../dao/controllers/message.controller.js";
+import messageController from "../controllers/message.controller.js";
 import { authToken, isUser } from "../config/auth.js";
 
 const messageRouter = express.Router();

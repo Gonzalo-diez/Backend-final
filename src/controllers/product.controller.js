@@ -1,5 +1,5 @@
-import productService from "../services/product.service.js";
-import Cart from "../Models/cart.model.js";
+import productService from "../dao/services/product.service.js";
+import cartService from "../dao/services/cart.service.js";
 
 const productController = {
     getProducts: async (req, res) => {
@@ -12,7 +12,7 @@ const productController = {
         const userRole = req.session.userRole;
 
         try {
-            const carts = await Cart.find({user: userId}).lean();
+            const carts = await cartService.getCartByUser(userId);
 
             const response = await productService.getProducts({ category, brand, sort }, currentPage);
 
@@ -87,9 +87,10 @@ const productController = {
 
     updateProduct: async (req, res) => {
         const productId = req.params.pid;
+        const productUpdateData = req.body;
     
         try {
-            const updatedProduct = await productService.updateProduct(productId, req);
+            const updatedProduct = await productService.updateProduct(productId, req, productUpdateData);
     
             return res.json({ message: "Producto actualizado!", product: updatedProduct });
         } catch (err) {
