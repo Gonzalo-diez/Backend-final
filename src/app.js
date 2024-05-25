@@ -13,10 +13,12 @@ import FileStore from "session-file-store";
 import MongoStore from "connect-mongo";
 import cors from "cors";
 import nodemailer from "nodemailer";
+import compression from "express-compression";
 import passport from "./config/jwt.js";
 import router from "./routes.js";
 import auth from "./config/auth.js";
 import { MONGO_URL, EMAIL_USERNAME, EMAIL_PASSWORD } from "./util.js";
+import errorHandler from "./errors/errorHandler.js";
 
 Handlebars.registerHelper('eq', function (a, b, options) {
     return a === b ? options.fn(this) : options.inverse(this);
@@ -49,8 +51,16 @@ app.use(express.json());
 // Middleware para utilizar cookies
 app.use(cookieParser());
 
+// Middleware de errores
+app.use(errorHandler);
+
 // Middleware para usar cors
 app.use(cors()); 
+
+// Middleware para usar compression
+app.use(compression({
+    brotli: {enable: true}
+}))
 
 // Middleware para usar el session para autenticaciones de usuarios
 app.use(session({
@@ -97,6 +107,30 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 app.use(express.static(path.join(__dirname, 'public')));
 app.use("/", router);
+
+// Función para generar productos simulados
+const generateMockProducts = () => {
+    const products = [];
+    for (let i = 0; i < 100; i++) {
+        products.push({
+            _id: new mongoose.Types.ObjectId(),
+            title: `Producto ${i + 1}`,
+            brand: `Marca ${i + 1}`,
+            description: `Descripcion ${i + 1}`,
+            price: (Math.random() * 100).toFixed(2),
+            stock: Math.floor(Math.random() * 100),
+            category: `Categoria ${Math.ceil((i + 1) / 10)}`,
+            image: `Imagen ${i + 1}`
+        });
+    }
+    return products;
+};
+
+// Endpoint para devolver productos simulados
+app.get("/mockingproducts", (req, res) => {
+    const products = generateMockProducts();
+    res.json(products);
+});
 
 const PORT = 8080;
 

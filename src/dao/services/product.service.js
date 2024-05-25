@@ -9,16 +9,21 @@ const productService = {
             return products;
         }
         catch (error) {
-            throw new Error("Error al obtener los productos: " + error.message);
+            throw { code: 'PRODUCT_RETRIEVAL_FAILED', message: error.message };
         }
     },
 
     getProductDetail: async (productId) => {
         try {
             const productDetail = await productRepository.getProductById(productId);
+
+            if(!productDetail) {
+                throw { code: 'PRODUCT_NOT_FOUND' };
+            }
+
             return productDetail;
         } catch (error) {
-            throw new Error("Error al obtener el detalle del producto: " + error.message);
+            throw { code: 'PRODUCT_RETRIEVAL_FAILED', message: error.message };
         }
     },
 
@@ -28,7 +33,7 @@ const productService = {
             return productCategory;
         }
         catch (error) {
-            throw new Error("Error al obtener los productos por categoria: " + error.message);
+            throw { code: 'PRODUCT_RETRIEVAL_FAILED', message: error.message };
         }
     },
 
@@ -40,13 +45,13 @@ const productService = {
 
             // Si el usuario no esta logueado o registrado
             if (!user) {
-                throw new Error("No es el administrador");
+                throw { code: 'USER_NOT_FOUND' };
             }
 
             const imageName = req.file ? req.file.filename : null;
 
             if (!imageName) {
-                throw new Error('No se proporcionó una imagen válida');
+                throw { code: 'INVALID_IMAGE' };
             }
 
             // Crear instancia DTO
@@ -57,7 +62,7 @@ const productService = {
 
             return newProduct;
         } catch (error) {
-            throw new Error("Error al guardar el producto: " + error.message);
+            throw { code: 'PRODUCT_CREATION_FAILED', message: error.message };
         }
     },
 
@@ -73,6 +78,10 @@ const productService = {
 
             // Verificar si hay un archivo de imagen en la solicitud
             const imageName = req.file ? req.file.filename : existingProduct.imageName;
+
+            if (!imageName) {
+                throw { code: 'INVALID_IMAGE' };
+            }
 
             // Crear instancia DTO
             const updateProductDTO = new ProductDTO(
@@ -91,7 +100,7 @@ const productService = {
 
             return updatedProduct;
         } catch (error) {
-            throw new Error("Error al actualizar el producto: " + error.message);
+            throw { code: 'PRODUCT_UPDATE_FAILED', message: error.message };
         }
     },
 
@@ -104,18 +113,18 @@ const productService = {
             const product = await productRepository.getProductById(productId);
 
             if (!product) {
-                throw new Error("Producto no encontrado");
+                throw { code: 'PRODUCT_NOT_FOUND' }
             }
 
             const deleteResult = await productRepository.deleteProductById(productId);
 
             if (!deleteResult) {
-                throw new Error("Error al eliminar el producto");
+                throw { code: 'PRODUCT_DELETION_FAILED' };
             }
 
             return true;
         } catch (error) {
-            throw new Error("Error al eliminar el producto: " + error.message);
+            throw { code: 'PRODUCT_DELETION_FAILED', message: error.message };
         }
     }
 };
