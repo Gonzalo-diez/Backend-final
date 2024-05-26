@@ -14,6 +14,7 @@ import MongoStore from "connect-mongo";
 import cors from "cors";
 import nodemailer from "nodemailer";
 import compression from "express-compression";
+import { fakerES as faker } from "@faker-js/faker";
 import passport from "./config/jwt.js";
 import router from "./routes.js";
 import auth from "./config/auth.js";
@@ -114,13 +115,13 @@ const generateMockProducts = () => {
     for (let i = 0; i < 100; i++) {
         products.push({
             _id: new mongoose.Types.ObjectId(),
-            title: `Producto ${i + 1}`,
-            brand: `Marca ${i + 1}`,
-            description: `Descripcion ${i + 1}`,
-            price: (Math.random() * 100).toFixed(2),
-            stock: Math.floor(Math.random() * 100),
-            category: `Categoria ${Math.ceil((i + 1) / 10)}`,
-            image: `Imagen ${i + 1}`
+            title: faker.commerce.productName(),
+            brand: faker.company.name(),
+            description: faker.commerce.productDescription(),
+            price: faker.commerce.price(),
+            stock: faker.random.numeric(2),
+            category: faker.commerce.department(),
+            image: faker.image.imageUrl()
         });
     }
     return products;
