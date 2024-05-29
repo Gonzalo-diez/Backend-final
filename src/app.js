@@ -5,7 +5,6 @@ import Handlebars from "handlebars";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import bodyParser from "body-parser";
-import __dirname from "./util.js";
 import path from "path";
 import cookieParser from "cookie-parser";
 import session from "express-session";
@@ -20,6 +19,8 @@ import router from "./routes.js";
 import auth from "./config/auth.js";
 import { MONGO_URL, EMAIL_USERNAME, EMAIL_PASSWORD } from "./util.js";
 import errorHandler from "./errors/errorHandler.js";
+import __dirname from "./util.js";
+import { addLogger } from "./utils/logger-env.js";
 
 Handlebars.registerHelper('eq', function (a, b, options) {
     return a === b ? options.fn(this) : options.inverse(this);
@@ -61,7 +62,10 @@ app.use(cors());
 // Middleware para usar compression
 app.use(compression({
     brotli: {enable: true}
-}))
+}));
+
+// Middleware para usar el logger en la app
+app.use(addLogger)
 
 // Middleware para usar el session para autenticaciones de usuarios
 app.use(session({
