@@ -6,42 +6,40 @@ import logger from "../../utils/logger.js";
 const productService = {
     getProducts: async (query, currentPage) => {
         try {
-            logger.info(`Fetching products with query: ${JSON.stringify(query)} and page: ${currentPage}`);
             const products = await productRepository.getAllProducts(query, currentPage);
-            logger.info(`Products fetched successfully: ${JSON.stringify(products)}`);
+            logger.info(`Productos encontrados: ${JSON.stringify(products)}`);
             return products;
         } catch (error) {
-            logger.error(`Error fetching products - ${error.message}`);
+            logger.error(`Error al buscar los productos - ${error.message}`);
             throw { code: 'PRODUCT_RETRIEVAL_FAILED', message: error.message };
         }
     },
 
     getProductDetail: async (productId) => {
         try {
-            logger.info(`Fetching product details for ID: ${productId}`);
+            logger.info(`Buscando producto ID: ${productId}`);
             const productDetail = await productRepository.getProductById(productId);
 
             if (!productDetail) {
-                logger.warn(`Product not found with ID: ${productId}`);
+                logger.warn(`Producto no encontrado ID: ${productId}`);
                 throw { code: 'PRODUCT_NOT_FOUND' };
             }
 
-            logger.info(`Product details fetched successfully: ${JSON.stringify(productDetail)}`);
+            logger.info(`Producto encontrado exitosamente: ${JSON.stringify(productDetail)}`);
             return productDetail;
         } catch (error) {
-            logger.error(`Error fetching product details for ID: ${productId} - ${error.message}`);
+            logger.error(`Error al encontrar el producto ID: ${productId} - ${error.message}`);
             throw { code: 'PRODUCT_RETRIEVAL_FAILED', message: error.message };
         }
     },
 
     getProductCategory: async (category, query, currentPage) => {
         try {
-            logger.info(`Fetching products for category: ${category} with query: ${JSON.stringify(query)} and page: ${currentPage}`);
             const productCategory = await productRepository.getProductsByCategory(category, query, currentPage);
-            logger.info(`Products fetched successfully for category: ${category}`);
+            logger.info(`Productos de la categoria encontrados exitosamente: ${category}`);
             return productCategory;
         } catch (error) {
-            logger.error(`Error fetching products for category: ${category} - ${error.message}`);
+            logger.error(`Error al buscar los productos por su categoria: ${category} - ${error.message}`);
             throw { code: 'PRODUCT_RETRIEVAL_FAILED', message: error.message };
         }
     },
@@ -50,19 +48,19 @@ const productService = {
         const { title, brand, description, price, stock, category, userId } = productData;
 
         try {
-            logger.info(`Adding product with data: ${JSON.stringify(productData)}`);
+            logger.info(`Agregando los datos del producto: ${JSON.stringify(productData)}`);
             const user = await userRepository.findById(userId);
 
             // Si el usuario no esta logueado o registrado
             if (!user) {
-                logger.warn(`User not found: ${userId}`);
+                logger.warn(`User no encontrado: ${userId}`);
                 throw { code: 'USER_NOT_FOUND' };
             }
 
             const imageName = req.file ? req.file.filename : null;
 
             if (!imageName) {
-                logger.warn(`Invalid image for product: ${title}`);
+                logger.warn(`Imagen invalida para el producto: ${title}`);
                 throw { code: 'INVALID_IMAGE' };
             }
 
@@ -72,10 +70,10 @@ const productService = {
             // Paso directamente el DTO al repositorio
             const newProduct = await productRepository.createProduct(productDTO);
 
-            logger.info(`Product added successfully: ${JSON.stringify(newProduct)}`);
+            logger.info(`Producto agregado exitosamente: ${JSON.stringify(newProduct)}`);
             return newProduct;
         } catch (error) {
-            logger.error(`Error adding product - ${error.message}`);
+            logger.error(`Error al agregar el producto - ${error.message}`);
             throw { code: 'PRODUCT_CREATION_FAILED', message: error.message };
         }
     },
@@ -84,11 +82,11 @@ const productService = {
         const { title, brand, description, price, stock, category, userId } = productUpdateData;
 
         try {
-            logger.info(`Updating product with ID: ${productId} with data: ${JSON.stringify(productUpdateData)}`);
+            logger.info(`Actualizando el producto ID: ${productId} with data: ${JSON.stringify(productUpdateData)}`);
             // Verificar si el producto existe
             const existingProduct = await productRepository.getProductById(productId);
             if (!existingProduct) {
-                logger.warn(`Product not found with ID: ${productId}`);
+                logger.warn(`Producto no encontrado ID: ${productId}`);
                 throw new Error("El producto no existe");
             }
 
@@ -115,40 +113,39 @@ const productService = {
             // Paso directamente el DTO al repositorio
             const updatedProduct = await productRepository.updateProduct(productId, updateProductDTO);
 
-            logger.info(`Product updated successfully: ${JSON.stringify(updatedProduct)}`);
+            logger.info(`Producto actualizado exitosamente: ${JSON.stringify(updatedProduct)}`);
             return updatedProduct;
         } catch (error) {
-            logger.error(`Error updating product with ID: ${productId} - ${error.message}`);
+            logger.error(`Error al actualizar el producto ID: ${productId} - ${error.message}`);
             throw { code: 'PRODUCT_UPDATE_FAILED', message: error.message };
         }
     },
 
     getUpdateProduct: async () => {
-        logger.info(`Fetching update product data`);
         return "updateProduct";
     },
 
     deleteProduct: async (productId) => {
         try {
-            logger.info(`Deleting product with ID: ${productId}`);
+            logger.info(`Borrando el producto ID: ${productId}`);
             const product = await productRepository.getProductById(productId);
 
             if (!product) {
-                logger.warn(`Product not found with ID: ${productId}`);
+                logger.warn(`Producto no encontrado ID: ${productId}`);
                 throw { code: 'PRODUCT_NOT_FOUND' };
             }
 
             const deleteResult = await productRepository.deleteProductById(productId);
 
             if (!deleteResult) {
-                logger.error(`Failed to delete product with ID: ${productId}`);
+                logger.error(`No se pudo eliminar el producto ID: ${productId}`);
                 throw { code: 'PRODUCT_DELETION_FAILED' };
             }
 
             logger.info(`Product deleted successfully: ${productId}`);
             return true;
         } catch (error) {
-            logger.error(`Error deleting product with ID: ${productId} - ${error.message}`);
+            logger.error(`Error al borrar el producto ID: ${productId} - ${error.message}`);
             throw { code: 'PRODUCT_DELETION_FAILED', message: error.message };
         }
     }

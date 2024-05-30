@@ -6,33 +6,33 @@ import logger from "../../utils/logger.js";
 const messageService = {
     getMessages: async () => {
         try {
-            logger.info("Fetching all messages");
+            logger.info("Buscando todos los mensajes");
             const messages = await messageRepository.getMessages();
-            logger.info("Messages fetched successfully");
+            logger.info("Mensajes encontrados con exito");
             return messages;
         } catch (error) {
-            logger.error(`Error fetching messages - ${error.message}`);
+            logger.error(`Error al buscar los mensajes - ${error.message}`);
             throw new Error("Error en la base de datos");
         }
     },
 
     addMessage: async (userEmail, text) => {
         try {
-            logger.info(`Adding message for user: ${userEmail}`);
+            logger.info(`Agregando el mensaje del user: ${userEmail}`);
             const user = await userRepository.findByEmail(userEmail);
 
             if (!user) {
-                logger.warn(`User not found: ${userEmail}`);
+                logger.warn(`User no encontrado: ${userEmail}`);
                 throw new Error('Usuario no encontrado');
             }
 
             const messageDTO = new MessageDTO(user._id, text);
             const addMessage = await messageRepository.saveMessage(messageDTO);
 
-            logger.info(`Message added successfully for user: ${userEmail}`);
+            logger.info(`Mensaje agregado exitosamente del user: ${userEmail}`);
             return addMessage;
         } catch (error) {
-            logger.error(`Error adding message for user: ${userEmail} - ${error.message}`);
+            logger.error(`Error al agregar mensaje del user: ${userEmail} - ${error.message}`);
             throw new Error("Error en la base de datos");
         }
     }

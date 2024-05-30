@@ -8,12 +8,12 @@ import logger from "../../utils/logger.js";
 const userService = {
     getUserById: async (userId) => {
         try {
-            logger.info(`Fetching user by ID: ${userId}`);
+            logger.info(`Buscando user ID: ${userId}`);
             const user = await userRepository.findById(userId, true);
-            logger.info(`User fetched successfully: ${userId}`);
+            logger.info(`User encontrado exitosamente: ${userId}`);
             return user;
         } catch (error) {
-            logger.error(`Error fetching user by ID: ${userId} - ${error.message}`);
+            logger.error(`Error al buscar el user ID: ${userId} - ${error.message}`);
             throw new Error("Error al obtener usuario por ID: " + error.message);
         }
     },
@@ -26,11 +26,11 @@ const userService = {
         return new Promise((resolve, reject) => {
             passport.authenticate("local", (err, user, info) => {
                 if (err) {
-                    logger.error(`Error during login authentication: ${err.message}`);
+                    logger.error(`Error durante la autenticacion del login: ${err.message}`);
                     return reject(err);
                 }
                 if (!user) {
-                    logger.warn(`Invalid login credentials for email: ${email}`);
+                    logger.warn(`Credenciales de inicio de sesión no válidas para email: ${email}`);
                     return reject(new Error("Credenciales inválidas"));
                 }
                 if (email === "adminCoder@coder.com" && password === "adminCod3er123") {
@@ -38,7 +38,7 @@ const userService = {
                 }
 
                 const access_token = generateAuthToken(user);
-                logger.info(`User logged in successfully: ${email}`);
+                logger.info(`User iniciado sesión exitosamente: ${email}`);
                 resolve({ user, access_token });
             })({ body: { email, password } }, {});
         });
@@ -51,10 +51,10 @@ const userService = {
     register: async (userData) => {
         const { first_name, last_name, email, age, password } = userData;
         try {
-            logger.info(`Registering new user: ${email}`);
+            logger.info(`Registrando nuevo user: ${email}`);
             const existingUser = await userRepository.findByEmail(email);
             if (existingUser) {
-                logger.warn(`User already exists: ${email}`);
+                logger.warn(`User ya exite: ${email}`);
                 throw new Error("El usuario ya existe");
             }
 
@@ -64,10 +64,10 @@ const userService = {
             const createdUser = await userRepository.createUser(newUser);
             const access_token = generateAuthToken(createdUser);
 
-            logger.info(`User registered successfully: ${email}`);
+            logger.info(`User registrado: ${email}`);
             return { newUser: createdUser, access_token };
         } catch (error) {
-            logger.error(`Error registering user: ${email} - ${error.message}`);
+            logger.error(`Error al registrar el user: ${email} - ${error.message}`);
             throw error;
         }
     },
@@ -83,22 +83,22 @@ const userService = {
     handleGitHubCallback: async (req) => {
         const user = req.user;
         try {
-            logger.info(`Handling GitHub callback for user: ${user.email}`);
+            logger.info(`Manejo de devolución de GitHub callback para user: ${user.email}`);
             const access_token = generateAuthToken(user);
-            logger.info(`GitHub callback handled successfully for user: ${user.email}`);
+            logger.info(`Devolución de GitHub callback manejada exitosamente para el user: ${user.email}`);
             return { user, access_token };
         } catch (error) {
-            logger.error(`Error in GitHub callback for user: ${user.email} - ${error.message}`);
+            logger.error(`Error en GitHub callback del user: ${user.email} - ${error.message}`);
             throw new Error("Error interno del servidor");
         }
     },
 
     updateUser: async (userId, updatedUserData) => {
         try {
-            logger.info(`Updating user: ${userId}`);
+            logger.info(`Actualizando user: ${userId}`);
             const existingUser = await userRepository.findUser(userId);
             if (!existingUser) {
-                logger.warn(`User not found: ${userId}`);
+                logger.warn(`User no encontrado: ${userId}`);
                 throw new Error("El usuario no existe");
             }
 
@@ -107,10 +107,10 @@ const userService = {
             existingUser.email = updatedUserData.email || existingUser.email;
 
             await existingUser.save();
-            logger.info(`User updated successfully: ${userId}`);
+            logger.info(`User actualizado: ${userId}`);
             return existingUser;
         } catch (error) {
-            logger.error(`Error updating user: ${userId} - ${error.message}`);
+            logger.error(`Error al actualizar el user: ${userId} - ${error.message}`);
             throw new Error("Error al actualizar usuario: " + error.message);
         }
     },
@@ -121,16 +121,16 @@ const userService = {
 
     changePassword: async (userId, oldPassword, newPassword) => {
         try {
-            logger.info(`Changing password for user: ${userId}`);
+            logger.info(`Cambiando las contraseña del user: ${userId}`);
             const existingUser = await userRepository.findUser(userId);
             if (!existingUser) {
-                logger.warn(`User not found: ${userId}`);
+                logger.warn(`User no encontrado: ${userId}`);
                 throw new Error("El usuario no existe");
             }
 
             const isPasswordValid = await bcrypt.compare(oldPassword, existingUser.password);
             if (!isPasswordValid) {
-                logger.warn(`Invalid old password for user: ${userId}`);
+                logger.warn(`Contraseña antigua no válida para user: ${userId}`);
                 throw new Error("La contraseña antigua es incorrecta");
             }
 
@@ -138,10 +138,10 @@ const userService = {
             existingUser.password = hashedPassword;
 
             await existingUser.save();
-            logger.info(`Password changed successfully for user: ${userId}`);
+            logger.info(`La contraseña cambió exitosamente para el user: ${userId}`);
             return { message: "Contraseña actualizada correctamente" };
         } catch (error) {
-            logger.error(`Error changing password for user: ${userId} - ${error.message}`);
+            logger.error(`Error al cambiar la contraseña para la user: ${userId} - ${error.message}`);
             throw new Error("Error al cambiar la contraseña: " + error.message);
         }
     },
@@ -157,7 +157,7 @@ const userService = {
             req.session.user = null;
             req.session.isAuthenticated = false;
             res.clearCookie("jwtToken");
-            logger.info(`User logged out successfully: ${req.session.userId}`);
+            logger.info(`User logged out exitosamente: ${req.session.userId}`);
             return { message: "Logout funciona" };
         } catch (error) {
             logger.error(`Error logging out user: ${req.session.userId} - ${error.message}`);

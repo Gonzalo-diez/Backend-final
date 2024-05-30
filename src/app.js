@@ -21,6 +21,7 @@ import { MONGO_URL, EMAIL_USERNAME, EMAIL_PASSWORD } from "./util.js";
 import errorHandler from "./errors/errorHandler.js";
 import __dirname from "./util.js";
 import { addLogger } from "./utils/logger-env.js";
+import logger from "./utils/logger.js";
 
 Handlebars.registerHelper('eq', function (a, b, options) {
     return a === b ? options.fn(this) : options.inverse(this);
@@ -135,6 +136,23 @@ const generateMockProducts = () => {
 app.get("/mockingproducts", (req, res) => {
     const products = generateMockProducts();
     res.json(products);
+});
+
+// Endpoint para probar los logs
+app.get("/loggerTest", (req, res) => {
+    try {
+      // Ejemplo de diferentes niveles de logs
+      logger.fatal("Este es un mensaje fatal");
+      logger.error("Este es un mensaje de error");
+      logger.warn("Este es un mensaje de advertencia");
+      logger.info("Este es un mensaje de información");
+      logger.debug("Este es un mensaje de depuración");
+  
+      res.status(200).send("Logs probados correctamente");
+    } catch (error) {
+      logger.error("Error al probar los logs:", error);
+      res.status(500).send("Error al probar los logs");
+    }
 });
 
 const PORT = 8080;
