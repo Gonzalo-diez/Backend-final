@@ -3,16 +3,20 @@ import { generateAuthToken } from "../../config/auth.js";
 import passport from "passport";
 import userRepository from "../repositories/user.repository.js";
 import UserDTO from "../DTO/user.dto.js";
+import logger from "../../utils/logger.js";
 
 const userService = {
     getUserById: async (userId) => {
         try {
+            logger.info(`Fetching user by ID: ${userId}`);
             const user = await userRepository.findById(userId, true);
+            logger.info(`User fetched successfully: ${userId}`);
             return user;
         } catch (error) {
+            logger.error(`Error fetching user by ID: ${userId} - ${error.message}`);
             throw new Error("Error al obtener usuario por ID: " + error.message);
         }
-    }, 
+    },
 
     getLogin: async () => {
         return "login";
@@ -22,18 +26,19 @@ const userService = {
         return new Promise((resolve, reject) => {
             passport.authenticate("local", (err, user, info) => {
                 if (err) {
-                    reject(err);
+                    logger.error(`Error during login authentication: ${err.message}`);
+                    return reject(err);
                 }
                 if (!user) {
-                    reject(new Error("Credenciales inválidas"));
+                    logger.warn(`Invalid login credentials for email: ${email}`);
+                    return reject(new Error("Credenciales inválidas"));
                 }
                 if (email === "adminCoder@coder.com" && password === "adminCod3er123") {
                     user.role = "admin";
                 }
 
-                // Generar token JWT
                 const access_token = generateAuthToken(user);
-
+                logger.info(`User logged in successfully: ${email}`);
                 resolve({ user, access_token });
             })({ body: { email, password } }, {});
         });
@@ -45,30 +50,24 @@ const userService = {
 
     register: async (userData) => {
         const { first_name, last_name, email, age, password } = userData;
-
         try {
-            // Verificar si el usuario ya existe
+            logger.info(`Registering new user: ${email}`);
             const existingUser = await userRepository.findByEmail(email);
             if (existingUser) {
+                logger.warn(`User already exists: ${email}`);
                 throw new Error("El usuario ya existe");
             }
 
-            // Realiza el hash de la contraseña usando bcrypt para encriptarla en la base de datos
             const hashedPassword = await bcrypt.hash(password, 10);
-
-            // Crear un nuevo usuario utilizando el DTO
             const newUserDTO = new UserDTO(first_name, last_name, email, age, hashedPassword);
-
-            // Convertir el DTO a un objeto plano
             const newUser = { ...newUserDTO };
-
             const createdUser = await userRepository.createUser(newUser);
-
-            // Genera el token de acceso
             const access_token = generateAuthToken(createdUser);
 
+            logger.info(`User registered successfully: ${email}`);
             return { newUser: createdUser, access_token };
         } catch (error) {
+            logger.error(`Error registering user: ${email} - ${error.message}`);
             throw error;
         }
     },
@@ -84,33 +83,34 @@ const userService = {
     handleGitHubCallback: async (req) => {
         const user = req.user;
         try {
-            // Genera el token de acceso
+            logger.info(`Handling GitHub callback for user: ${user.email}`);
             const access_token = generateAuthToken(user);
+            logger.info(`GitHub callback handled successfully for user: ${user.email}`);
             return { user, access_token };
         } catch (error) {
-            console.error('Error en el callback de GitHub:', error);
+            logger.error(`Error in GitHub callback for user: ${user.email} - ${error.message}`);
             throw new Error("Error interno del servidor");
         }
     },
 
     updateUser: async (userId, updatedUserData) => {
         try {
-            // Verificar si el usuario existe
+            logger.info(`Updating user: ${userId}`);
             const existingUser = await userRepository.findUser(userId);
             if (!existingUser) {
+                logger.warn(`User not found: ${userId}`);
                 throw new Error("El usuario no existe");
             }
 
-            // Actualizar los campos del usuario con los datos del DTO
             existingUser.first_name = updatedUserData.first_name || existingUser.first_name;
             existingUser.last_name = updatedUserData.last_name || existingUser.last_name;
             existingUser.email = updatedUserData.email || existingUser.email;
 
-            // Guardar los cambios en la base de datos
             await existingUser.save();
-
+            logger.info(`User updated successfully: ${userId}`);
             return existingUser;
         } catch (error) {
+            logger.error(`Error updating user: ${userId} - ${error.message}`);
             throw new Error("Error al actualizar usuario: " + error.message);
         }
     },
@@ -121,29 +121,27 @@ const userService = {
 
     changePassword: async (userId, oldPassword, newPassword) => {
         try {
-            // Verificar si el usuario existe
+            logger.info(`Changing password for user: ${userId}`);
             const existingUser = await userRepository.findUser(userId);
             if (!existingUser) {
+                logger.warn(`User not found: ${userId}`);
                 throw new Error("El usuario no existe");
             }
 
-            // Verificar si la contraseña antigua coincide
             const isPasswordValid = await bcrypt.compare(oldPassword, existingUser.password);
             if (!isPasswordValid) {
+                logger.warn(`Invalid old password for user: ${userId}`);
                 throw new Error("La contraseña antigua es incorrecta");
             }
 
-            // Realizar el hash de la nueva contraseña
             const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-            // Actualizar la contraseña del usuario
             existingUser.password = hashedPassword;
 
-            // Guardar los cambios en la base de datos
             await existingUser.save();
-
+            logger.info(`Password changed successfully for user: ${userId}`);
             return { message: "Contraseña actualizada correctamente" };
         } catch (error) {
+            logger.error(`Error changing password for user: ${userId} - ${error.message}`);
             throw new Error("Error al cambiar la contraseña: " + error.message);
         }
     },
@@ -154,14 +152,15 @@ const userService = {
 
     logOut: async (res, req) => {
         try {
-            // Cierra la sesión del usuario
+            logger.info(`Logging out user: ${req.session.userId}`);
             req.session.userId = null;
             req.session.user = null;
             req.session.isAuthenticated = false;
             res.clearCookie("jwtToken");
+            logger.info(`User logged out successfully: ${req.session.userId}`);
             return { message: "Logout funciona" };
         } catch (error) {
-            console.error("Error al cerrar sesión:", error);
+            logger.error(`Error logging out user: ${req.session.userId} - ${error.message}`);
             throw new Error("Error interno del servidor");
         }
     }

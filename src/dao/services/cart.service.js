@@ -7,13 +7,14 @@ import TicketDTO from "../DTO/ticket.dto.js";
 import PurchaseDTO from "../DTO/purchase.dto.js";
 import ticketRepository from "../repositories/ticket.repository.js";
 import purchaseRepository from "../repositories/purchase.repository.js";
+import logger from "../../utils/logger.js";
 
 const cartService = {
     getCartById: async (cartId, userId) => {
         try {
+            logger.info(`Fetching cart with ID: ${cartId} for user: ${userId}`);
             const cart = await cartRepository.getCartById(cartId, userId);
 
-            // Calcula el total de productos y el total a pagar
             let totalProducts = 0;
             let totalPrice = 0;
 
@@ -22,74 +23,84 @@ const cartService = {
                 totalPrice += product.productTotal;
             });
 
-            // Agrega los totales al objeto de carrito
             cart.totalProducts = totalProducts;
             cart.totalPrice = totalPrice;
 
-            console.log(cart);
+            logger.info(`Cart fetched successfully: ${JSON.stringify(cart)}`);
 
             return cart;
         } catch (error) {
+            logger.error(`Error fetching cart by ID: ${cartId} for user: ${userId} - ${error.message}`);
             throw new Error("Error al obtener el carrito por ID: " + error.message);
         }
     },
 
     getCartByUser: async(userId) => {
         try {
+            logger.info(`Fetching cart for user: ${userId}`);
             const cartByUser = await cartRepository.getCartByUser(userId);
-
+            logger.info(`Cart fetched successfully for user: ${userId}`);
             return cartByUser;
-        }
-        catch (error) {
-            throw new Error("Error al buscar el carrito del usuario")
+        } catch (error) {
+            logger.error(`Error fetching cart for user: ${userId} - ${error.message}`);
+            throw new Error("Error al buscar el carrito del usuario: " + error.message);
         }
     },
 
     addProductToCart: async (productId, userId) => {
         try {
+            logger.info(`Adding product with ID: ${productId} to cart for user: ${userId}`);
             const user = await userRepository.findUser(userId);
 
-            if(!user) {
+            if (!user) {
+                logger.warn(`User not logged in: ${userId}`);
                 throw new Error("Usted no esta logueado");
             }
-            
+
             const product = await productRepository.getProductForCart(productId);
 
             if (!product) {
+                logger.warn(`Product not found: ${productId}`);
                 throw new Error("Producto no encontrado");
             }
 
             if (product.stock < 1) {
+                logger.warn(`Product out of stock: ${productId}`);
                 throw new Error("Producto fuera de stock");
             }
 
-            // Busca el carrito existente del usuario
             let cart = await cartRepository.findByUserId(userId);
-
             const newCart = await cartRepository.addProductToCart(productId, userId, cart, product);
 
-            console.log(newCart);
+            logger.info(`Product added to cart successfully: ${JSON.stringify(newCart)}`);
 
             return newCart;
         } catch (error) {
+            logger.error(`Error adding product to cart for user: ${userId} - ${error.message}`);
             throw new Error("Error al agregar producto al carrito: " + error.message);
         }
     },
 
     updateCart: async (cartId, products, total) => {
         try {
+            logger.info(`Updating cart with ID: ${cartId}`);
             const cart = await cartRepository.updateCart(cartId, products, total);
+            logger.info(`Cart updated successfully: ${JSON.stringify(cart)}`);
             return cart;
         } catch (error) {
+            logger.error(`Error updating cart with ID: ${cartId} - ${error.message}`);
             throw new Error("Error al actualizar el carrito: " + error.message);
         }
     },
 
     updateProductQuantityInCart: async (cartId, productId, quantity) => {
         try {
+            logger.info(`Updating quantity for product with ID: ${productId} in cart with ID: ${cartId}`);
             const cart = await cartRepository.updateProductQuantityInCart(cartId, productId, quantity);
+            logger.info(`Product quantity updated successfully in cart: ${JSON.stringify(cart)}`);
             return cart;
         } catch (error) {
+            logger.error(`Error updating product quantity in cart with ID: ${cartId} - ${error.message}`);
             throw new Error("Error al actualizar la cantidad del producto en el carrito: " + error.message);
         }
     },
@@ -98,6 +109,7 @@ const cartService = {
         const { country, state, city, street, postal_code, phone, card_bank, security_number, userId } = cartData;
 
         try {
+            logger.info(`Purchasing cart with ID: ${cartId} for user: ${userId}`);
             const cart = await cartRepository.getCartById(cartId, userId);
 
             let totalPurchaseAmount = 0;
@@ -108,29 +120,27 @@ const cartService = {
                 const product = await productRepository.findProductById(item.product);
 
                 if (!product) {
+                    logger.warn(`Product with ID ${item.product} not found`);
                     throw new Error(`Producto con ID ${item.product} no encontrado`);
                 }
 
                 if (product.stock >= item.productQuantity) {
-                    // Suficiente stock, reducir stock y agregar a la compra
                     product.stock -= item.productQuantity;
                     await product.save();
 
                     totalPurchaseAmount += item.productTotal;
                     productsToPurchase.push(item);
                 } else {
-                    // No suficiente stock, mantener en el carrito
                     productsToKeepInCart.push(item);
                 }
             }
 
             if (productsToPurchase.length === 0) {
+                logger.warn(`Insufficient stock for any products in cart with ID: ${cartId}`);
                 throw new Error("No hay productos suficientes en stock para realizar la compra");
             }
 
-            // Crear instancia DTO
             const shippingDTO = new CartDTO(country, state, city, street, postal_code, phone);
-
             const paymentDTO = new CartDTO(card_bank, security_number);
 
             const purchaseDTO = new PurchaseDTO({
@@ -142,9 +152,8 @@ const cartService = {
                 })),
                 shipping: shippingDTO,
                 payment: paymentDTO,
-            })
+            });
 
-            // Crear el ticket de compra con los productos que se pueden comprar
             const ticketDTO = new TicketDTO({
                 code: generateRandomCode(10),
                 purchaseDatetime: new Date(),
@@ -159,42 +168,48 @@ const cartService = {
             });
 
             const ticket = await ticketRepository.createTicket(ticketDTO);
-
             const purchase = await purchaseRepository.createPurchase(purchaseDTO);
 
-            console.log(purchase);
+            logger.info(`Purchase completed successfully: ${JSON.stringify(purchase)}`);
 
-            // Limpiar el carrito y mantener los productos que no se pudieron comprar
             await cartRepository.clearCart(cartId);
             await cartRepository.updateCart(cartId, productsToKeepInCart, totalPurchaseAmount);
 
             return ticket;
         } catch (error) {
+            logger.error(`Error purchasing cart with ID: ${cartId} for user: ${userId} - ${error.message}`);
             throw new Error("Error al realizar la compra: " + error.message);
         }
     },
 
     getPurchaseCart: async () => {
+        logger.info(`Fetching purchase cart`);
         return "purchase";
     },
 
     deleteProductFromCart: async (cartId, productId) => {
         try {
+            logger.info(`Deleting product with ID: ${productId} from cart with ID: ${cartId}`);
             const cart = await cartRepository.deleteProductFromCart(cartId, productId);
+            logger.info(`Product deleted successfully from cart: ${JSON.stringify(cart)}`);
             return cart;
         } catch (error) {
+            logger.error(`Error deleting product with ID: ${productId} from cart with ID: ${cartId} - ${error.message}`);
             throw new Error("Error al eliminar el producto del carrito: " + error.message);
         }
     },
 
     clearCart: async (cartId) => {
         try {
+            logger.info(`Clearing cart with ID: ${cartId}`);
             const cart = await cartRepository.clearCart(cartId);
+            logger.info(`Cart cleared successfully: ${JSON.stringify(cart)}`);
             return cart;
         } catch (error) {
+            logger.error(`Error clearing cart with ID: ${cartId} - ${error.message}`);
             throw new Error("Error al vaciar el carrito: " + error.message);
         }
     }
-};
+}
 
 export default cartService;
