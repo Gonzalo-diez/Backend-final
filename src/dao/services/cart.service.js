@@ -2,7 +2,7 @@ import cartRepository from "../repositories/cart.repository.js";
 import CartDTO from "../DTO/cart.dto.js";
 import { generateRandomCode } from "../../util.js";
 import userRepository from "../repositories/user.repository.js";
-import productRepository from "../Repositories/product.repository.js";
+import productRepository from "../repositories/product.repository.js";
 import TicketDTO from "../DTO/ticket.dto.js";
 import PurchaseDTO from "../DTO/purchase.dto.js";
 import ticketRepository from "../repositories/ticket.repository.js";

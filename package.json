@@ -29,7 +29,6 @@
     "mongoose": "^8.2.1",
     "mongoose-paginate-v2": "^1.8.0",
     "multer": "^1.4.5-lts.1",
-    "node": "^21.6.1",
     "nodemailer": "^6.9.13",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",
@@ -41,5 +40,8 @@
     "sweetalert2": "^11.6.13",
     "twilio": "^5.0.4",
     "winston": "^3.13.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.2"
   }
 }

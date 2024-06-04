@@ -1,4 +1,4 @@
-import Cart from "../Models/cart.model.js";
+import Cart from "../models/cart.model.js";
 
 const cartRepository = {
     findByUserId: async (userId) => {

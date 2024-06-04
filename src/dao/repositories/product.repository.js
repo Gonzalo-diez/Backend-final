@@ -1,4 +1,4 @@
-import Product from "../Models/product.model.js";
+import Product from "../models/product.model.js";
 
 const productRepository = {
     getAllProducts: async (query, currentPage) => {
