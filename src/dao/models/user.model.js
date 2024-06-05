@@ -12,6 +12,8 @@ const userSchema = new mongoose.Schema({
         ref: "Cart"
     },
     role: { type: String, default: "user" },
+    resetToken: String,
+    resetTokenExpires: Date
 });
 
 const User = mongoose.model("User", userSchema);

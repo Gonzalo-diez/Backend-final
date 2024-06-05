@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import { generateAuthToken } from "../../config/auth.js";
 import passport from "passport";
 import userRepository from "../repositories/user.repository.js";
@@ -148,6 +149,66 @@ const userService = {
 
     getChangePassword: async () => {
         return "changePassword";
+    },
+
+    getUserByEmail: async (email) => {
+        try {
+            const user = await userRepository.findByEmail(email);
+            return user;
+        } catch (error) {
+            logger.error(`Error al buscar usuario por email: ${email} - ${error.message}`);
+            throw new Error("Error al obtener usuario por email: " + error.message);
+        }
+    },
+
+    savePasswordResetToken: async (userId, resetToken, resetTokenExpires) => {
+        try {
+            await userRepository.updateUser(userId, { resetToken, resetTokenExpires });
+        } catch (error) {
+            logger.error(`Error al guardar el token de restablecimiento: ${error.message}`);
+            throw new Error("Error al guardar el token de restablecimiento: " + error.message);
+        }
+    },
+
+    getUserByResetToken: async (token) => {
+        try {
+            const user = await userRepository.findByResetToken(token);
+            return user;
+        } catch (error) {
+            logger.error(`Error al buscar usuario por token de restablecimiento: ${token} - ${error.message}`);
+            throw new Error("Error al obtener usuario por token de restablecimiento: " + error.message);
+        }
+    },
+
+    updatePassword: async (userId, newPassword) => {
+        try {
+            if(!newPassword) {
+                throw new Error("Nueva contraseña requerida")
+            }
+
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+            await userRepository.updateUser(userId, { password: hashedPassword });
+        } catch (error) {
+            logger.error(`Error al actualizar la contraseña del usuario: ${userId} - ${error.message}`);
+            throw new Error("Error al actualizar la contraseña del usuario: " + error.message);
+        }
+    },
+
+    clearPasswordResetToken: async (userId) => {
+        try {
+            await userRepository.updateUser(userId, { resetToken: null, resetTokenExpires: null });
+        } catch (error) {
+            logger.error(`Error al limpiar el token de restablecimiento del usuario: ${userId} - ${error.message}`);
+            throw new Error("Error al limpiar el token de restablecimiento del usuario: " + error.message);
+        }
+    },
+
+    getForgotPassword: async () => {
+        return "forgotPassword";
+    },
+
+    getResetPassword: async () => {
+        return "resetPassword";
     },
 
     logOut: async (res, req) => {

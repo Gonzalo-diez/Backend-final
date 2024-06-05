@@ -28,6 +28,12 @@ userRouter.get("/github", userController.getGitHub);
 // Callback de GitHub después de la autenticación
 userRouter.get("/githubcallback", userController.gitHubCallback, userController.handleGitHubCallback);
 
+// Maneja el renderizado del forgot password
+userRouter.get("/forgotPassword", userController.getForgotPassword);
+
+// Maneja el renderizado del reset password
+userRouter.get("/resetPassword/:token", userController.getResetPassword);
+
 // Maneja la solicitud para actualizar los datos del usuario
 userRouter.put("/updateUser/:uid", authToken, userController.updateUser);
 
@@ -39,5 +45,9 @@ userRouter.post("/login", userController.login);
 
 // Maneja la solicitud de registros de usuarios
 userRouter.post("/register", userController.register);
+
+userRouter.post("/requestPasswordReset", userController.requestPasswordReset);
+
+userRouter.post("/resetPassword/:token", userController.resetPassword);
 
 export default userRouter;
