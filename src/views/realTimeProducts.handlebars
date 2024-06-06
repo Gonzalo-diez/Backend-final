@@ -113,7 +113,11 @@
                     <a href="http://localhost:8080/api/products/updateProduct/{{this._id}}" class="btn btn-warning">Editar Producto</a>
                     {{/eq}}
                     {{/eq}}
+                    {{#ifRole ../user.role "user" "premium"}}
+                    {{#eq ../user._id "!=" this.owner}}
                     <button class="btn btn-success cart-btn" data-product-id="{{this._id}}">Agregar al carrito</button>
+                    {{/eq}}
+                    {{/ifRole}}
                 </div>
             </div>
         </div>

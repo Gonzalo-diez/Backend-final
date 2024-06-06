@@ -1,1 +1,13 @@
 {"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: gonzalodiez97@gmail.com"}
+{"level":"error","message":"Error al encontrar el producto ID: 66614009832b1997294bf1d7 - Error al obtener el producto por ID: Cannot populate path `user` because it is not in your schema. Set the `strictPopulate` option to false to override."}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: gonzalodiez@gmail.com"}
+{"level":"warn","message":"Invalid image for product update: 66614009832b1997294bf1d7"}
+{"level":"error","message":"Error al actualizar el producto ID: 66614009832b1997294bf1d7 - undefined"}
+{"level":"warn","message":"Invalid image for product update: 66614009832b1997294bf1d7"}
+{"level":"error","message":"Error al actualizar el producto ID: 66614009832b1997294bf1d7 - undefined"}
+{"level":"warn","message":"Invalid image for product update: 66614009832b1997294bf1d7"}
+{"level":"error","message":"Error al actualizar el producto ID: 66614009832b1997294bf1d7 - undefined"}
+{"level":"warn","message":"Invalid image for product update: 66614009832b1997294bf1d7"}
+{"level":"error","message":"Error al actualizar el producto ID: 66614009832b1997294bf1d7 - undefined"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: gonzalodiez97@gmail.com"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: gonzalodiez@gmail.com"}

@@ -24,13 +24,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Content-Type": "application/json",
                     "authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ title, brand, description, price, stock, category, image }),
+                body: JSON.stringify({ title, brand, description, price, stock, category, image, userId }),
             });
 
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.error || "Error al editar el perfil");
+                throw new Error(data.error || "Error al editar el producto");
             }
 
             // El perfil se editó exitosamente, redirigir a otra página o mostrar un mensaje de éxito

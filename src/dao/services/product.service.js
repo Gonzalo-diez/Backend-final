@@ -78,8 +78,8 @@ const productService = {
         }
     },
 
-    updateProduct: async (productId, req, productUpdateData) => {
-        const { title, brand, description, price, stock, category, userId } = productUpdateData;
+    updateProduct: async (productId, req, productUpdateData, userId) => {
+        const { title, brand, description, price, stock, category } = productUpdateData;
 
         try {
             logger.info(`Actualizando el producto ID: ${productId} with data: ${JSON.stringify(productUpdateData)}`);
@@ -106,8 +106,8 @@ const productService = {
                 price !== undefined ? price : existingProduct.price,
                 stock !== undefined ? stock : existingProduct.stock,
                 category || existingProduct.category,
-                imageName,
-                userId || existingProduct.user
+                req.file ? req.file.filename : existingProduct.imageName,
+                userId || existingProduct.owner
             );
 
             // Paso directamente el DTO al repositorio

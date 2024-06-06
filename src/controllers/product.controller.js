@@ -96,8 +96,8 @@ const productController = {
             const product = await productService.getProductDetail(productId);
             const user = await userService.getUserById(userId)
 
-            if (userRole == 'admin' || (userRole == 'premium' && user == product.owner)) {
-                const updatedProduct = await productService.updateProduct(productId, req, productUpdateData);
+            if (userRole === 'admin' || (userRole === 'premium' && user && user._id.toString() === product.owner._id.toString())) {
+                const updatedProduct = await productService.updateProduct(productId, req, productUpdateData, userId);
 
                 return res.json({ message: "Producto actualizado!", product: updatedProduct });
             }
