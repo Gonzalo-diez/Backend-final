@@ -140,7 +140,7 @@ socket.on('addProduct', (addProduct) => {
     renderProducts(addProduct);
 });
 
-if (userRole === "admin") {
+if (userRole === "admin" || "premium") {
     // Manejar el envío del formulario para agregar un producto
     document.getElementById('addProductForm').addEventListener('submit', async (event) => {
         event.preventDefault();

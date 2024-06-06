@@ -96,7 +96,7 @@ const productController = {
             const product = await productService.getProductDetail(productId);
             const user = await userService.getUserById(userId);
     
-            if (userRole === 'admin' || (userRole === 'premium' && user && user._id.toString() === product.owner._id.toString())) {
+            if (userRole === 'admin' || (userRole === 'premium' && user && user._id.toString() == product.owner._id.toString())) {
                 const updatedProduct = await productService.updateProduct(productId, req, productUpdateData, userId);
     
                 return res.json({ message: "Producto actualizado!", product: updatedProduct });
@@ -136,7 +136,7 @@ const productController = {
             const product = await productService.getProductDetail(productId);
             const user = await userService.getUserById(userId);
     
-            if (userRole === 'admin' || (userRole === 'premium' && user && user._id.toString() === product.owner._id.toString())) {
+            if (userRole === 'admin' || (userRole === 'premium' && user && user._id.toString() == product.owner._id.toString())) {
                 await productService.deleteProduct(productId);
                 return res.json({ message: "Producto eliminado!" });
             } else {
