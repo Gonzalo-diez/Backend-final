@@ -8,7 +8,6 @@ import PurchaseDTO from "../DTO/purchase.dto.js";
 import ticketRepository from "../repositories/ticket.repository.js";
 import purchaseRepository from "../repositories/purchase.repository.js";
 import logger from "../../utils/logger.js";
-import { isPremium } from "../../config/auth.js";
 
 const cartService = {
     getCartById: async (cartId, userId) => {
@@ -48,7 +47,7 @@ const cartService = {
         }
     },
 
-    addProductToCart: async (productId, userId) => {
+    addProductToCart: async (productId, userId, userRole) => {
         try {
             logger.info(`Agregando producto ID: ${productId} al carrito del user: ${userId}`);
             const user = await userRepository.findUser(userId);
@@ -58,9 +57,14 @@ const cartService = {
                 throw new Error("Usted no esta logueado");
             }
 
-            if(isPremium == product.owner) {
-                logger.warn(`User igual al creador del producto`);
-                throw new Error("Usted es el creador de este producto");
+            if(userRole !== "admin" || "premium") {
+                logger.warn(`User no autorizado`);
+                throw new Error("Usted no esta autorizado");
+            }
+
+            if(userRole == "premium" && userId == product.owner) {
+                logger.warn(`User es autor de este producto`);
+                throw new Error("Usted es el creador de este producto, no puede agregarlo al carrito");
             }
 
             const product = await productRepository.getProductForCart(productId);

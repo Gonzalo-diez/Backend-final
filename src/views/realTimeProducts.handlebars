@@ -7,6 +7,11 @@
         ¡Bienvenido usuario, {{user.first_name}} {{user.last_name}}!
     </div>
     {{/eq}}
+    {{#eq user.role "premium"}}
+    <div class="alert alert-success" role="alert">
+        ¡Bienvenido usuario premium, {{user.first_name}} {{user.last_name}}!
+    </div>
+    {{/eq}}
     {{#eq user.role "admin"}}
     <div class="alert alert-success" role="alert">
         ¡Bienvenido administrador, {{user.first_name}} {{user.last_name}}!
@@ -29,7 +34,7 @@
 </form>
 {{/eq}}
 
-{{#eq user.role "admin"}}
+{{#ifRole user.role "admin" "premium"}}
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6 offset-md-3">
@@ -41,8 +46,7 @@
                     <input type="text" class="form-control" name="brand" id="brand" placeholder="Marca" required>
                 </div>
                 <div class="mb-3">
-                    <textarea class="form-control" name="description" id="description" placeholder="Descripción"
-                        required></textarea>
+                    <textarea class="form-control" name="description" id="description" placeholder="Descripción" required></textarea>
                 </div>
                 <div class="mb-3">
                     <input type="number" class="form-control" name="price" id="price" placeholder="Precio" required>
@@ -69,7 +73,7 @@
         </div>
     </div>
 </div>
-{{/eq}}
+{{/ifRole}}
 
 <!-- Filtro por categoría -->
 <form action="/api/products/" method="GET">
@@ -104,15 +108,15 @@
                     <p class="card-text">Stock: {{this.stock}}</p>
                     <p class="card-text">Categoría: {{this.category}}</p>
                     <a href="http://localhost:8080/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a>
-                    {{#eq ../user.role "admin"}}
+                    {{#ifRole ../user.role "admin" "premium"}}
                     <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
                     <a href="http://localhost:8080/api/products/updateProduct/{{this._id}}" class="btn btn-warning">Editar Producto</a>
                     <a href="http://localhost:8080/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a>
-                    {{/eq}}
-                    {{#eq ../user.role "user"}}
+                    {{/ifRole}}
+                    {{#ifRole ../user.role "user" "premium"}}
                     <button class="btn btn-success cart-btn" data-product-id="{{this._id}}">Agregar al carrito</button>
                     <a href="http://localhost:8080/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a>
-                    {{/eq}}
+                    {{/ifRole}}
                 </div>
             </div>
         </div>

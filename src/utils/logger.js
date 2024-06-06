@@ -4,7 +4,7 @@ const customLevelOptions = {
   levels: {
     fatal: 0,
     error: 1,
-    warning: 2,
+    warn: 2,
     info: 3,
     debug: 4,
   },

@@ -24,8 +24,15 @@ import __dirname from "./util.js";
 import { addLogger } from "./utils/logger-env.js";
 import logger from "./utils/logger.js";
 
+// Metodos handlebars para ayudarme en el lado cliente
 Handlebars.registerHelper('eq', function (a, b, options) {
     return a === b ? options.fn(this) : options.inverse(this);
+});
+
+Handlebars.registerHelper('ifRole', function(role, ...args) {
+    const options = args.pop();
+    const roles = args;
+    return roles.includes(role) ? options.fn(this) : options.inverse(this);
 });
 
 console.log("Nodemailer email:", EMAIL_USERNAME);

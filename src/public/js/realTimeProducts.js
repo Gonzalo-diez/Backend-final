@@ -4,7 +4,7 @@ const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
 const userRole = localStorage.getItem("userRole");
 
-if (userId && userRole === "admin") {
+if (userId && userRole === "admin" || userRole === "premium") {
     document.getElementById('userId').value = userId;
 }
 
