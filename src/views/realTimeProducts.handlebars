@@ -1,31 +1,28 @@
 <h1 class="text-center">Productos en tiempo real</h1>
 
 <div class="container">
-    <!-- Mostrar un mensaje de bienvenida si el usuario está autenticado -->
-    {{#eq user.role "user"}}
+    {{#eq user.role "==" "user"}}
     <div class="alert alert-success" role="alert">
         ¡Bienvenido usuario, {{user.first_name}} {{user.last_name}}!
     </div>
     {{/eq}}
-    {{#eq user.role "premium"}}
+    {{#eq user.role "==" "premium"}}
     <div class="alert alert-success" role="alert">
         ¡Bienvenido usuario premium, {{user.first_name}} {{user.last_name}}!
     </div>
     {{/eq}}
-    {{#eq user.role "admin"}}
+    {{#eq user.role "==" "admin"}}
     <div class="alert alert-success" role="alert">
         ¡Bienvenido administrador, {{user.first_name}} {{user.last_name}}!
     </div>
     {{/eq}}
 </div>
 
-{{#eq user.role "user"}}
-<!-- Filtro de carritos -->
+{{#eq user.role "==" "user"}}
 <form action="/api/products/" method="GET" id="cartForm">
     <label for="cart">Filtrar por carrito:</label>
     <select name="cart" id="cart">
         <option value="">Todos los carritos</option>
-        <!-- Aquí iteramos sobre los IDs de los carritos disponibles -->
         {{#each Carts}}
         <option value="{{this._id}}">{{this._id}}</option>
         {{/each}}
@@ -65,7 +62,7 @@
                 <div class="mb-3">
                     <input type="file" class="form-control" name="image" id="image" accept="image/*" required>
                 </div>
-                <input type="hidden" name="userId" id="userId" value="{{userId}}">
+                <input type="hidden" name="userId" id="userId" value="{{user._id}}">
                 <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Agregar Producto</button>
                 </div>
@@ -75,7 +72,6 @@
 </div>
 {{/ifRole}}
 
-<!-- Filtro por categoría -->
 <form action="/api/products/" method="GET">
     <label for="category">Filtrar por categoría:</label>
     <select name="category" id="category">
@@ -87,7 +83,6 @@
     <button type="submit">Filtrar</button>
 </form>
 
-<!-- Ordenar por precio -->
 <div>
     <a href="?sort=desc" class="btn btn-primary">Mayor precio</a>
     <a href="?sort=asc" class="btn btn-primary">Menor precio</a>
@@ -108,15 +103,17 @@
                     <p class="card-text">Stock: {{this.stock}}</p>
                     <p class="card-text">Categoría: {{this.category}}</p>
                     <a href="http://localhost:8080/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a>
-                    {{#ifRole ../user.role "admin" "premium"}}
+                    {{#eq ../user.role "==" "admin"}}
                     <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
                     <a href="http://localhost:8080/api/products/updateProduct/{{this._id}}" class="btn btn-warning">Editar Producto</a>
-                    <a href="http://localhost:8080/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a>
-                    {{/ifRole}}
-                    {{#ifRole ../user.role "user" "premium"}}
+                    {{/eq}}
+                    {{#eq ../user.role "==" "premium"}}
+                    {{#eq ../user._id "==" this.owner}}
+                    <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
+                    <a href="http://localhost:8080/api/products/updateProduct/{{this._id}}" class="btn btn-warning">Editar Producto</a>
+                    {{/eq}}
+                    {{/eq}}
                     <button class="btn btn-success cart-btn" data-product-id="{{this._id}}">Agregar al carrito</button>
-                    <a href="http://localhost:8080/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a>
-                    {{/ifRole}}
                 </div>
             </div>
         </div>
@@ -147,7 +144,6 @@
         </div>
     </div>
 </div>
-
 
 <script src="/socket.io/socket.io.js"></script>
 <script type="module" src="/js/realTimeProducts.js"></script>

@@ -25,18 +25,38 @@ import { addLogger } from "./utils/logger-env.js";
 import logger from "./utils/logger.js";
 
 // Metodos handlebars para ayudarme en el lado cliente
-Handlebars.registerHelper('eq', function (a, b, options) {
-    return a === b ? options.fn(this) : options.inverse(this);
-});
-
 Handlebars.registerHelper('ifRole', function(role, ...args) {
     const options = args.pop();
     const roles = args;
     return roles.includes(role) ? options.fn(this) : options.inverse(this);
 });
 
-console.log("Nodemailer email:", EMAIL_USERNAME);
-console.log("Nodemailer password:", EMAIL_PASSWORD);
+Handlebars.registerHelper('eq', function (v1, operator, v2, options) {
+    switch (operator) {
+        case '==':
+            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+        case '===':
+            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '!=':
+            return (v1 != v2) ? options.fn(this) : options.inverse(this);
+        case '!==':
+            return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+        case '<':
+            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+        case '<=':
+            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+        case '>':
+            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+        case '>=':
+            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+        case '&&':
+            return (v1 && v2) ? options.fn(this) : options.inverse(this);
+        case '||':
+            return (v1 || v2) ? options.fn(this) : options.inverse(this);
+        default:
+            return options.inverse(this);
+    }
+});
 
 // Nodemailer
 const dataTransport = {
