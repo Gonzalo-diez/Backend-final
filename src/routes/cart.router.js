@@ -1,6 +1,6 @@
 import express from "express";
 import cartController from "../controllers/cart.controller.js";
-import { authToken, isUser } from "../config/auth.js";
+import { authToken, isUser, isUserOrPremium } from "../config/auth.js";
 
 const cartRouter = express.Router();
 // Para rutas protegidas const protectWithJWT = passport.authenticate("jwt", { session: false });
@@ -12,7 +12,7 @@ cartRouter.get("/:cid", authToken, isUser, cartController.getCartById);
 cartRouter.get("/:cid/purchase", authToken, isUser, cartController.getPurchaseCart);
 
 // Maneja la solicitud de agregar el producto al carrito
-cartRouter.post("/", authToken, isUser, cartController.addProductToCart);
+cartRouter.post("/", authToken, isUserOrPremium, cartController.addProductToCart);
 
 // Maneja la solicitud para actualizar el carrito con nuevos productos
 cartRouter.put("/:cid", authToken, isUser, cartController.updateCart);

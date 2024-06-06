@@ -215,11 +215,10 @@ const userController = {
     resetPassword: async (req, res) => {
         const { token } = req.params;
         const { newPassword } = req.body;
+        const userId = req.session.userId;
 
         try {
             const user = await userService.getUserByResetToken(token);
-
-            const userId = user._id;
 
             if (!user || user.resetTokenExpires < Date.now()) {
                 return res.status(400).json({ error: "Token de restablecimiento inválido o expirado" });
@@ -261,6 +260,32 @@ const userController = {
             res.status(500).json({ error: "Error interno del servidor" });
         }
     },
+
+    changeUserRole: async (req, res) => {
+        const userId = req.params.uid;
+        const { newRole } = req.body;
+    
+        try {
+            const updatedUser = await userService.changeUserRole(userId, newRole);
+            res.json(updatedUser);
+        } catch (error) {
+            console.error("Error al cambiar el rol del usuario:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },    
+    
+    getChangeUserRole: async (req, res) => {
+        const userId = req.params.uid;
+        const user = await userService.getUserById(userId);
+        try {
+            const changeUserRoleView = await userService.getChangeUserRole();
+            res.render(changeUserRoleView, { user })
+        } catch (error) {
+            console.error("Error al obtener la vista de cambio de role:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },
+    
 
     logOut: async (req, res) => {
         try {

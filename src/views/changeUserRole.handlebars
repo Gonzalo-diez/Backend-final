@@ -1,0 +1,19 @@
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1>Cambio de rol</h1>
+            <div id="errorMessage" class="alert alert-danger" role="alert" style="display: none;"></div>
+            <p>Cambio de rol para el usuario {{ user.firstName }} {{ user.lastName }}</p>
+            <form id="roleChangeForm">
+                <label for="role">Selecciona el rol:</label>
+                <select id="role" name="role">
+                    <option value="user">User</option>
+                    <option value="premium">Premium</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Enviar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="/js/changeUserRole.js"></script>

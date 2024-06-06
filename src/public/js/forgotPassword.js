@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 errorMessage.textContent = result.error || "Ocurrió un error al enviar el enlace de restablecimiento de contraseña.";
             }
         } catch (error) {
-            console.error("Error submitting forgot password form:", error);
+            console.error("Error enviando el formulario:", error);
             errorMessage.style.display = "block";
             errorMessage.textContent = "Ocurrió un error al enviar el enlace de restablecimiento de contraseña.";
         }

@@ -8,6 +8,7 @@ import PurchaseDTO from "../DTO/purchase.dto.js";
 import ticketRepository from "../repositories/ticket.repository.js";
 import purchaseRepository from "../repositories/purchase.repository.js";
 import logger from "../../utils/logger.js";
+import { isPremium } from "../../config/auth.js";
 
 const cartService = {
     getCartById: async (cartId, userId) => {
@@ -55,6 +56,11 @@ const cartService = {
             if (!user) {
                 logger.warn(`User no logueado: ${userId}`);
                 throw new Error("Usted no esta logueado");
+            }
+
+            if(isPremium == product.owner) {
+                logger.warn(`User igual al creador del producto`);
+                throw new Error("Usted es el creador de este producto");
             }
 
             const product = await productRepository.getProductForCart(productId);

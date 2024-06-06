@@ -131,11 +131,38 @@ export const isAdmin = (req, res, next) => {
     }
 };
 
+// Middleware de autenticación para usuarios premium
+export const isPremium = (req, res, next) => {
+    if (req.user && req.user.role === 'premium') {
+        return next();
+    } else {
+        return res.status(403).json({ message: 'Acceso no autorizado' });
+    }
+};
+
 // Middleware de autenticación para user
 export const isUser = (req, res, next) => {
     if(req.user && req.user.role === 'user') {
         next();
     } 
+    else {
+        return res.status(403).json({ error: 'Acceso no autorizado' });
+    }
+}
+
+export const isUserOrPremium = (req, res, next) => {
+    if(req.user && req.user.role === 'user' || req.user.role === 'premium') {
+        next();
+    }
+    else {
+        return res.status(403).json({ error: 'Acceso no autorizado' });
+    }
+}
+
+export const isPremiumOrAdmin = (req, res, next) => {
+    if(req.user && req.user.role === 'premium' || req.user.role === 'admin') {
+        next();
+    }
     else {
         return res.status(403).json({ error: 'Acceso no autorizado' });
     }

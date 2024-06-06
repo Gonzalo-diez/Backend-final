@@ -1,7 +1,7 @@
 import express from "express"
 import { configureProductMulter } from "../util.js";
 import productController from "../controllers/product.controller.js";
-import { authToken, isAdmin } from "../config/auth.js";
+import { authToken, isAdmin, isPremium, isPremiumOrAdmin } from "../config/auth.js";
 
 const productRouter = express.Router();
 const imgUpload = configureProductMulter();
@@ -17,15 +17,15 @@ productRouter.get("/:pid", productController.getProductDetail);
 productRouter.get("/category/:category", productController.getProductCategory);
 
 // Maneja la solicitud para renderizar el formulario para editar el producto
-productRouter.get("/updateProduct/:pid", authToken, isAdmin, productController.getUpdateProduct);
+productRouter.get("/updateProduct/:pid", authToken, isPremiumOrAdmin, productController.getUpdateProduct);
 
 // Manejar la solicitud para agregar un producto en tiempo real
-productRouter.post("/", authToken, isAdmin, imgUpload.single("image"), productController.addProduct);
+productRouter.post("/", authToken, isPremiumOrAdmin, imgUpload.single("image"), productController.addProduct);
 
 // Maneja la solicitud para actualizar el producto
-productRouter.put("/:pid", authToken, isAdmin, imgUpload.single("image"), productController.updateProduct);
+productRouter.put("/:pid", authToken, isPremiumOrAdmin, imgUpload.single("image"), productController.updateProduct);
 
 // Manejar la solicitud para la eliminación de un producto en tiempo real
-productRouter.delete('/:pid', authToken, isAdmin, productController.deleteProduct);
+productRouter.delete('/:pid', authToken, isPremiumOrAdmin, productController.deleteProduct);
 
 export default productRouter;

@@ -182,7 +182,7 @@ const userService = {
 
     updatePassword: async (userId, newPassword) => {
         try {
-            if(!newPassword) {
+            if (!newPassword) {
                 throw new Error("Nueva contraseña requerida")
             }
 
@@ -209,6 +209,24 @@ const userService = {
 
     getResetPassword: async () => {
         return "resetPassword";
+    },
+
+    changeUserRole: async (userId, newRole) => {
+        try {
+            const user = await userRepository.findUser(userId);
+            if (!user) {
+                throw new Error("El usuario no existe");
+            }
+            user.role = newRole;
+            await user.save();
+            return user;
+        } catch (error) {
+            throw new Error("Error al cambiar el rol del usuario: " + error.message);
+        }
+    },    
+
+    getChangeUserRole: async () => {
+        return "changeUserRole";
     },
 
     logOut: async (res, req) => {

@@ -150,7 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-
 const chat = async () => {
     const token = localStorage.getItem('token');
 
@@ -183,5 +182,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatButton = document.getElementById('chatButton'); 
     if (chatButton) {
         chatButton.addEventListener('click', handleChatClick);
+    }
+});
+
+const changeRole = async () => {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+
+    try {
+        const response = await fetch(`http://localhost:8080/api/sessions/premium/${userId}`, {
+            method: 'GET',
+            headers: {
+                "authorization": `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            window.location.replace(`http://localhost:8080/api/sessions/premium/${userId}`);
+        } else {
+            const errorMessage = await response.text();
+            console.error('Error en ir a cambiar roles:', errorMessage);
+        }
+    } catch (error) {
+        console.error('Error en ir a cambiar roles:', error);
+    }
+}
+
+// Función para manejar el evento de clic en el botón de cambiar rol
+const handleChangeRoleClick = () => {
+    changeRole();
+};
+
+// Agregar un event listener al botón de cambiar rol
+document.addEventListener('DOMContentLoaded', () => {
+    const changeRoleButton = document.getElementById('changeRoleButton'); 
+    if (changeRoleButton) {
+        changeRoleButton.addEventListener('click', handleChangeRoleClick);
     }
 });
