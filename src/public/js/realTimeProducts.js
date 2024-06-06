@@ -106,20 +106,33 @@ async function renderProducts(products) {
     productElement.classList.add('col-md-4', 'mb-4');
     productElement.innerHTML = `
         <div class="card">
-            <img src="/img/${products.image}" class="card-img-top img-fluid" alt="${products.title}"
-                style="max-height: 400px; aspect-ratio: 3/2; object-fit: contain;">
-            <div class="card-body">
-                <h5 class="card-title">${products.title}</h5>
-                <p class="card-text">${products.brand}</p>
-                <p class="card-text">${products.description}</p>
-                <p class="card-text">Precio: $${products.price}</p>
-                <p class="card-text">Stock: ${products.stock}</p>
-                <p class="card-text">Categoría: ${products.category}</p>
-                <a href="http://localhost:8080/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a>
-                <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
-                <button class="btn btn-success cart-btn" data-product-id="{{this._id}}">Agregar al carrito</button> 
-            </div>
-        </div>`;
+                <img src="/img/${products.image}" class="card-img-top img-fluid" alt="{{this.title}}"
+                    style="max-height: 400px; aspect-ratio: 3/2; object-fit: contain;">
+                <div class="card-body">
+                    <h5 class="card-title">${products.title}}</h5>
+                    <p class="card-text">${products.brand}</p>
+                    <p class="card-text">${products.description}</p>
+                    <p class="card-text">Precio: ${products.price}</p>
+                    <p class="card-text">Stock: ${products.stock}</p>
+                    <p class="card-text">Categoría: ${products.category}</p>
+                    <a href="http://localhost:8080/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a>
+                    {{#eq ../user.role "==" "admin"}}
+                    <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
+                    <a href="http://localhost:8080/api/products/updateProduct/{{this._id}}" class="btn btn-warning">Editar Producto</a>
+                    {{/eq}}
+                    {{#eq ../user.role "==" "premium"}}
+                    {{#eq ../user._id "==" this.owner}}
+                    <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
+                    <a href="http://localhost:8080/api/products/updateProduct/{{this._id}}" class="btn btn-warning">Editar Producto</a>
+                    {{/eq}}
+                    {{/eq}}
+                    {{#ifRole ../user.role "user" "premium"}}
+                    {{#eq ../user._id "!=" this.owner}}
+                    <button class="btn btn-success cart-btn" data-product-id="{{this._id}}">Agregar al carrito</button>
+                    {{/eq}}
+                    {{/ifRole}}
+                </div>
+            </div>`;
     productList.appendChild(productElement);
 }
 

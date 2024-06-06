@@ -80,24 +80,20 @@ const productService = {
 
     updateProduct: async (productId, req, productUpdateData, userId) => {
         const { title, brand, description, price, stock, category } = productUpdateData;
-
+    
         try {
             logger.info(`Actualizando el producto ID: ${productId} with data: ${JSON.stringify(productUpdateData)}`);
+    
             // Verificar si el producto existe
             const existingProduct = await productRepository.getProductById(productId);
             if (!existingProduct) {
                 logger.warn(`Producto no encontrado ID: ${productId}`);
                 throw new Error("El producto no existe");
             }
-
+    
             // Verificar si hay un archivo de imagen en la solicitud
             const imageName = req.file ? req.file.filename : existingProduct.imageName;
-
-            if (!imageName) {
-                logger.warn(`Invalid image for product update: ${productId}`);
-                throw { code: 'INVALID_IMAGE' };
-            }
-
+    
             // Crear instancia DTO
             const updateProductDTO = new ProductDTO(
                 title || existingProduct.title,
@@ -106,20 +102,20 @@ const productService = {
                 price !== undefined ? price : existingProduct.price,
                 stock !== undefined ? stock : existingProduct.stock,
                 category || existingProduct.category,
-                req.file ? req.file.filename : existingProduct.imageName,
+                imageName,
                 userId || existingProduct.owner
             );
-
+    
             // Paso directamente el DTO al repositorio
             const updatedProduct = await productRepository.updateProduct(productId, updateProductDTO);
-
+    
             logger.info(`Producto actualizado exitosamente: ${JSON.stringify(updatedProduct)}`);
             return updatedProduct;
         } catch (error) {
             logger.error(`Error al actualizar el producto ID: ${productId} - ${error.message}`);
             throw { code: 'PRODUCT_UPDATE_FAILED', message: error.message };
         }
-    },
+    },    
 
     getUpdateProduct: async () => {
         return "updateProduct";
@@ -129,26 +125,26 @@ const productService = {
         try {
             logger.info(`Borrando el producto ID: ${productId}`);
             const product = await productRepository.getProductById(productId);
-
+    
             if (!product) {
                 logger.warn(`Producto no encontrado ID: ${productId}`);
-                throw { code: 'PRODUCT_NOT_FOUND' };
+                throw { code: 'PRODUCT_NOT_FOUND', message: 'Producto no encontrado' };
             }
-
+    
             const deleteResult = await productRepository.deleteProductById(productId);
-
+    
             if (!deleteResult) {
                 logger.error(`No se pudo eliminar el producto ID: ${productId}`);
-                throw { code: 'PRODUCT_DELETION_FAILED' };
+                throw { code: 'PRODUCT_DELETION_FAILED', message: 'No se pudo eliminar el producto' };
             }
-
-            logger.info(`Product deleted successfully: ${productId}`);
+    
+            logger.info(`Producto eliminado exitosamente: ${productId}`);
             return true;
         } catch (error) {
             logger.error(`Error al borrar el producto ID: ${productId} - ${error.message}`);
             throw { code: 'PRODUCT_DELETION_FAILED', message: error.message };
         }
-    }
+    }    
 }
 
 export default productService;

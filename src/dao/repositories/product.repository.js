@@ -168,11 +168,11 @@ const productRepository = {
             if (deleteResult.deletedCount === 0) {
                 throw new Error("Producto no encontrado");
             }
-            return true;
+            return deleteResult.deletedCount > 0;
         } catch (error) {
             throw new Error("Error al eliminar el producto: " + error.message);
         }
-    }
+    }    
 };
 
 export default productRepository;
