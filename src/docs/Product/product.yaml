@@ -1,0 +1,184 @@
+openapi: 3.0.0
+info:
+  title: API de Productos
+  description: API para gestionar productos
+  version: 1.0.0
+
+paths:
+  /api/product:
+    get:
+      summary: Obtener todos los productos
+      responses:
+        '200':
+          description: Retorna una lista de productos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+    post:
+      summary: Agregar un nuevo producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+      responses:
+        '200':
+          description: Producto creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '500':
+          description: Error en la base de datos
+  /api/product/{pid}:
+    get:
+      summary: Obtener detalles de un producto por ID
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retorna los detalles de un producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '500':
+          description: Error en la base de datos
+    put:
+      summary: Actualizar un producto por ID
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+      responses:
+        '200':
+          description: Producto actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '403':
+          description: No tienes permiso para realizar esta acción
+        '500':
+          description: Error en la base de datos
+    delete:
+      summary: Eliminar un producto por ID
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto eliminado exitosamente
+        '403':
+          description: No tienes permiso para realizar esta acción
+        '500':
+          description: Error en la base de datos
+  /api/product/category/{category}:
+    get:
+      summary: Obtener productos por categoría
+      parameters:
+        - in: path
+          name: category
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retorna productos de una categoría específica
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '500':
+          description: Error en la base de datos
+  /api/product/updateProduct/{pid}:
+    get:
+      summary: Renderizar formulario para editar un producto por ID
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Renderiza el formulario de edición de producto
+        '500':
+          description: Error interno del servidor
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        brand:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        stock:
+          type: integer
+        category:
+          type: string
+        imageName:
+          type: string
+        owner:
+          type: object
+          properties:
+            _id:
+              type: string
+      required:
+        - title
+        - price
+        - stock
+        - category
+        - owner
+    ProductInput:
+      type: object
+      properties:
+        title:
+          type: string
+        brand:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        stock:
+          type: integer
+        category:
+          type: string
+        userId:
+          type: string
+      required:
+        - title
+        - price
+        - stock
+        - category
+        - userId

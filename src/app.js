@@ -15,6 +15,8 @@ import nodemailer from "nodemailer";
 import compression from "express-compression";
 import { fakerES as faker } from "@faker-js/faker";
 import cluster from "cluster";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 import passport from "./config/jwt.js";
 import router from "./routes.js";
 import auth from "./config/auth.js";
@@ -110,7 +112,7 @@ app.use(session({
     saveUninitialized: false,
 }))
 
-// Rutas para productos y carritos
+// Rutas para productos y carritos json
 //app.use("/api/products", productRouter);
 //app.use("/api/carts", cartRouter);
 
@@ -118,6 +120,20 @@ mongoose.connect(MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
+
+const swaggerOptions = {
+    definition: {
+        openapi: "3.0.1",
+        info: {
+            title: "Documentacion del proyecto",
+            description: "API del proyecto"
+        }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`]
+}
+
+const specs = swaggerJSDoc(swaggerOptions);
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 const db = mongoose.connection;
 

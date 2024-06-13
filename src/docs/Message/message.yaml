@@ -1,0 +1,72 @@
+openapi: 3.0.0
+info:
+  title: API de Mensajes
+  description: API para gestionar mensajes en tiempo real
+  version: 1.0.0
+
+paths:
+  /api/message:
+    get:
+      summary: Obtener todos los mensajes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Retorna una lista de mensajes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Message'
+        '500':
+          description: Error en la base de datos
+
+  /api/message/addMessage:
+    post:
+      summary: Agregar un nuevo mensaje
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddMessageInput'
+      responses:
+        '200':
+          description: Mensaje agregado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '500':
+          description: Error en la base de datos
+
+components:
+  schemas:
+    Message:
+      type: object
+      properties:
+        _id:
+          type: string
+        userId:
+          type: string
+        text:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - userId
+        - text
+    AddMessageInput:
+      type: object
+      properties:
+        userEmail:
+          type: string
+        text:
+          type: string
+      required:
+        - userEmail
+        - text
