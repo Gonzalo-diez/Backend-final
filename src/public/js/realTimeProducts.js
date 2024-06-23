@@ -50,7 +50,7 @@ function handleAddToCart(event) {
         });
 }
 
-if (userRole === "user") {
+if (userRole === "user" || userRole === "premium") {
     const goToCartBtn = document.getElementById('goToCartBtn');
     const cartForm = document.getElementById('cartForm');
 

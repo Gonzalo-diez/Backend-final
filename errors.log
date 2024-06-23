@@ -12,3 +12,62 @@
 {"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: gonzalodiez97@gmail.com"}
 {"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: gonzalodiez@gmail.com"}
 {"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: gonzalodiez@gmail.com"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@example.com"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@example.com"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: newtest@example.com"}
+{"level":"warn","message":"User ya exite: test@example.com"}
+{"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"User no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto - undefined"}
+{"level":"warn","message":"User no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto - undefined"}
+{"level":"warn","message":"User no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto - undefined"}
+{"level":"warn","message":"User no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto - undefined"}
+{"level":"warn","message":"User no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto - undefined"}
+{"level":"warn","message":"User no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto - undefined"}
+{"level":"warn","message":"User no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto - undefined"}
+{"level":"warn","message":"User no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto - undefined"}
+{"level":"warn","message":"User no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto - undefined"}
+{"level":"warn","message":"User no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto - undefined"}

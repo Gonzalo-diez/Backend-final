@@ -73,6 +73,9 @@ describe("Testeo de carritos dao", function () {
 
     after(async function () {
         // Se desconecta de la base de datos
+        await User.deleteMany({ first_name: "Test" });
+        await Product.deleteMany({ title: "Test Product" });
+        await Cart.deleteMany({ security_number: 123 });
         await mongoose.disconnect();
     });
 });

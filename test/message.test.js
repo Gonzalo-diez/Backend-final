@@ -30,6 +30,7 @@ describe("Testeo de mensajes dao", function() {
 
     after(async function() {
         // Se desconecta de la base de datos
+        await Message.deleteMany({ text: "This is a text" });
         await mongoose.disconnect();
     });
 });
