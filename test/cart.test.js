@@ -1,82 +1,101 @@
-/* Falta terminar el cart
+/*
+import { expect } from "chai";
+import supertest from "supertest";
 import mongoose from "mongoose";
-import Assert from "assert";
 import { MONGO_URL } from "../src/util.js";
-import Cart from "../src/dao/models/cart.model.js";
-import User from "../src/dao/models/user.model.js";
-import Product from "../src/dao/models/product.model.js";
 
-mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+const requester = supertest("http://localhost:8080");
 
-const assert = Assert.strict;
+let authToken;
+let userId;
+let productId;
+let cartId;
 
-describe("Testeo de carritos dao", function () {
-    before(async function () {
-        // Espera a que la conexión se establezca
-        await mongoose.connection;
+const userCredentials = {
+    email: 'newtest@example.com',
+    password: 'password123'
+};
 
-        // Crear un usuario de prueba
-        const userId = new mongoose.Types.ObjectId();
-        await User.create({
-            _id: userId,
-            first_name: "Test",
-            last_name: "User",
-            email: "test@example.com",
-            age: 30,
-            password: "password123",
-            role: "premium"
-        });
+before(async function () {
+    await mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
-        // Crear un producto de prueba
-        const productId = new mongoose.Types.ObjectId();
-        await Product.create({
-            _id: productId,
-            title: "Test Product",
-            brand: "Example Brand",
-            description: "This is an example product",
-            price: 1000,
-            stock: 10,
-            category: "tecnologia",
-            image: "image.jpg",
-            owner: userId
-        });
+    const loginResponse = await requester.post("/api/sessions/login").send(userCredentials);
+    expect(loginResponse.statusCode).to.equal(200);
+    console.log("Login exitoso:", loginResponse.body);
+    authToken = loginResponse.body.access_token;
+    userId = loginResponse.body.message._id;
+});
 
-        // Añadir un carrito de prueba
-        await Cart.create({
-            stock: 10,
-            total: 10000,
-            country: "Country",
-            state: "State",
-            city: "City",
-            street: "Street",
-            postal_code: 12345,
-            phone: 1234567890,
-            card_bank: 1234567890123456,
-            security_number: 123,
-            products: [
-                {
-                    product: productId,
-                    productQuantity: 2,
-                    productPrice: 1000,
-                    productTotal: 2000
-                }
-            ],
-            user: userId
-        });
+describe("Pruebas para CRUD del carrito", function () {
+    it("Debería obtener la lista de productos y seleccionar uno aleatoriamente", async function () {
+        try {
+            const productsList = await requester.get("/api/products/");
+
+            expect(productsList.statusCode).to.equal(200);
+            console.log("Lista de los productos:", productsList.body);
+
+            // Selecciona un producto aleatorio de la lista
+            const randomProduct = productsList[Math.floor(Math.random() * productsList.length)];
+            productId = randomProduct._id;
+
+            console.log("Producto aleatorio seleccionado:", productId);
+        } catch (error) {
+            console.error("Error durante la solicitud al endpoint:", error);
+            throw error;
+        }
     });
 
-    it("El dao debe obtener los datos de los carritos en forma de array", async function () {
-        const result = await Cart.find().exec();
-        assert.strictEqual(Array.isArray(result), true);
-        console.log(result);
+    it("El endpoint /api/carts/ debe agregar el producto al carrito", async function () {
+        try {
+            const cartMock = {
+                product: productId,
+                user: userId
+            };
+
+            const addProductToCartResponse = await requester
+                .post("/api/carts/")
+                .set('Authorization', `Bearer ${authToken}`)
+                .send(cartMock);
+
+            expect(addProductToCartResponse.statusCode).to.equal(201);
+            console.log("Carrito:", addProductToCartResponse.body);
+            cartId = addProductToCartResponse.body._id; // Guarda el ID del carrito para su uso posterior
+        } catch (error) {
+            console.error("Error durante la solicitud al endpoint:", error);
+            throw error;
+        }
     });
 
-    after(async function () {
-        // Se desconecta de la base de datos
-        await User.deleteMany({ first_name: "Test" });
-        await Product.deleteMany({ title: "Test Product" });
-        await Cart.deleteMany({ security_number: 123 });
-        await mongoose.disconnect();
+    it("El endpoint /api/carts/:cid debe mostrar el carrito creado", async function () {
+        try {
+            const cartResponse = await requester
+                .get(`/api/carts/${cartId}`)
+                .set('Authorization', `Bearer ${authToken}`);
+
+            expect(cartResponse.statusCode).to.equal(200);
+            console.log("El carrito:", cartResponse.body);
+        } catch (error) {
+            console.error("Error durante la solicitud al endpoint:", error);
+            throw error;
+        }
     });
+
+    it("El endpoint /api/carts/:cid debe eliminar el carrito", async function () {
+        try {
+            const deleteCartResponse = await requester
+                .delete(`/api/carts/${cartId}`)
+                .set('Authorization', `Bearer ${authToken}`);
+
+            expect(deleteCartResponse.statusCode).to.equal(200);
+            console.log("Carrito borrado");
+        } catch (error) {
+            console.error("Error durante la solicitud al endpoint:", error);
+            throw error;
+        }
+    });
+});
+
+after(async function () {
+    await mongoose.disconnect();
 });
 */

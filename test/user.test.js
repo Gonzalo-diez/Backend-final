@@ -1,16 +1,12 @@
-/*
 import { expect } from "chai";
 import supertest from "supertest";
-import Assert from "assert";
 import mongoose from "mongoose";
 import User from "../src/dao/models/user.model.js";
 import { MONGO_URL } from "../src/util.js";
 
-const assert = Assert.strict;
 const requester = supertest("http://localhost:8080");
 
-describe("Test de user", function() {
-
+describe("User Tests", function () {
     let userId;
     let authToken;
 
@@ -27,111 +23,64 @@ describe("Test de user", function() {
         first_name: "New test",
         last_name: "New user",
         email: "newtest@example.com"
-    }
+    };
 
-    before(async function() {
-        // Conectar a la base de datos
+    before(async function () {
+        // Connect to the database
         await mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
     });
 
-    beforeEach(async function() {
-        // Verificar si el usuario ya existe
+    beforeEach(async function () {
+        // Check if user already exists
         const existingUser = await User.findOne({ email: userMock.email });
 
         if (existingUser) {
             console.log("Usuario ya existe, procediendo con el login.");
 
-            // Iniciar sesión
+            // Login
             const loginResponse = await requester.post("/api/sessions/login").send({
                 email: userMock.email,
                 password: userMock.password
             });
 
             expect(loginResponse.statusCode).to.equal(200);
+            console.log("Login exitoso:", loginResponse.body);
 
-            // Guardar token de autenticación para usarlo en las pruebas
+            // Save authentication token for further tests
             authToken = loginResponse.body.access_token;
             userId = existingUser._id.toString();
         } else {
-            // Registrar usuario
+            // Register user
             const registerResponse = await requester.post("/api/sessions/register").send(userMock);
             expect(registerResponse.statusCode).to.equal(200);
+            console.log("Registro exisoso:", registerResponse.body);
 
-            // Iniciar sesión
-            const loginResponse = await requester.post("/api/sessions/login").send({
-                email: userMock.email,
-                password: userMock.password
-            });
-
-            expect(loginResponse.statusCode).to.equal(200);
-
-            // Guardar token de autenticación para usarlo en las pruebas
-            authToken = loginResponse.body.access_token; 
             userId = registerResponse.body.message._id;
+            authToken = registerResponse.body.access_token;
         }
     });
 
-    describe("Test login", () => {
-        it("El endpoint /sessions/register debe de registrar el usuario", async function() {
-            const {
-                statusCode,
-                ok,
-                body
-            } = await requester.post("/api/sessions/register").send(userMock);
+    describe("User Update Test", () => {
+        it("should update user details", async function () {
+            const updatedUser = await requester
+                .put(`/api/sessions/updateUser/${userId}`)
+                .set('Authorization', `Bearer ${authToken}`)
+                .send(updateUser);
 
-            console.log(statusCode);
-            console.log(ok);
-            console.log(body);
-
-            expect(statusCode).to.equal(200); 
-            expect(ok).to.be.true;
-        });
-
-        it("El endpoint /api/sessions/login debe loguear el usuario", async function() {
-            const loginDetails = {
-                email: 'test@example.com',
-                password: 'password123'
-            };
-
-            const {
-                statusCode,
-                ok,
-                body
-            } = await requester.post("/api/sessions/login").send(loginDetails);
-
-            console.log(statusCode);
-            console.log(ok);
-            console.log(body);
-
-            expect(statusCode).to.equal(200); 
-            expect(ok).to.be.true;
+            expect(updatedUser.statusCode).to.equal(200);
+            expect(updatedUser.ok).to.be.true;
+            expect(updatedUser.body).to.be.an('object');
+            expect(updatedUser.body).to.have.property('_id', userId.toString());
+            expect(updatedUser.body).to.have.property('first_name', updateUser.first_name);
+            expect(updatedUser.body).to.have.property('last_name', updateUser.last_name);
+            expect(updatedUser.body).to.have.property('email', updateUser.email);
+            console.log("Usuario actualizado:", updatedUser._body)
         });
     });
 
-    describe("Test de usuario", () => {
-        it("El endpoint /api/sessions/updateUser/:uid debe actualizar un usuario específico", async function() {
-            const { statusCode, ok, body } = await requester
-            .put(`/api/sessions/updateUser/${userId}`)
-            .set('Authorization', `Bearer ${authToken}`)
-            .send(updateUser);
-
-            console.log(statusCode);
-            console.log(ok);
-            console.log(body);
-
-            expect(statusCode).to.equal(200); 
-            expect(ok).to.be.true;
-            expect(body).to.be.an('object');
-            expect(body).to.have.property('_id', userId.toString());
-        });
-    });
-    
-    after(async function() {
-        // Limpiar usuario si existe
-        // await User.deleteMany({ first_name: updateUser.first_name });
-        // await User.deleteMany({ first_name: userMock.first_name });
-        // Desconectar mongoose
+    after(async function () {
+        // Clean up if necessary
+        await User.deleteMany({ first_name: "New test" });
         await mongoose.disconnect();
     });
 });
-*/
