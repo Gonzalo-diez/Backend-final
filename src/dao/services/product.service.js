@@ -45,15 +45,15 @@ const productService = {
     },
 
     addProduct: async (productData, req) => {
-        const { title, brand, description, price, stock, category, userId } = productData;
+        const { title, brand, description, price, stock, category, owner } = productData;
 
         try {
             logger.info(`Agregando los datos del producto: ${JSON.stringify(productData)}`);
-            const user = await userRepository.findById(userId);
+            const user = await userRepository.findById(owner);
 
             // Si el usuario no esta logueado o registrado
             if (!user) {
-                logger.warn(`User no encontrado: ${userId}`);
+                logger.warn(`User no encontrado: ${owner}`);
                 throw { code: 'USER_NOT_FOUND' };
             }
 
@@ -65,7 +65,7 @@ const productService = {
             }
 
             // Crear instancia DTO
-            const productDTO = new ProductDTO(title, brand, description, price, stock, category, imageName, userId);
+            const productDTO = new ProductDTO(title, brand, description, price, stock, category, imageName, owner);
 
             // Paso directamente el DTO al repositorio
             const newProduct = await productRepository.createProduct(productDTO);
