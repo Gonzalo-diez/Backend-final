@@ -30,11 +30,11 @@ const productMock = {
 };
 
 before(async function () {
-    await mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect(MONGO_URL);
 
     const loginResponse = await requester.post("/api/sessions/login").send(userCredentials);
     expect(loginResponse.statusCode).to.equal(200);
-    console.log("Login exitoso:", loginResponse.body);
+    console.log("Login exitoso:", loginResponse._body);
     authToken = loginResponse.body.access_token;
     userId = loginResponse.body.message._id;
 });
@@ -81,7 +81,7 @@ describe("Pruebas para CRUD de productos", function () {
                 const productsList = await requester.get("/api/products/");
 
                 expect(productsList.statusCode).to.equal(200);
-                console.log("Lista de los productos:", productsList.body);
+                console.log("Lista de los productos:", productsList.text);
             } catch (error) {
                 console.error("Error en la búsqueda de los productos:", error);
                 throw error;
@@ -96,7 +96,7 @@ describe("Pruebas para CRUD de productos", function () {
                     .get(`/api/products/${productId}`);
 
                 expect(productCreatedResponse.statusCode).to.equal(200);
-                console.log("Producto que se ha creado:", productCreatedResponse.body);
+                console.log("Producto que se ha creado:", productCreatedResponse.text);
             } catch (error) {
                 console.error("Error durante la solicitud al endpoint de eliminación:", error);
                 throw error;

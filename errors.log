@@ -144,3 +144,9 @@
 {"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
 {"level":"warn","message":"User ya exite: test@example.com"}
 {"level":"error","message":"Error al registrar el user: test@example.com - El usuario ya existe"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@example.com"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@example.com"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@example.com"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@example.com"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@example.com"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@example.com"}

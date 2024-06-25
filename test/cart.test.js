@@ -17,7 +17,7 @@ const userCredentials = {
 };
 
 before(async function () {
-    await mongoose.connect(MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+    await mongoose.connect(MONGO_URL);
 
     const loginResponse = await requester.post("/api/sessions/login").send(userCredentials);
     expect(loginResponse.statusCode).to.equal(200);
