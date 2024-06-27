@@ -12,6 +12,7 @@ const requester = supertest("http://localhost:8080");
 
 let authToken;
 let userId;
+let userRole;
 let productId;
 
 const userCredentials = {
@@ -36,7 +37,8 @@ before(async function () {
     expect(loginResponse.statusCode).to.equal(200);
     console.log("Login exitoso:", loginResponse._body);
     authToken = loginResponse.body.access_token;
-    userId = loginResponse.body.message._id;
+    userId = loginResponse.body.userId;
+    userRole = loginResponse.body.userRole;
 });
 
 describe("Pruebas para CRUD de productos", function () {
@@ -81,7 +83,7 @@ describe("Pruebas para CRUD de productos", function () {
                 const productsList = await requester.get("/api/products/");
 
                 expect(productsList.statusCode).to.equal(200);
-                console.log("Lista de los productos:", productsList.text);
+                console.log("Lista de los productos:", productsList.body);
             } catch (error) {
                 console.error("Error en la búsqueda de los productos:", error);
                 throw error;
@@ -98,7 +100,7 @@ describe("Pruebas para CRUD de productos", function () {
                 expect(productCreatedResponse.statusCode).to.equal(200);
                 console.log("Producto que se ha creado:", productCreatedResponse.text);
             } catch (error) {
-                console.error("Error durante la solicitud al endpoint de eliminación:", error);
+                console.error("Error durante la solicitud al endpoint:", error);
                 throw error;
             }
         });

@@ -50,22 +50,6 @@ const cartService = {
     addProductToCart: async (productId, userId, userRole) => {
         try {
             logger.info(`Agregando producto ID: ${productId} al carrito del user: ${userId}`);
-            const user = await userRepository.findUser(userId);
-
-            if (!user) {
-                logger.warn(`User no logueado: ${userId}`);
-                throw new Error("Usted no esta logueado");
-            }
-
-            if(userRole !== "admin" || "premium") {
-                logger.warn(`User no autorizado`);
-                throw new Error("Usted no esta autorizado");
-            }
-
-            if(userRole == "premium" && userId == product.owner) {
-                logger.warn(`User es autor de este producto`);
-                throw new Error("Usted es el creador de este producto, no puede agregarlo al carrito");
-            }
 
             const product = await productRepository.getProductForCart(productId);
 
@@ -77,6 +61,23 @@ const cartService = {
             if (product.stock < 1) {
                 logger.warn(`Producto fuera de stock: ${productId}`);
                 throw new Error("Producto fuera de stock");
+            }
+
+            const user = await userRepository.findUser(userId);
+
+            if (!user) {
+                logger.warn(`User no logueado: ${userId}`);
+                throw new Error("Usted no esta logueado");
+            }
+
+            if(userRole !== "user" && userRole !== "premium") {
+                logger.warn(`User no autorizado`);
+                throw new Error("Usted no esta autorizado");
+            }
+
+            if(userRole == "premium" && userId == product.owner) {
+                logger.warn(`User es autor de este producto`);
+                throw new Error("Usted es el creador de este producto, no puede agregarlo al carrito");
             }
 
             let cart = await cartRepository.findByUserId(userId);
@@ -117,80 +118,97 @@ const cartService = {
 
     purchaseCart: async (cartId, cartData) => {
         const { country, state, city, street, postal_code, phone, card_bank, security_number, userId } = cartData;
-
+    
         try {
             logger.info(`Compra del carrito ID: ${cartId} del user: ${userId}`);
             const cart = await cartRepository.getCartById(cartId, userId);
-
+    
             let totalPurchaseAmount = 0;
             const productsToPurchase = [];
             const productsToKeepInCart = [];
-
+    
             for (const item of cart.products) {
                 const product = await productRepository.findProductById(item.product);
-
+    
                 if (!product) {
                     logger.warn(`Producto ID ${item.product} no encontrado`);
                     throw new Error(`Producto con ID ${item.product} no encontrado`);
                 }
-
+    
                 if (product.stock >= item.productQuantity) {
                     product.stock -= item.productQuantity;
                     await product.save();
-
+    
                     totalPurchaseAmount += item.productTotal;
                     productsToPurchase.push(item);
                 } else {
                     productsToKeepInCart.push(item);
                 }
             }
-
+    
             if (productsToPurchase.length === 0) {
                 logger.warn(`Insuficiente stock para el producto en el carrito ID: ${cartId}`);
                 throw new Error("No hay productos suficientes en stock para realizar la compra");
             }
-
-            const shippingDTO = new CartDTO(country, state, city, street, postal_code, phone);
-            const paymentDTO = new CartDTO(card_bank, security_number);
-
+    
+            const shippingDTO = {
+                country,
+                state,
+                city,
+                street,
+                postalCode: postal_code,
+                phone
+            };
+            const paymentDTO = {
+                cardBank: card_bank,
+                securityNumber: security_number
+            };
+    
             const purchaseDTO = new PurchaseDTO({
                 user: userId,
                 products: productsToPurchase.map(item => ({
                     product: item.product,
-                    productQuantity: item.productQuantity,
-                    productTotal: item.productTotal,
+                    quantity: item.productQuantity,
+                    unitPrice: item.productPrice,
+                    totalPrice: item.productTotal
                 })),
                 shipping: shippingDTO,
-                payment: paymentDTO,
+                payment: paymentDTO
             });
-
+    
+            console.log("Compra en proceso:", purchaseDTO);
+    
             const ticketDTO = new TicketDTO({
                 code: generateRandomCode(10),
-                purchaseDatetime: new Date(),
+                purchase_datetime: new Date(),
                 amount: totalPurchaseAmount,
                 purchaser: userId,
                 products: productsToPurchase.map(item => ({
-                    id: item.product,
                     product: item.product.title,
                     productQuantity: item.productQuantity,
-                    productTotal: item.productTotal,
-                })),
+                    productTotal: item.productTotal
+                }))
             });
-
+    
+            console.log("Ticket en proceso:", ticketDTO);
+    
             const ticket = await ticketRepository.createTicket(ticketDTO);
             const purchase = await purchaseRepository.createPurchase(purchaseDTO);
-
+    
+            console.log("Ticket:", ticket);
+            console.log("Compra:", purchase);
+    
             logger.info(`Compra exitosa: ${JSON.stringify(purchase)}`);
-
+    
             await cartRepository.clearCart(cartId);
             await cartRepository.updateCart(cartId, productsToKeepInCart, totalPurchaseAmount);
-
+    
             return ticket;
         } catch (error) {
             logger.error(`Error al comprar en el carrito ID: ${cartId} for user: ${userId} - ${error.message}`);
             throw new Error("Error al realizar la compra: " + error.message);
         }
-    },
+    },    
 
     getPurchaseCart: async () => {
         return "purchase";

@@ -1,5 +1,5 @@
 class PurchaseDTO {
-    constructor(userId, products, shipping, payment) {
+    constructor({userId, products, shipping, payment}) {
         this.userId = userId;
         this.products = products;
         this.shipping = shipping;

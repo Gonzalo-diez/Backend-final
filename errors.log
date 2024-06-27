@@ -150,3 +150,296 @@
 {"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@example.com"}
 {"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@example.com"}
 {"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@example.com"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no autorizado"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: 667b5743cb72180e19d9234b - Usted no esta autorizado"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: undefined"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Error al buscar usuario por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"User\""}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito ID: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al buscar el carrito por ID: 667c76e3b9da388695ced4df para el user: undefined - Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Error al buscar el carrito por ID: 667c76e3b9da388695ced4df para el user: undefined - Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Error al buscar el carrito por ID: 667c76e3b9da388695ced4df para el user: undefined - Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Error al buscar el carrito por ID: 667c76e3b9da388695ced4df para el user: undefined - Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Error al buscar el carrito por ID: 667c76e3b9da388695ced4df para el user: undefined - Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Error al buscar el carrito por ID: 667c76e3b9da388695ced4df para el user: undefined - Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Error al buscar el carrito por ID: 667c76e3b9da388695ced4df para el user: undefined - Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Error al buscar el carrito por ID: 667c76e3b9da388695ced4df para el user: undefined - Cannot read properties of null (reading 'products')"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al buscar el carrito por ID: undefined para el user: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no autorizado"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: 667b5743cb72180e19d9234b - Usted no esta autorizado"}
+{"level":"warn","message":"User no autorizado"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: 667b5743cb72180e19d9234b - Usted no esta autorizado"}
+{"level":"warn","message":"User no autorizado"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: 667b5743cb72180e19d9234b - Usted no esta autorizado"}
+{"level":"error","message":"Error al actualizar la cantidad del producto en el carrito ID: 667c76e3b9da388695ced4df - Error al actualizar la cantidad del producto en el carrito: Cast to Number failed for value \"66442a76ac6f88bc482860ee\" (type string) at path \"productQuantity\""}
+{"level":"error","message":"Error al actualizar la cantidad del producto en el carrito ID: 667c76e3b9da388695ced4df - Error al actualizar la cantidad del producto en el carrito: Cast to Number failed for value \"66442a76ac6f88bc482860ee\" (type string) at path \"productQuantity\""}
+{"level":"error","message":"Error al actualizar la cantidad del producto en el carrito ID: 667c76e3b9da388695ced4df - Error al actualizar la cantidad del producto en el carrito: Cast to Number failed for value \"66442a76ac6f88bc482860ee\" (type string) at path \"productQuantity\""}
+{"level":"error","message":"Error al actualizar la cantidad del producto en el carrito ID: 667c76e3b9da388695ced4df - Error al actualizar la cantidad del producto en el carrito: Cast to Number failed for value \"66442a76ac6f88bc482860ee\" (type string) at path \"productQuantity\""}
+{"level":"error","message":"Error al actualizar la cantidad del producto en el carrito ID: 667c76e3b9da388695ced4df - Error al actualizar la cantidad del producto en el carrito: Cast to Number failed for value \"66442a76ac6f88bc482860ee\" (type string) at path \"productQuantity\""}
+{"level":"error","message":"Error al actualizar la cantidad del producto en el carrito ID: 667c76e3b9da388695ced4df - Error al actualizar la cantidad del producto en el carrito: Cast to Number failed for value \"66442a76ac6f88bc482860ee\" (type string) at path \"productQuantity\""}
+{"level":"error","message":"Error al actualizar el carrito ID: 667c76e3b9da388695ced4df - Error al actualizar el carrito: Cast to Number failed for value \"[ { productId: '664e9fee2ff10d8630e9efed', productQuantity: 3 } ]\" (type Array) at path \"total\""}
+{"level":"error","message":"Error al actualizar el carrito ID: 667c76e3b9da388695ced4df - Error al actualizar el carrito: Cast to Number failed for value \"[ { productId: '664e9fee2ff10d8630e9efed', productQuantity: 3 } ]\" (type Array) at path \"total\""}
+{"level":"error","message":"Error al actualizar el carrito ID: 667c76e3b9da388695ced4df - Error al actualizar el carrito: Cast to Number failed for value \"[ { productId: '664e9fee2ff10d8630e9efed', productQuantity: 3 } ]\" (type Array) at path \"total\""}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"error","message":"Error al actualizar el carrito para el usuario: undefined - Error al obtener el carrito por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al vaciar el carrito para el usuario: undefined - Error al vaciar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"warn","message":"Usuario no encontrado: undefined"}
+{"level":"error","message":"Error al agregar producto al carrito del usuario: undefined - Usuario no encontrado"}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@example.com"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@example.com"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@example.com"}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: adminCoder@coder.com"}
+{"level":"warn","message":"User no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto - undefined"}
+{"level":"warn","message":"User no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto - undefined"}
+{"level":"warn","message":"User no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto - undefined"}
+{"level":"warn","message":"User no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto - undefined"}
+{"level":"warn","message":"User no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto - undefined"}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"warn","message":"Producto no encontrado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"error","message":"Error al comprar en el carrito ID: 667d9f5cd6f147c188722c47 for user: 667d9e543cb1bf6053545742 - Product validation failed: owner: Cast to ObjectId failed for value \"admin\" (type string) at path \"owner\" because of \"BSONError\""}
+{"level":"error","message":"Error al comprar en el carrito ID: 667d9f5cd6f147c188722c47 for user: 667d9e543cb1bf6053545742 - products is not defined"}
+{"level":"error","message":"Error al comprar en el carrito ID: 667d9f5cd6f147c188722c47 for user: 667d9e543cb1bf6053545742 - products is not defined"}
+{"level":"error","message":"Error al comprar en el carrito ID: 667d9f5cd6f147c188722c47 for user: 667d9e543cb1bf6053545742 - products is not defined"}
+{"level":"error","message":"Error al comprar en el carrito ID: 667d9f5cd6f147c188722c47 for user: 667d9e543cb1bf6053545742 - products is not defined"}
+{"level":"error","message":"Error al comprar en el carrito ID: 667d9f5cd6f147c188722c47 for user: 667d9e543cb1bf6053545742 - products is not defined"}

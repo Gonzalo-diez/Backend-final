@@ -27,12 +27,12 @@ describe("User Tests", function () {
     };
 
     before(async function () {
-        // Connect to the database
+        // Conectarse a la base de datos
         await mongoose.connect(MONGO_URL);
     });
 
     beforeEach(async function () {
-        // Check if user already exists
+        // Ver si el usuario ya existe
         const existingUser = await User.findOne({ email: userMock.email });
 
         if (existingUser) {
@@ -47,11 +47,11 @@ describe("User Tests", function () {
             expect(loginResponse.statusCode).to.equal(200);
             console.log("Login exitoso:", loginResponse.body);
 
-            // Save authentication token for further tests
+            // Guardar el userId y la autenticacion del usuario
             authToken = loginResponse.body.access_token;
             userId = existingUser._id.toString();
         } else {
-            // Register user
+            // Registrar usuario
             const registerResponse = await requester.post("/api/sessions/register").send(userMock);
             expect(registerResponse.statusCode).to.equal(200);
             console.log("Registro exisoso:", registerResponse.body);
@@ -61,8 +61,8 @@ describe("User Tests", function () {
         }
     });
 
-    describe("User Update Test", () => {
-        it("should update user details", async function () {
+    describe("Actualizar usuario test", () => {
+        it("Deberia actualizar el usuario", async function () {
             const updatedUser = await requester
                 .put(`/api/sessions/updateUser/${userId}`)
                 .set('Authorization', `Bearer ${authToken}`)
@@ -80,7 +80,7 @@ describe("User Tests", function () {
     });
 
     after(async function () {
-        // Clean up if necessary
+        // Limpieza
         await User.deleteMany({ first_name: "New test" });
         await mongoose.disconnect();
     });
