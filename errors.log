@@ -443,3 +443,43 @@
 {"level":"error","message":"Error al comprar en el carrito ID: 667d9f5cd6f147c188722c47 for user: 667d9e543cb1bf6053545742 - products is not defined"}
 {"level":"error","message":"Error al comprar en el carrito ID: 667d9f5cd6f147c188722c47 for user: 667d9e543cb1bf6053545742 - products is not defined"}
 {"level":"error","message":"Error al comprar en el carrito ID: 667d9f5cd6f147c188722c47 for user: 667d9e543cb1bf6053545742 - products is not defined"}
+{"level":"warn","message":"Producto no encontrado: 66442a77ac6f88bc482860f4"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"Producto no encontrado: 66442a77ac6f88bc482860f4"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: 667cc596f30ba35270ff3ceb - Producto no encontrado"}
+{"level":"warn","message":"Producto no encontrado: 66442a77ac6f88bc482860f4"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: 667cc596f30ba35270ff3ceb - Producto no encontrado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"warn","message":"User no logueado: undefined"}
+{"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
+{"level":"error","message":"Error al actualizar el carrito ID: undefined - Error al actualizar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al actualizar el carrito ID: undefined - Error al actualizar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al actualizar el carrito ID: undefined - Error al actualizar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al actualizar el carrito ID: undefined - Error al actualizar el carrito: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Cart\""}
+{"level":"error","message":"Error al actualizar el carrito ID: 667da9d84dbc3c19ffc9fb9b - Error al actualizar el carrito: Cast to embedded failed for value \"667cc596f30ba35270ff3ceb\" (type string) at path \"products\" because of \"ObjectParameterError\""}
+{"level":"error","message":"Error al actualizar el carrito ID: 667da9d84dbc3c19ffc9fb9b - Error al actualizar el carrito: Cast to embedded failed for value \"667cc596f30ba35270ff3ceb\" (type string) at path \"products\" because of \"ObjectParameterError\""}
+{"level":"error","message":"Error al actualizar el carrito ID: 667da9d84dbc3c19ffc9fb9b - Error al actualizar el carrito: Cast to embedded failed for value \"667cc596f30ba35270ff3ceb\" (type string) at path \"products\" because of \"ObjectParameterError\""}
+{"level":"error","message":"Error al actualizar el carrito ID: 667da9d84dbc3c19ffc9fb9b - Error al actualizar el carrito: Cast to Number failed for value \"[ { productId: '667ccbb3b05b03f8181be1d2', quantity: 2 } ]\" (type Array) at path \"total\""}
+{"level":"error","message":"Error al actualizar el carrito ID: 667da9d84dbc3c19ffc9fb9b - Error al actualizar el carrito: Cast to Number failed for value \"[\n  {\n    productId: '667ccbb1b05b03f8181be1c9',\n    quantity: 2,\n    total: 2700000\n  }\n]\" (type Array) at path \"total\""}
+{"level":"error","message":"Error al actualizar la cantidad del producto en el carrito ID: 667da9d84dbc3c19ffc9fb9b - Error al actualizar la cantidad del producto en el carrito: Cast to Number failed for value \"667ccbaeb05b03f8181be1c3\" (type string) at path \"productQuantity\""}
+{"level":"error","message":"Error al actualizar la cantidad del producto en el carrito ID: 667da9d84dbc3c19ffc9fb9b - Error al actualizar la cantidad del producto en el carrito: Cast to Number failed for value \"667ccbaeb05b03f8181be1c3\" (type string) at path \"productQuantity\""}
+{"level":"error","message":"Error al actualizar la cantidad del producto en el carrito ID: 667db4bbdcbca476619cc55c - Error al actualizar la cantidad del producto en el carrito: Cast to Number failed for value \"667ccbaeb05b03f8181be1c3\" (type string) at path \"productQuantity\""}

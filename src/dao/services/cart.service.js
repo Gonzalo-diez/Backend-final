@@ -104,17 +104,27 @@ const cartService = {
         }
     },
 
-    updateProductQuantityInCart: async (cartId, productId, quantity) => {
+    updateProductQuantityInCart: async (cartId, userId, productId, quantity) => {
         try {
+            const parsedQuantity = parseInt(quantity, 10);
+            if (isNaN(parsedQuantity) || parsedQuantity <= 0) {
+                throw new Error("La cantidad debe ser un valor positivo.");
+            }
+    
             logger.info(`Actualizando la cantidad del producto ID: ${productId} en el carrito ID: ${cartId}`);
-            const cart = await cartRepository.updateProductQuantityInCart(cartId, productId, quantity);
-            logger.info(`Cantidad del producto actualizada con exito: ${JSON.stringify(cart)}`);
+            const cart = await cartRepository.updateProductQuantityInCart(cartId, productId, parsedQuantity);
+            
+            if (!cart) {
+                throw new Error(`No se encontró el carrito con ID ${cartId}`);
+            }
+    
+            logger.info(`Cantidad del producto actualizada con éxito en el carrito ID: ${cartId}`);
             return cart;
         } catch (error) {
             logger.error(`Error al actualizar la cantidad del producto en el carrito ID: ${cartId} - ${error.message}`);
             throw new Error("Error al actualizar la cantidad del producto en el carrito: " + error.message);
         }
-    },
+    },    
 
     purchaseCart: async (cartId, cartData) => {
         const { country, state, city, street, postal_code, phone, card_bank, security_number, userId } = cartData;

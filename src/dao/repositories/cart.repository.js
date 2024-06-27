@@ -117,18 +117,18 @@ const cartRepository = {
         }
     },
 
-    updateProductQuantityInCart: async (cartId, productId, quantity) => {
+    updateProductQuantityInCart: async (cartId, productId, parsedQuantity) => {
         try {
             const cart = await Cart.findOneAndUpdate(
                 { _id: cartId, "products.product": productId },
-                { $inc: { "products.$.productQuantity": quantity } },
+                { $inc: { "products.$.productQuantity": parsedQuantity } },
                 { new: true }
             );
             return cart;
         } catch (error) {
             throw new Error("Error al actualizar la cantidad del producto en el carrito: " + error.message);
         }
-    },
+    },    
 
     deleteProductFromCart: async (cartId, productId) => {
         try {
