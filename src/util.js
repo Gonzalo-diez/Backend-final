@@ -31,7 +31,33 @@ export function getCartFilePath() {
 export function configureProductMulter() {
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, path.join(__dirname, 'public', 'img'));
+            cb(null, path.join(__dirname, 'public', 'products'));
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.originalname);
+        },
+    });    
+
+    return multer({ storage: storage });
+}
+
+export function configureProfileMulter() {
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, path.join(__dirname, 'public', 'profiles'));
+        },
+        filename: function (req, file, cb) {
+            cb(null, file.originalname);
+        },
+    });    
+
+    return multer({ storage: storage });
+}
+
+export function configureDocumentMulter() {
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, path.join(__dirname, 'public', 'documents'));
         },
         filename: function (req, file, cb) {
             cb(null, file.originalname);

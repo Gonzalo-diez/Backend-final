@@ -47,6 +47,27 @@ const userRepository = {
         }
     },
 
+    uploadDocs: async (userId, documents) => {
+        try {
+            const user = await User.findById(userId);
+            if (!user) {
+                throw new Error("Usuario no encontrado");
+            }
+
+            documents.forEach(doc => {
+                user.documents.push({
+                    name: doc.originalname,
+                    reference: doc.path
+                });
+            });
+
+            await user.save();
+            return user.documents;
+        } catch (error) {
+            throw new Error("Error al subir documentos: " + error.message);
+        }
+    },
+
     updateUser: async (userId, updateData) => {
         try {
             const updatedUser = await User.findByIdAndUpdate(userId, updateData, { new: true });

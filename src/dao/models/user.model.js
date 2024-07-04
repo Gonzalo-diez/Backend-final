@@ -13,7 +13,14 @@ const userSchema = new mongoose.Schema({
     },
     role: { type: String, default: "user" },
     resetToken: String,
-    resetTokenExpires: Date
+    resetTokenExpires: Date,
+    documents: [
+        {
+            name: { type: String, required: true },
+            reference: { type: String, required: true }
+        }
+    ],
+    last_connection: Date,
 });
 
 const User = mongoose.model("User", userSchema);

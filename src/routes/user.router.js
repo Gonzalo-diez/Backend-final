@@ -1,8 +1,10 @@
 import express from "express";
+import { configureDocumentMulter } from "../util.js";
 import userController from "../controllers/user.controller.js";
-import { authToken, isAdmin, isPremium, isUser, isUserOrPremium } from "../config/auth.js";
+import { authToken, isAdmin, isPremium, isUser, isUserOrPremium, isAll } from "../config/auth.js";
 
 const userRouter = express.Router();
+const documentUpload = configureDocumentMulter();
 
 // Maneja la solicitud para buscar el usuario por id y ver el dashboard
 userRouter.get("/dashboard/:uid", authToken, isAdmin, userController.getUserById);
@@ -37,6 +39,9 @@ userRouter.get("/resetPassword/:token", userController.getResetPassword);
 // Maneja el renderizado del change role
 userRouter.get("/premium/:uid", authToken, isUserOrPremium, userController.getChangeUserRole);
 
+// Maneja el renderizado de la subida de documentos
+userRouter.get("/:uid/documents", authToken, isAll, userController.getDocs);
+
 // Maneja la solicitud para actualizar los datos del usuario
 userRouter.put("/updateUser/:uid", authToken, userController.updateUser);
 
@@ -57,5 +62,8 @@ userRouter.post("/requestPasswordReset", userController.requestPasswordReset);
 
 // Maneja la solicitud para cambiar la contraseña del usuario
 userRouter.post("/resetPassword/:token", userController.resetPassword);
+
+// Maneja la solicitud para subir documentos
+userRouter.post("/:uid/documents", authToken, isAll, documentUpload.array("documents", 10), userController.uploadDocs);
 
 export default userRouter;

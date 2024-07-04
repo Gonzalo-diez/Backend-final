@@ -25,7 +25,7 @@ const userService = {
 
     login: async (email, password) => {
         return new Promise((resolve, reject) => {
-            passport.authenticate("local", (err, user, info) => {
+            passport.authenticate("local", async (err, user, info) => {
                 if (err) {
                     logger.error(`Error durante la autenticacion del login: ${err.message}`);
                     return reject(err);
@@ -37,6 +37,10 @@ const userService = {
                 if (email === "adminCoder@coder.com" && password === "adminCod3er123") {
                     user.role = "admin";
                 }
+
+                // Actualizar el campo last_connection
+                user.last_connection = new Date();
+                await user.save();
 
                 const access_token = generateAuthToken(user);
                 logger.info(`User iniciado sesión exitosamente: ${email}`);
@@ -59,8 +63,15 @@ const userService = {
                 throw new Error("El usuario ya existe");
             }
 
+            const imageName = req.file ? req.file.filename : null;
+
+            if (!imageName) {
+                logger.warn(`Imagen invalida para el perfil del usuario: ${title}`);
+                throw { code: 'INVALID_IMAGE' };
+            }
+
             const hashedPassword = await bcrypt.hash(password, 10);
-            const newUserDTO = new UserDTO(first_name, last_name, email, age, hashedPassword);
+            const newUserDTO = new UserDTO(first_name, last_name, imageName, email, age, hashedPassword);
             const newUser = { ...newUserDTO };
             const createdUser = await userRepository.createUser(newUser);
             const access_token = generateAuthToken(createdUser);
@@ -229,8 +240,26 @@ const userService = {
         return "changeUserRole";
     },
 
+    getDocs: async () => {
+        return "uploadDocs";
+    },
+
+    uploadDocs: async (userId, files) => {
+        try {
+            logger.info(`Subiendo documentos para el usuario: ${userId}`);
+            const documents = await userRepository.uploadDocs(userId, files);
+            logger.info(`Documentos subidos exitosamente para el usuario: ${userId}`);
+            return documents;
+        } catch (error) {
+            logger.error(`Error al subir documentos para el usuario: ${userId} - ${error.message}`);
+            throw new Error("Error al subir documentos: " + error.message);
+        }
+    },
+
     logOut: async (res, req) => {
         try {
+            const userId = req.session.userId;
+            await userRepository.updateUser(userId, { last_connection: new Date() });
             logger.info(`Logging out user: ${req.session.userId}`);
             req.session.userId = null;
             req.session.user = null;
