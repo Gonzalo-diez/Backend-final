@@ -228,16 +228,23 @@ const userService = {
             if (!user) {
                 throw new Error("El usuario no existe");
             }
-            if (files && files.length > 0) {
+    
+            if (user.role === "user") {
+                if (!files || files.length === 0) {
+                    throw new Error("Se requiere la subida de documentación para cambiar el rol a premium");
+                }
                 await userRepository.uploadDocs(userId, files);
+                user.role = "premium";
+            } else if (user.role === "premium") {
+                user.role = "user";
             }
-            user.role = "premium";
+    
             await user.save();
             return user;
         } catch (error) {
             throw new Error("Error al cambiar el rol del usuario: " + error.message);
         }
-    },    
+    },       
 
     getChangeUserRole: async () => {
         return "changeUserRole";
