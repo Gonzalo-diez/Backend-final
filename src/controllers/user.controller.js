@@ -261,10 +261,10 @@ const userController = {
 
     changeUserRole: async (req, res) => {
         const userId = req.params.uid;
-        const { newRole } = req.body;
+        const files = req.files;
     
         try {
-            const updatedUser = await userService.changeUserRole(userId, newRole);
+            const updatedUser = await userService.changeUserRole(userId, files);
             res.json(updatedUser);
         } catch (error) {
             console.error("Error al cambiar el rol del usuario:", error);

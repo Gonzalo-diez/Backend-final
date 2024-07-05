@@ -5,6 +5,11 @@ import { authToken, isAdmin, isPremium, isUser, isUserOrPremium, isAll } from ".
 
 const userRouter = express.Router();
 const documentUpload = configureDocumentMulter();
+const getPremium = documentUpload.fields([
+    {name: "identificacion", maxCount: 1},
+    {name: "comprobanteDomicilio", maxCount: 1},
+    {name: "comprobanteCuenta", maxCount: 1}
+]);
 
 // Maneja la solicitud para buscar el usuario por id y ver el dashboard
 userRouter.get("/dashboard/:uid", authToken, isAdmin, userController.getUserById);
@@ -49,7 +54,7 @@ userRouter.put("/updateUser/:uid", authToken, userController.updateUser);
 userRouter.put("/changePassword/:uid", authToken, userController.changePassword);
 
 // Maneja la solicitud para cambiar el rol del usuario
-userRouter.put("/premium/:uid", authToken, isUserOrPremium, userController.changeUserRole);
+userRouter.put("/premium/:uid", authToken, isUserOrPremium, getPremium, userController.changeUserRole);
 
 // Maneja la solicitud de login de usuarios
 userRouter.post("/login", userController.login);

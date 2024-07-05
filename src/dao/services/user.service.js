@@ -222,13 +222,16 @@ const userService = {
         return "resetPassword";
     },
 
-    changeUserRole: async (userId, newRole) => {
+    changeUserRole: async (userId, files) => {
         try {
             const user = await userRepository.findUser(userId);
             if (!user) {
                 throw new Error("El usuario no existe");
             }
-            user.role = newRole;
+            if (files && files.length > 0) {
+                await userRepository.uploadDocs(userId, files);
+            }
+            user.role = "premium";
             await user.save();
             return user;
         } catch (error) {
