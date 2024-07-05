@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     email: String,
     age: Number,
     password: String,
+    profile: String,
     cart:
     {
         type: mongoose.Schema.Types.ObjectId,

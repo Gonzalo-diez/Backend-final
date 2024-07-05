@@ -1,9 +1,10 @@
 import express from "express";
-import { configureDocumentMulter } from "../util.js";
+import { configureDocumentMulter, configureProfileMulter } from "../util.js";
 import userController from "../controllers/user.controller.js";
 import { authToken, isAdmin, isPremium, isUser, isUserOrPremium, isAll } from "../config/auth.js";
 
 const userRouter = express.Router();
+const profileUpload = configureProfileMulter();
 const documentUpload = configureDocumentMulter();
 const getPremium = documentUpload.fields([
     {name: "identificacion", maxCount: 1},
@@ -60,7 +61,7 @@ userRouter.put("/premium/:uid", authToken, isUserOrPremium, getPremium, userCont
 userRouter.post("/login", userController.login);
 
 // Maneja la solicitud de registros de usuarios
-userRouter.post("/register", userController.register);
+userRouter.post("/register", profileUpload.single("profile"), userController.register);
 
 // Maneja la solicitud para enviar los mensajes para cambiar la contraseña
 userRouter.post("/requestPasswordReset", userController.requestPasswordReset);

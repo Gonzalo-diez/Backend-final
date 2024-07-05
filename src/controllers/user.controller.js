@@ -68,9 +68,10 @@ const userController = {
 
     register: async (req, res, next) => {
         const userData = req.body;
+        const file = req.file;
 
         try {
-            const { newUser, access_token } = await userService.register(userData);
+            const { newUser, access_token } = await userService.register(userData, file);
 
             // Establece la sesión del usuario
             req.session.token = access_token;

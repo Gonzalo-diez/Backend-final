@@ -53,7 +53,7 @@ const userService = {
         return "register";
     },
 
-    register: async (userData) => {
+    register: async (userData, file) => {
         const { first_name, last_name, email, age, password } = userData;
         try {
             logger.info(`Registrando nuevo user: ${email}`);
@@ -63,7 +63,7 @@ const userService = {
                 throw new Error("El usuario ya existe");
             }
 
-            const imageName = req.file ? req.file.filename : null;
+            const imageName = file ? file.filename : null;
 
             if (!imageName) {
                 logger.warn(`Imagen invalida para el perfil del usuario: ${title}`);
@@ -71,7 +71,7 @@ const userService = {
             }
 
             const hashedPassword = await bcrypt.hash(password, 10);
-            const newUserDTO = new UserDTO(first_name, last_name, imageName, email, age, hashedPassword);
+            const newUserDTO = new UserDTO(first_name, last_name, email, age, hashedPassword, imageName);
             const newUser = { ...newUserDTO };
             const createdUser = await userRepository.createUser(newUser);
             const access_token = generateAuthToken(createdUser);
