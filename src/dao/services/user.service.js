@@ -66,7 +66,7 @@ const userService = {
             const imageName = file ? file.filename : null;
 
             if (!imageName) {
-                logger.warn(`Imagen invalida para el perfil del usuario: ${title}`);
+                logger.warn(`Imagen invalida para el perfil del usuario: ${imageName}`);
                 throw { code: 'INVALID_IMAGE' };
             }
 
@@ -250,7 +250,7 @@ const userService = {
         return "changeUserRole";
     },
 
-    getDocs: async () => {
+    getUplaodDocs: async () => {
         return "uploadDocs";
     },
 

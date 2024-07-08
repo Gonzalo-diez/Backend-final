@@ -6,15 +6,18 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
 
         const userId = localStorage.getItem('userId');
-        const newRole = document.getElementById("role").value;
+        const token = localStorage.getItem('token')
+
+        // Crear un nuevo FormData con los archivos del formulario
+        const formData = new FormData(form);
 
         try {
             const response = await fetch(`http://localhost:8080/api/sessions/premium/${userId}`, {
                 method: 'PUT',
+                body: formData,
                 headers: {
-                    'Content-Type': 'application/json'
+                    "authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ newRole })
             });
 
             if (response.headers.get('Content-Type')?.includes('application/json')) {

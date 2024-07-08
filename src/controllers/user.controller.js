@@ -285,13 +285,13 @@ const userController = {
         }
     },
     
-    getDocs: async (req, res) => {
+    getUploadDocs: async (req, res) => {
         const userId = req.params.uid;
 
         try {
             const user = await userService.getUserById(userId);
-            const uploadDocsView = await userService.getDocs();
-            res.render(uploadDocsView);
+            const uploadDocsView = await userService.getUplaodDocs();
+            res.render(uploadDocsView, { user });
         } catch (error) {
             console.error("Error al obtener la vista de subida de documentos:", error);
             res.status(500).json({ error: "Error interno del servidor" });

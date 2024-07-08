@@ -484,3 +484,9 @@
 {"level":"error","message":"Error al actualizar la cantidad del producto en el carrito ID: 667da9d84dbc3c19ffc9fb9b - Error al actualizar la cantidad del producto en el carrito: Cast to Number failed for value \"667ccbaeb05b03f8181be1c3\" (type string) at path \"productQuantity\""}
 {"level":"error","message":"Error al actualizar la cantidad del producto en el carrito ID: 667db4bbdcbca476619cc55c - Error al actualizar la cantidad del producto en el carrito: Cast to Number failed for value \"667ccbaeb05b03f8181be1c3\" (type string) at path \"productQuantity\""}
 {"level":"error","message":"Error al subir documentos para el usuario: 667cc5ccf30ba35270ff3cf1 - Error al agregar documentos: User validation failed: documents.0.reference: Path `reference` is required., documents.0.name: Path `name` is required."}
+{"level":"error","message":"Error al registrar el user: ezio@gmail.com - title is not defined"}
+{"level":"error","message":"Error al registrar el user: starwars@gmail.com - title is not defined"}
+{"level":"warn","message":"Imagen invalida para el perfil del usuario: null"}
+{"level":"error","message":"Error al registrar el user: luke@gmail.com - undefined"}
+{"level":"warn","message":"Imagen invalida para el perfil del usuario: null"}
+{"level":"error","message":"Error al registrar el user: roberto@gmail.com - undefined"}

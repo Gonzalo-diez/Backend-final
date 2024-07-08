@@ -46,7 +46,7 @@ userRouter.get("/resetPassword/:token", userController.getResetPassword);
 userRouter.get("/premium/:uid", authToken, isUserOrPremium, userController.getChangeUserRole);
 
 // Maneja el renderizado de la subida de documentos
-userRouter.get("/:uid/documents", authToken, isAll, userController.getDocs);
+userRouter.get("/:uid/documents", authToken, isAll, userController.getUploadDocs);
 
 // Maneja la solicitud para actualizar los datos del usuario
 userRouter.put("/updateUser/:uid", authToken, userController.updateUser);
