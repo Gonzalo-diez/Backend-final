@@ -55,7 +55,7 @@
                         </ul>
                     </li>
                     {{/eq}}
-                    {{#ifRole user.role "user" "premium"}}
+                    {{#eq user.role "==" "user"}}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -66,10 +66,25 @@
                             <li><a class="dropdown-item" id="changePasswordButton">Cambiar contraseña</a></li>
                             <li><a class="dropdown-item" id="editUserButton">Editar perfil</a></li>
                             <li><a class="dropdown-item" id="chatButton">Chat</a></li>
-                            <li><a class="dropdown-item" id="changeRoleButton">Cambiar rol</a></li>
+                            <li><a class="dropdown-item" id="changePremiumRoleButton">Cambiar rol</a></li>
                         </ul>
                     </li>
-                    {{/ifRole}}
+                    {{/eq}}
+                    {{#eq user.role "==" "premium"}}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <box-icon type='solid' name='cog'></box-icon>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" id="logoutButton">Logout</a></li>
+                            <li><a class="dropdown-item" id="changePasswordButton">Cambiar contraseña</a></li>
+                            <li><a class="dropdown-item" id="editUserButton">Editar perfil</a></li>
+                            <li><a class="dropdown-item" id="chatButton">Chat</a></li>
+                            <li><a class="dropdown-item" id="changeUserRoleButton">Cambiar rol</a></li>
+                        </ul>
+                    </li>
+                    {{/eq}}
                     {{else}}
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a href="http://localhost:8080/api/sessions/login"

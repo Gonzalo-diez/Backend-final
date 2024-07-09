@@ -1,0 +1,26 @@
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1>Cambio de rol</h1>
+            <div id="errorMessage" class="alert alert-danger" role="alert" style="display: none;"></div>
+            <p>Cambio de rol para el usuario {{ user.firstName }} {{ user.lastName }} a premium</p>
+            <form id="roleChangePremiumForm" method="PUT" enctype="multipart/form-data">
+                <div>
+                    <label>Identificación del usuario:</label>
+                    <input type="file" name="identificacion" id="identificacion" accept="image/*" required>
+                </div>
+                <div>
+                    <label>Comprobante de domicilio:</label>
+                    <input type="file" name="comprobanteDomicilio" id="comprobanteDomicilio" accept="image/*" required>
+                </div>
+                <div>
+                    <label>Comprobante de cuenta:</label>
+                    <input type="file" name="comprobanteCuenta" id="comprobanteCuenta" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Cambiar a premium</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="/js/changePremiumRole.js"></script>

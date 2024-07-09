@@ -222,19 +222,19 @@ const userService = {
         return "resetPassword";
     },
 
-    changeUserRole: async (userId, files) => {
+    changePremiumRole: async (userId, files) => {
         try {
             const user = await userRepository.findUser(userId);
             if (!user) {
                 throw new Error("El usuario no existe");
             }
-    
+
             if (user.role === "user") {
                 // Verificar si todos los archivos requeridos están presentes
                 if (!files || !files.identificacion || !files.comprobanteDomicilio || !files.comprobanteCuenta) {
                     throw new Error("Se requiere la subida de documentación completa para cambiar el rol a premium");
                 }
-    
+
                 // Procesar cada archivo de forma individual
                 await userRepository.uploadDocs(userId, files.identificacion);
                 await userRepository.uploadDocs(userId, files.comprobanteDomicilio);
@@ -243,17 +243,44 @@ const userService = {
                 user.role = "premium"
             }
 
-            else if(user.role === "premium") {
+            else if (user.role === "premium") {
                 user.role = "user"
             }
-    
+
             // Guardar los cambios en la base de datos
             await user.save();
             return user;
         } catch (error) {
             throw new Error("Error al cambiar el rol del usuario: " + error.message);
         }
-    },     
+    },
+
+    getChangePremiumRole: async () => {
+        return "changePremiumRole";
+    },
+
+    changeUserRole: async (userId) => {
+        try {
+            const user = await userRepository.findUser(userId);
+            if (!user) {
+                throw new Error("El usuario no existe");
+            }
+
+            if (user.role === "premium") {
+                user.role = "user"
+            }
+
+            else {
+                logger.warn("Acceso no autorizado");
+            }
+
+            // Guardar los cambios en la base de datos
+            await user.save();
+            return user;
+        } catch (error) {
+            throw new Error("Error al cambiar el rol del usuario: " + error.message);
+        }
+    },
 
     getChangeUserRole: async () => {
         return "changeUserRole";

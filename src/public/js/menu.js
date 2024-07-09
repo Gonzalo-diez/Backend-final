@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-const changeRole = async () => {
+const changePremiumRole = async () => {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
 
@@ -208,15 +208,51 @@ const changeRole = async () => {
     }
 }
 
-// Función para manejar el evento de clic en el botón de cambiar rol
-const handleChangeRoleClick = () => {
-    changeRole();
+// Función para manejar el evento de clic en el botón de cambiar rol a premium
+const handleChangePremiumRoleClick = () => {
+    changePremiumRole();
 };
 
-// Agregar un event listener al botón de cambiar rol
+// Agregar un event listener al botón de cambiar rol a premium
 document.addEventListener('DOMContentLoaded', () => {
-    const changeRoleButton = document.getElementById('changeRoleButton'); 
-    if (changeRoleButton) {
-        changeRoleButton.addEventListener('click', handleChangeRoleClick);
+    const changePremiumRoleButton = document.getElementById('changePremiumRoleButton'); 
+    if (changePremiumRoleButton) {
+        changePremiumRoleButton.addEventListener('click', handleChangePremiumRoleClick);
+    }
+});
+
+const changeUserRole = async () => {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+
+    try {
+        const response = await fetch(`http://localhost:8080/api/sessions/user/${userId}`, {
+            method: 'GET',
+            headers: {
+                "authorization": `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            window.location.replace(`http://localhost:8080/api/sessions/user/${userId}`);
+        } else {
+            const errorMessage = await response.text();
+            console.error('Error en ir a cambiar roles:', errorMessage);
+        }
+    } catch (error) {
+        console.error('Error en ir a cambiar roles:', error);
+    }
+}
+
+// Función para manejar el evento de clic en el botón de cambiar rol a user
+const handleChangeUserRoleClick = () => {
+    changeUserRole();
+};
+
+// Agregar un event listener al botón de cambiar rol a user
+document.addEventListener('DOMContentLoaded', () => {
+    const changeUserRoleButton = document.getElementById('changeUserRoleButton'); 
+    if (changeUserRoleButton) {
+        changeUserRoleButton.addEventListener('click', handleChangeUserRoleClick);
     }
 });

@@ -260,19 +260,46 @@ const userController = {
         }
     },
 
-    changeUserRole: async (req, res) => {
+    changePremiumRole: async (req, res) => {
         const userId = req.params.uid;
         const files = req.files;
     
         try {
-            const updatedUser = await userService.changeUserRole(userId, files);
-            res.json(updatedUser);
+            const updatedPremium = await userService.changePremiumRole(userId, files);
+            res.json(updatedPremium);
         } catch (error) {
             console.error("Error al cambiar el rol del usuario:", error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
     },    
     
+    getChangePremiumRole: async (req, res) => {
+        const user = req.session.user;
+        const isAuthenticated = req.session.isAuthenticated;
+        const jwtToken = req.session.token;
+        const userId = req.params.uid;
+
+        try {
+            const changeUserRoleView = await userService.getChangePremiumRole();
+            res.render(changeUserRoleView, { user, isAuthenticated, jwtToken, userId })
+        } catch (error) {
+            console.error("Error al obtener la vista de cambio de role:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },
+
+    changeUserRole: async (req, res) => {
+        const userId = req.params.uid;
+
+        try {
+            const updatedUser = await userService.changeUserRole(userId);
+            res.json(updatedUser);
+        } catch (error) {
+            console.error("Error al cambiar el rol del usuario:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },
+
     getChangeUserRole: async (req, res) => {
         const user = req.session.user;
         const isAuthenticated = req.session.isAuthenticated;
@@ -280,8 +307,8 @@ const userController = {
         const userId = req.params.uid;
 
         try {
-            const changeUserRoleView = await userService.getChangeUserRole();
-            res.render(changeUserRoleView, { user, isAuthenticated, jwtToken, userId })
+            const changePremiumRoleView = await userService.getChangeUserRole();
+            res.render(changePremiumRoleView, { user, isAuthenticated, jwtToken, userId })
         } catch (error) {
             console.error("Error al obtener la vista de cambio de role:", error);
             res.status(500).json({ error: "Error interno del servidor" });

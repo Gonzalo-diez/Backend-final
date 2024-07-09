@@ -42,8 +42,11 @@ userRouter.get("/forgotPassword", userController.getForgotPassword);
 // Maneja el renderizado del reset password
 userRouter.get("/resetPassword/:token", userController.getResetPassword);
 
-// Maneja el renderizado del change role
-userRouter.get("/premium/:uid", authToken, isUserOrPremium, userController.getChangeUserRole);
+// Maneja el renderizado del change role de usuario a premium
+userRouter.get("/premium/:uid", authToken, isUser, userController.getChangePremiumRole);
+
+// Maneja el renderizado del change role de usuario a user
+userRouter.get("/user/:uid", authToken, isPremium, userController.getChangeUserRole);
 
 // Maneja el renderizado de la subida de documentos
 userRouter.get("/:uid/documents", authToken, isAll, userController.getUploadDocs);
@@ -54,8 +57,11 @@ userRouter.put("/updateUser/:uid", authToken, userController.updateUser);
 // Maneja la solicitud para cambiar la contraseña del usuario
 userRouter.put("/changePassword/:uid", authToken, userController.changePassword);
 
-// Maneja la solicitud para cambiar el rol del usuario
-userRouter.put("/premium/:uid", authToken, isUserOrPremium, getPremium, userController.changeUserRole);
+// Maneja la solicitud para cambiar el rol del usuario a premium
+userRouter.put("/premium/:uid", authToken, isUser, getPremium, userController.changePremiumRole);
+
+// Maneja la solicitud para cambiar el rol del usuario a user
+userRouter.put("/user/:uid", authToken, isPremium, userController.changeUserRole);
 
 // Maneja la solicitud de login de usuarios
 userRouter.post("/login", userController.login);
