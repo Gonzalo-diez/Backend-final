@@ -491,3 +491,4 @@
 {"level":"warn","message":"Imagen invalida para el perfil del usuario: null"}
 {"level":"error","message":"Error al registrar el user: roberto@gmail.com - undefined"}
 {"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: roberto@gmail.com"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: gonzalodiez@gmail.com"}

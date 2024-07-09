@@ -256,3 +256,39 @@ document.addEventListener('DOMContentLoaded', () => {
         changeUserRoleButton.addEventListener('click', handleChangeUserRoleClick);
     }
 });
+
+const uploadDocs = async () => {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+
+    try {
+        const response = await fetch(`http://localhost:8080/api/sessions/${userId}/documents`, {
+            method: 'GET',
+            headers: {
+                "authorization": `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            window.location.replace(`http://localhost:8080/api/sessions/${userId}/documents`);
+        } else {
+            const errorMessage = await response.text();
+            console.error('Error en ir a subir los documentos:', errorMessage);
+        }
+    } catch (error) {
+        console.error('Error en ir a subir los documentos:', error);
+    }
+}
+
+// Función para manejar el evento de clic en el botón de subir documentos
+const handleUploadDocsClick = () => {
+    uploadDocs();
+};
+
+// Agregar un event listener al botón de subir documentos
+document.addEventListener('DOMContentLoaded', () => {
+    const changeUploadDocsButton = document.getElementById('uploadDocsButton'); 
+    if (changeUploadDocsButton) {
+        changeUploadDocsButton.addEventListener('click', handleUploadDocsClick);
+    }
+});

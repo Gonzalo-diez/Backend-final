@@ -1,0 +1,18 @@
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1>Subir documentos</h1>
+            <div id="errorMessage" class="alert alert-danger" role="alert" style="display: none;"></div>
+            <p>Guardar imagenes y/o documentos del {{ user.firstName }} {{ user.lastName }}</p>
+            <form id="uploadDocsForm" method="POST" enctype="multipart/form-data">
+                <div>
+                    <label>Suba sus archivos:</label>
+                    <input type="file" name="documents" id="documents" max="10" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="module" src="/js/uploadDocs.js"></script>
