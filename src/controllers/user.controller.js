@@ -274,11 +274,14 @@ const userController = {
     },    
     
     getChangeUserRole: async (req, res) => {
+        const user = req.session.user;
+        const isAuthenticated = req.session.isAuthenticated;
+        const jwtToken = req.session.token;
         const userId = req.params.uid;
-        const user = await userService.getUserById(userId);
+
         try {
             const changeUserRoleView = await userService.getChangeUserRole();
-            res.render(changeUserRoleView, { user })
+            res.render(changeUserRoleView, { user, isAuthenticated, jwtToken, userId })
         } catch (error) {
             console.error("Error al obtener la vista de cambio de role:", error);
             res.status(500).json({ error: "Error interno del servidor" });

@@ -230,21 +230,30 @@ const userService = {
             }
     
             if (user.role === "user") {
-                if (!files || files.length === 0) {
-                    throw new Error("Se requiere la subida de documentación para cambiar el rol a premium");
+                // Verificar si todos los archivos requeridos están presentes
+                if (!files || !files.identificacion || !files.comprobanteDomicilio || !files.comprobanteCuenta) {
+                    throw new Error("Se requiere la subida de documentación completa para cambiar el rol a premium");
                 }
-                await userRepository.uploadDocs(userId, files);
-                user.role = "premium";
-            } else if (user.role === "premium") {
-                user.role = "user";
+    
+                // Procesar cada archivo de forma individual
+                await userRepository.uploadDocs(userId, files.identificacion);
+                await userRepository.uploadDocs(userId, files.comprobanteDomicilio);
+                await userRepository.uploadDocs(userId, files.comprobanteCuenta);
+
+                user.role = "premium"
+            }
+
+            else if(user.role === "premium") {
+                user.role = "user"
             }
     
+            // Guardar los cambios en la base de datos
             await user.save();
             return user;
         } catch (error) {
             throw new Error("Error al cambiar el rol del usuario: " + error.message);
         }
-    },       
+    },     
 
     getChangeUserRole: async () => {
         return "changeUserRole";

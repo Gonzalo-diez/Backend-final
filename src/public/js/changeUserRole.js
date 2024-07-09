@@ -1,12 +1,12 @@
+const token = localStorage.getItem("token");
+const userId = localStorage.getItem("userId");
+
 document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById("roleChangeForm");
     const errorMessage = document.getElementById("errorMessage");
 
     form.addEventListener('submit', async function (event) {
         event.preventDefault();
-
-        const userId = localStorage.getItem('userId');
-        const token = localStorage.getItem('token')
 
         // Crear un nuevo FormData con los archivos del formulario
         const formData = new FormData(form);
