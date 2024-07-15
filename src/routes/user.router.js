@@ -12,6 +12,9 @@ const getPremium = documentUpload.fields([
     {name: "comprobanteCuenta", maxCount: 1}
 ]);
 
+// Maneja la solicitud de mostrar la lista de usuarios
+userRouter.get("/", userController.getUsers);
+
 // Maneja la solicitud para buscar el usuario por id y ver el dashboard
 userRouter.get("/dashboard/:uid", authToken, isAdmin, userController.getUserById);
 
@@ -77,5 +80,8 @@ userRouter.post("/resetPassword/:token", userController.resetPassword);
 
 // Maneja la solicitud para subir documentos
 userRouter.post("/:uid/documents", authToken, isAll, documentUpload.array("documents", 10), userController.uploadDocs);
+
+// Maneja la solicitud de eliminar los usuarios inactivos
+userRouter.delete("/", userController.deleteInactiveUser);
 
 export default userRouter;

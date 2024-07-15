@@ -1,6 +1,15 @@
 import User from "../models/user.model.js";
 
 const userRepository = {
+    getUsers: async () => {
+        try {
+            const users = await User.find();
+            return users;
+        } catch (error) {
+            throw new Error("Error al buscar todos los usuarios: " + error.message)
+        }
+    },
+
     findByEmail: async (email) => {
         try {
             const user = await User.findOne({ email });
@@ -25,6 +34,25 @@ const userRepository = {
             return user;
         } catch (error) {
             throw new Error("Error al buscar usuario por ID: " + error.message);
+        }
+    },
+
+    findInactiveUser: async (inactivityPeriod) => {
+        const inactivityDate = new Date(Date.now() - inactivityPeriod);
+        try {
+            const user = await User.findOne({ last_connection: { $lt: inactivityDate } });
+            return user;
+        } catch (error) {
+            throw new Error("Error al buscar usuarios inactivos: " + error.message);
+        }
+    },
+
+    deleteInactiveUser: async (userId) => {
+        try {
+            const deleteInactiveUser = await User.deleteOne({ _id: userId });
+            return deleteInactiveUser;
+        } catch (error) {
+            throw new Error("Error al eliminar el usuario inactivo: " + error.message);
         }
     },
 

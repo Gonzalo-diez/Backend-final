@@ -1,5 +1,4 @@
 import bcrypt from "bcrypt";
-import crypto from "crypto";
 import { generateAuthToken } from "../../config/auth.js";
 import passport from "passport";
 import userRepository from "../repositories/user.repository.js";
@@ -7,6 +6,18 @@ import UserDTO from "../DTO/user.dto.js";
 import logger from "../../utils/logger.js";
 
 const userService = {
+    getUsers: async () => {
+        try {
+            logger.info("La lista de usuarios:");
+            const users = await userRepository.getUsers();
+            logger.info("Usuarios encontrados con exito");
+            return users;
+        } catch (error) {
+            logger.error("Error al obtener la lista de los usuarios:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },
+
     getUserById: async (userId) => {
         try {
             logger.info(`Buscando user ID: ${userId}`);
@@ -299,6 +310,30 @@ const userService = {
         } catch (error) {
             logger.error(`Error al subir documentos para el usuario: ${userId} - ${error.message}`);
             throw new Error("Error al subir documentos: " + error.message);
+        }
+    },
+
+    findInactiveUser: async (inactivityPeriod) => {
+        try {
+            logger.info("Buscando usuarios inactivos");
+            const user = await userRepository.findInactiveUser(inactivityPeriod);
+            logger.info("Usuarios encontrados");
+            return user;
+        } catch (error) {
+            logger.error(`Error al buscar el usuario por inactividad: ${error.message}`);
+            throw new Error("Error interno del servidor");
+        }
+    },
+
+    deleteInactiveUser: async (userId) => {
+        try {
+            logger.info(`Eliminando usuario por inactividad: ${userId}`);
+            const deleteInactiveUser = await userRepository.deleteInactiveUser(userId);
+            logger.info("usuario eliminado con exito");
+            return deleteInactiveUser;
+        } catch (error) {
+            logger.error(`Error al buscar el usuario por inactividad: ${error.message}`);
+            throw new Error("Error interno del servidor");
         }
     },
 

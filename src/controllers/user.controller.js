@@ -5,6 +5,17 @@ import userService from "../dao/services/user.service.js";
 import { transport } from "../app.js";
 
 const userController = {
+    getUsers: async (req, res) => {
+        try {
+            const users = await userService.getUsers();
+
+            res.json(users);
+        } catch (error) {
+            console.error("Error al obtener la lista de usuarios:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },
+
     getUserById: async (req, res) => {
         const userId = req.params.uid;
         const isAuthenticated = req.session.isAuthenticated;
@@ -340,6 +351,40 @@ const userController = {
         }
         catch (error) {
             console.error("Error al subir los documents:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },
+
+    deleteInactiveUser: async (req, res) => {
+        try {
+            const inactivityPeriod = 2 * 24 * 60 * 60 * 1000;
+
+            const user = await userService.findInactiveUser(inactivityPeriod);
+
+            if (!user) {
+                return res.status(404).json({ error: "Usuario no encontrado" });
+            }
+
+            const mailOptions = {
+                to: user.email,
+                from: EMAIL_USERNAME,
+                subject: 'Se le ha eliminado su cuenta por inactividad',
+                text: `Está recibiendo este mensaje porque usted no se ha conectado en 2 dias seguidos y su cuenta ha sido eliminada por inactividad.`
+            };
+
+            await transport.sendMail(mailOptions);
+
+            const userId = user._id;
+
+            const deleteUser = await userService.deleteInactiveUser(userId);
+
+            if (!deleteUser) {
+                return res.status(404).json({ error: "No se ha podido eliminar el usuario" });
+            }
+
+            res.status(200).json({ message: 'Correo de aviso de eliminación de usuario enviado con éxito' });
+        } catch (error) {
+            console.error("Error al eliminar el usuario por inactividad:", error);
             res.status(500).json({ error: "Error interno del servidor" });
         }
     },
