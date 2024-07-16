@@ -1,3 +1,5 @@
+import { EMAIL_USERNAME } from "../util.js";
+import { transport } from "../app.js";
 import productService from "../dao/services/product.service.js";
 import cartService from "../dao/services/cart.service.js";
 import userService from "../dao/services/user.service.js";
@@ -136,8 +138,22 @@ const productController = {
             const product = await productService.getProductDetail(productId);
             const user = await userService.getUserById(userId);
     
-            if (userRole === 'admin' || (userRole === 'premium' && user && user._id.toString() == product.owner._id.toString())) {
+            if (userRole === 'admin') {
                 await productService.deleteProduct(productId);
+                return res.json({ message: "Producto eliminado!" });
+            }
+            else if(userRole === 'premium' && user && user._id.toString() == product.owner._id.toString()){
+                await productService.deleteProduct(productId);
+                
+                const mailOptions = {
+                    to: user.email,
+                    from: EMAIL_USERNAME,
+                    subject: 'Eliminación de producto',
+                    text: `Está recibiendo este mensaje porque se ha eliminado su producto ${product.title}.`
+                };
+    
+                await transport.sendMail(mailOptions);
+                
                 return res.json({ message: "Producto eliminado!" });
             } else {
                 return res.status(403).json({ message: 'No tienes permiso para realizar esta acción' });
