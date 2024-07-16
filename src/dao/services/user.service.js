@@ -336,6 +336,43 @@ const userService = {
         }
     },
 
+    deleteUser: async (userId) => {
+        try {
+            logger.info(`Eliminando usuario: ${userId}`);
+            const deleteUser = await userRepository.deleteUser(userId);
+            logger.info("Usuario eliminado con exito");
+            return deleteUser;
+        } catch (error) {
+            logger.error(`Error al eliminar el usuario: ${error.message}`);
+            throw new Error("Error interno del servidor");
+        }
+    },
+
+    adminChangeUserRole: async (user, userRole, userId) => {
+        try {
+            logger.info(`Cambiando rol de usuario: ${userId}`);
+
+            if (userRole === "premium") {
+                userRole == "user";
+            }
+
+            else if (userRole === "user") {
+                userRole == "premium";
+            }
+
+            else {
+                logger.warn("Acceso no autorizado");
+            }
+
+            logger.info("Cambio de rol del usuario exitoso");
+            await user.save;
+            return user;
+        } catch (error) {
+            logger.error(`Error al cambiar el rol del usuario: ${userId}`);
+            throw new Error("Error interno del servidor");
+        }
+    },
+
     logOut: async (res, req) => {
         try {
             const userId = req.session.userId;

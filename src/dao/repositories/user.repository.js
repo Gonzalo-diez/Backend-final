@@ -97,6 +97,20 @@ const userRepository = {
         }
     },
 
+    deleteUser: async (userId) => {
+        try {   
+            const deleteUser = await User.deleteOne({ _id: userId });
+
+            if(!deleteUser) {
+                throw new Error("Usuario no existente"); 
+            }
+
+            return deleteUser;
+        } catch (error) {
+            throw new Error("Error al eliminar el usuario: " + error.message);
+        }
+    },
+
     updateUser: async (userId, updateData) => {
         try {
             const updatedUser = await User.findByIdAndUpdate(userId, updateData, { new: true });
