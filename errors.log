@@ -492,3 +492,5 @@
 {"level":"error","message":"Error al registrar el user: roberto@gmail.com - undefined"}
 {"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: roberto@gmail.com"}
 {"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: gonzalodiez@gmail.com"}
+{"level":"error","message":"Error al eliminar el usuario: Error al eliminar el usuario: Cast to ObjectId failed for value \"{ _id: undefined }\" (type Object) at path \"_id\" for model \"User\""}
+{"level":"error","message":"Error al eliminar el usuario: Error al eliminar el usuario: Cast to ObjectId failed for value \"{ _id: undefined }\" (type Object) at path \"_id\" for model \"User\""}

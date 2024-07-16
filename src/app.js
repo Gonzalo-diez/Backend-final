@@ -239,4 +239,14 @@ io.on('connection', socket => {
         console.log("Carrito vaciado:", clearCart);
         io.emit("clearCart", clearCart);
     });
+
+    socket.on("deleteUser", (deleteUserId) => {
+        console.log("Usuario eliminado", deleteUserId);
+        io.emit("deleteUser", deleteUserId);
+    });
+
+    socket.on("changeRole", (changeRoleUserId) => {
+        console.log("Cambio de rol usuario", changeRoleUserId);
+        io.emit("changeRole", changeRoleUserId);
+    })
 });

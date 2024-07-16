@@ -7,7 +7,7 @@
         {{#each users}}
         <div class="col-md-4 mb-4">
             <div class="card">
-                <img src="/img/{{this.profile}}" class="card-img-top img-fluid" alt="{{this.first_name}}"
+                <img src="/profiles/{{this.profile}}" class="card-img-top img-fluid" alt="{{this.first_name}}"
                     style="max-height: 400px; aspect-ratio: 3/2; object-fit: contain;">
                 <div class="card-body">
                     <p class="card-text">Nombre: {{this.first_name}}</p>
@@ -16,9 +16,14 @@
                     <p class="card-text">Edad: {{this.age}}</p>
                     <p class="card-text">Rol: {{this.role}}</p>
                     <p class="card-text">Última vez conectado: {{this.last_connection}}</p>
+                    <button class="btn btn-warning update-btn" data-user-id="{{this._id}}">Cambiar Rol</button>
+                    <button class="btn btn-danger delete-btn" data-user-id="{{this._id}}">Eliminar Usuario</button>
                 </div>
             </div>
         </div>
         {{/each}}
     </div>
 </div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="module" src="/js/dashboard.js"></script>

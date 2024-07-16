@@ -99,7 +99,7 @@ const userRepository = {
 
     deleteUser: async (userId) => {
         try {   
-            const deleteUser = await User.deleteOne({ _id: userId });
+            const deleteUser = await User.findByIdAndDelete({ _id: userId });
 
             if(!deleteUser) {
                 throw new Error("Usuario no existente"); 

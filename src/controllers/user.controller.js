@@ -369,6 +369,10 @@ const userController = {
                 return res.status(404).json({ error: "Usuario no encontrado" });
             }
 
+            if (user.role === "admin") {
+                return res.status(404).json({ error: "No se puede eliminar el administrador" });
+            }
+
             const mailOptions = {
                 to: user.email,
                 from: EMAIL_USERNAME,
@@ -394,7 +398,7 @@ const userController = {
     },
 
     adminChangeUserRole: async (req, res) => {
-        const { userId } = req.body;
+        const userId = req.params.uid;
 
         try {
             const user = await userService.getUserById(userId);
@@ -415,7 +419,7 @@ const userController = {
     },
 
     deleteUser: async (req, res) => {
-        const { userId } = req.body;
+        const userId = req.params.uid;
 
         try {
             const deleteUser = await userService.deleteUser(userId);

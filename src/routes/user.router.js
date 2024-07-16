@@ -66,6 +66,9 @@ userRouter.put("/premium/:uid", authToken, isUser, getPremium, userController.ch
 // Maneja la solicitud para cambiar el rol del usuario a user
 userRouter.put("/user/:uid", authToken, isPremium, userController.changeUserRole);
 
+// Maneja la solicitud para cambiar los roles de los usuarios en la dashboard del admin
+userRouter.put("/changeRole/:uid", authToken, isAdmin, userController.adminChangeUserRole);
+
 // Maneja la solicitud de login de usuarios
 userRouter.post("/login", userController.login);
 
@@ -83,5 +86,8 @@ userRouter.post("/:uid/documents", authToken, isAll, documentUpload.array("docum
 
 // Maneja la solicitud de eliminar los usuarios inactivos
 userRouter.delete("/", userController.deleteInactiveUser);
+
+// Maneja la solicitud de eliminar los usuarios por su id
+userRouter.delete("/:uid", authToken, isAdmin, userController.deleteUser);
 
 export default userRouter;
