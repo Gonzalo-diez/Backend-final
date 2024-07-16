@@ -8,9 +8,8 @@ import logger from "../../utils/logger.js";
 const userService = {
     getUsers: async () => {
         try {
-            logger.info("La lista de usuarios:");
             const users = await userRepository.getUsers();
-            logger.info("Usuarios encontrados con exito");
+            logger.info(`Usuarios encontrados: ${JSON.stringify(users)}`);
             return users;
         } catch (error) {
             logger.error("Error al obtener la lista de los usuarios:", error);

@@ -9,7 +9,9 @@ const userController = {
         try {
             const users = await userService.getUsers();
 
-            res.json(users);
+            if (req.accepts("html")) {
+                return res.render("usersList", {Users: users});
+            }
         } catch (error) {
             console.error("Error al obtener la lista de usuarios:", error);
             res.status(500).json({ error: "Error interno del servidor" });
@@ -24,8 +26,10 @@ const userController = {
         try {
             const user = await userService.getUserById(userId);
 
+            const users = await userService.getUsers();
+
             if (req.accepts("html")) {
-                return res.render("user", { User: user, user, isAuthenticated, jwtToken });
+                return res.render("user", { User: user, user, users, isAuthenticated, jwtToken });
             }
         } catch (error) {
             console.error("Error al obtener usuario por ID:", error);

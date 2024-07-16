@@ -3,7 +3,8 @@ import User from "../models/user.model.js";
 const userRepository = {
     getUsers: async () => {
         try {
-            const users = await User.find();
+            const users = await User.find().lean();
+            
             return users;
         } catch (error) {
             throw new Error("Error al buscar todos los usuarios: " + error.message)
