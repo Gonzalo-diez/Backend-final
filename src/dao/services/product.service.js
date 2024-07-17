@@ -64,6 +64,11 @@ const productService = {
                 throw { code: 'INVALID_IMAGE' };
             }
 
+            if (price > 0 || stock > 0) {
+                logger.warn("El precio y/o stock deben de ser de valores positivos");
+                throw { code: 'PRODUCT_POSITIVE_VALUE' };
+            }
+
             // Crear instancia DTO
             const productDTO = new ProductDTO(title, brand, description, price, stock, category, imageName, owner);
 
@@ -93,6 +98,11 @@ const productService = {
     
             // Verificar si hay un archivo de imagen en la solicitud
             const imageName = req.file ? req.file.filename : existingProduct.imageName;
+
+            if (price > 0 || stock > 0) {
+                logger.warn("El precio y/o stock deben de ser de valores positivos");
+                throw { code: 'PRODUCT_POSITIVE_VALUE' };
+            }
     
             // Crear instancia DTO
             const updateProductDTO = new ProductDTO(

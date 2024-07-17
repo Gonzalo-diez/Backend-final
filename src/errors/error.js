@@ -15,6 +15,10 @@ const errorDictionary = {
         message: "Imagen o archivo no valido",
         statusCode: 400,
     },
+    PRODUCT_POSITIVE_VALUE: {
+        message: "Precio y/o stock sin valor o valor negativo",
+        statusCode: 400,
+    },
     PRODUCT_UPDATE_FAILED: {
         message: "No se pudo actualizar el producto.",
         statusCode: 500,

@@ -11,7 +11,8 @@ const ticketSchema = new mongoose.Schema({
     },
     amount: {
         type: Number,
-        required: true
+        required: true,
+        min: 0
     },
     purchaser: {
         type: mongoose.Schema.Types.ObjectId,
@@ -20,8 +21,8 @@ const ticketSchema = new mongoose.Schema({
     products: [
         {
             product: { type: String, required: true },
-            productQuantity: { type: Number, required: true },
-            productTotal: { type: Number, required: true }
+            productQuantity: { type: Number, required: true, min: 0 },
+            productTotal: { type: Number, required: true, min: 0 }
         }
     ]
 });

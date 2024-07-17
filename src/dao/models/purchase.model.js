@@ -11,9 +11,9 @@ const purchaseSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Product'
             },
-            quantity: Number,
-            unitPrice: Number,
-            totalPrice: Number
+            quantity: { type: Number, min: 0 },
+            unitPrice: { type: Number, min: 0 },
+            totalPrice: { type: Number, min: 0 }
         }
     ],
     shipping: {
