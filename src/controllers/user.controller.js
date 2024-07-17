@@ -359,6 +359,23 @@ const userController = {
         }
     },
 
+    getDocsByUser: async (req, res) => {
+        const userId = req.params.uid;
+        const isAuthenticated = req.session.isAuthenticated;
+        const jwtToken = req.session.token;
+
+        try {
+            const getDocs = await userService.getDocsByUser(userId);
+
+            if (req.accepts('html')) {
+                return res.render('docs', { Docs: getDocs, isAuthenticated, jwtToken });
+            }
+        } catch (error) {
+            console.error("Error al obtener la vista de ver los documentos del user:", error);
+            res.status(500).json({ error: "Error interno del servidor" });
+        }
+    },
+
     deleteInactiveUser: async (req, res) => {
         try {
             const inactivityPeriod = 2 * 24 * 60 * 60 * 1000;

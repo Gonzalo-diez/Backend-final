@@ -97,6 +97,20 @@ const userRepository = {
         }
     },
 
+    getDocsByUser: async (userId) => {
+        try {
+            const user = await User.findById(userId).select('documents');
+
+            if (!user || user.documents.length === 0) {
+                throw new Error("No se ha encontrado ningún documento");
+            }
+
+            return user;
+        } catch (error) {
+            throw new Error("Error buscar los documentos del usuario: " + error.message);
+        }
+    },
+
     deleteUser: async (userId) => {
         try {   
             const deleteUser = await User.findByIdAndDelete({ _id: userId });

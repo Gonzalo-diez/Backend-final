@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const formData = new FormData(form);
 
         try {
-            const response = await fetch(`http://localhost:8080/api/sessions/${userId}/documents`, {
+            const response = await fetch(`http://localhost:8080/api/sessions/${userId}/uploadDocuments`, {
                 method: 'POST',
                 body: formData,
                 headers: {

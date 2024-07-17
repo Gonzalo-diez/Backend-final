@@ -262,7 +262,7 @@ const uploadDocs = async () => {
     const userId = localStorage.getItem('userId');
 
     try {
-        const response = await fetch(`http://localhost:8080/api/sessions/${userId}/documents`, {
+        const response = await fetch(`http://localhost:8080/api/sessions/${userId}/uploadDocuments`, {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${token}`
@@ -270,7 +270,7 @@ const uploadDocs = async () => {
         });
 
         if (response.ok) {
-            window.location.replace(`http://localhost:8080/api/sessions/${userId}/documents`);
+            window.location.replace(`http://localhost:8080/api/sessions/${userId}/uploadDocuments`);
         } else {
             const errorMessage = await response.text();
             console.error('Error en ir a subir los documentos:', errorMessage);

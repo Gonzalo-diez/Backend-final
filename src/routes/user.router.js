@@ -52,7 +52,10 @@ userRouter.get("/premium/:uid", authToken, isUser, userController.getChangePremi
 userRouter.get("/user/:uid", authToken, isPremium, userController.getChangeUserRole);
 
 // Maneja el renderizado de la subida de documentos
-userRouter.get("/:uid/documents", authToken, isAll, userController.getUploadDocs);
+userRouter.get("/:uid/uploadDocuments", authToken, isAll, userController.getUploadDocs);
+
+// Maneja la vista de los documentos del usuario
+userRouter.get("/:uid/documents", authToken, userController.getDocsByUser);
 
 // Maneja la solicitud para actualizar los datos del usuario
 userRouter.put("/updateUser/:uid", authToken, userController.updateUser);
@@ -82,7 +85,7 @@ userRouter.post("/requestPasswordReset", userController.requestPasswordReset);
 userRouter.post("/resetPassword/:token", userController.resetPassword);
 
 // Maneja la solicitud para subir documentos
-userRouter.post("/:uid/documents", authToken, isAll, documentUpload.array("documents", 10), userController.uploadDocs);
+userRouter.post("/:uid/uploadDocuments", authToken, isAll, documentUpload.array("documents", 10), userController.uploadDocs);
 
 // Maneja la solicitud de eliminar los usuarios inactivos
 userRouter.delete("/", userController.deleteInactiveUser);

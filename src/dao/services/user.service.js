@@ -312,6 +312,18 @@ const userService = {
         }
     },
 
+    getDocsByUser: async (userId) => {
+        try {
+            logger.info(`Buscando los documentos del usuario: ${userId}`);
+            const docs = await userRepository.getDocsByUser(userId);
+            logger.info(`Lista de documentos: ${docs}`);
+            return docs;
+        } catch (error) {
+            logger.error(`Error al ver los documentos por usuario: ${error.message}`);
+            throw new Error("Error interno del servidor");
+        }
+    },
+
     findInactiveUser: async (inactivityPeriod) => {
         try {
             logger.info("Buscando usuarios inactivos");
