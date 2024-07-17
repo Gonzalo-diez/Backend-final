@@ -494,3 +494,6 @@
 {"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: gonzalodiez@gmail.com"}
 {"level":"error","message":"Error al eliminar el usuario: Error al eliminar el usuario: Cast to ObjectId failed for value \"{ _id: undefined }\" (type Object) at path \"_id\" for model \"User\""}
 {"level":"error","message":"Error al eliminar el usuario: Error al eliminar el usuario: Cast to ObjectId failed for value \"{ _id: undefined }\" (type Object) at path \"_id\" for model \"User\""}
+{"level":"warn","message":"El precio y/o stock deben de ser de valores positivos"}
+{"level":"error","message":"Error al agregar el producto - undefined"}
+{"level":"warn","message":"Acceso no autorizado"}

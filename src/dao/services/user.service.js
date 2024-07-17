@@ -348,44 +348,43 @@ const userService = {
         }
     },
 
-    adminChangeUserRole: async (user, userRole, userId) => {
+    adminChangeUserRole: async (userId) => {
         try {
-            logger.info(`Cambiando rol de usuario: ${userId}`);
-
-            if (userRole === "premium") {
-                userRole == "user";
+            const user = await userRepository.findUser(userId);
+    
+            logger.info(`Cambiando rol de usuario ${userId}, con rol ${user.role}`);
+    
+            if (!user) {
+                throw new Error("El usuario no existe");
             }
-
-            else if (userRole === "user") {
-                userRole == "premium";
-            }
-
-            else {
+    
+            if (user.role === "premium") {
+                user.role = "user";
+            } else if (user.role === "user") {
+                user.role = "premium";
+            } else {
                 logger.warn("Acceso no autorizado");
             }
-
-            logger.info("Cambio de rol del usuario exitoso");
-            await user.save;
+    
+            // Guardar los cambios en la base de datos
+            await user.save();
+            logger.info(`Cambio de rol de usuario exitoso: ${user.role}`);
             return user;
         } catch (error) {
             logger.error(`Error al cambiar el rol del usuario: ${userId}`);
             throw new Error("Error interno del servidor");
         }
-    },
+    },    
 
-    logOut: async (res, req) => {
+    logOut: async (res, userId) => {
         try {
-            const userId = req.session.userId;
             await userRepository.updateUser(userId, { last_connection: new Date() });
-            logger.info(`Logging out user: ${req.session.userId}`);
-            req.session.userId = null;
-            req.session.user = null;
-            req.session.isAuthenticated = false;
+            logger.info(`Logging out user: ${userId}`);
             res.clearCookie("jwtToken");
-            logger.info(`User logged out exitosamente: ${req.session.userId}`);
+            logger.info(`User logged out exitosamente: ${userId}`);
             return { message: "Logout funciona" };
         } catch (error) {
-            logger.error(`Error logging out user: ${req.session.userId} - ${error.message}`);
+            logger.error(`Error logging out user: ${userId} - ${error.message}`);
             throw new Error("Error interno del servidor");
         }
     }

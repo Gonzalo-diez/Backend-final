@@ -401,11 +401,7 @@ const userController = {
         const userId = req.params.uid;
 
         try {
-            const user = await userService.getUserById(userId);
-
-            const userRole = user.role;
-
-            const changeUserRole = await userService.adminChangeUserRole(user, userRole, userId);
+            const changeUserRole = await userService.adminChangeUserRole(userId);
 
             if (!changeUserRole) {
                 return res.status(404).json({ error: "No se ha podido cambiar el rol del usuario" })
@@ -436,8 +432,13 @@ const userController = {
     },
 
     logOut: async (req, res) => {
+        const userId = req.session.userId;
+
         try {
-            await userService.logOut(res, req);
+            await userService.logOut(res, userId);
+            req.session.userId = null;
+            req.session.user = null;
+            req.session.isAuthenticated = false;
             return res.json({ message: "Logout funciona" });
         } catch (error) {
             console.error("Error al cerrar sesión:", error);
