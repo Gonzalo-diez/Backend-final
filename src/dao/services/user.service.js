@@ -374,6 +374,8 @@ const userService = {
                 user.role = "user";
             } else if (user.role === "user") {
                 user.role = "premium";
+            } else if (user.role === "admin") {
+                logger.warn("No se puede cambiar el rol de admin")
             } else {
                 logger.warn("Acceso no autorizado");
             }

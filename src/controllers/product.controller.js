@@ -15,6 +15,7 @@ const productController = {
         const userRole = req.session.userRole;
 
         try {
+            // Obtiene la lista de los productos con páginación, con filtros de categorias y el carrito
             const carts = await cartService.getCartByUser(userId);
 
             const response = await productService.getProducts({ category, brand, sort }, currentPage);
@@ -38,6 +39,7 @@ const productController = {
         const userRole = req.session.userRole;
 
         try {
+            // Muestra en detalle el producto según su id
             const productDetail = await productService.getProductDetail(productId);
 
             if (req.accepts('html')) {
@@ -59,6 +61,7 @@ const productController = {
         const userRole = req.session.userRole;
 
         try {
+            // Obtiene la lista de los productos según la categoria y la páginación
             const response = await productService.getProductCategory(category, { brand, sort }, currentPage);
 
             if (req.accepts('html')) {
@@ -76,12 +79,10 @@ const productController = {
         const productData = req.body;
 
         try {
+            // Se encarga de agregar los productos del usuario premium y/o admin
             const newProduct = await productService.addProduct(productData, req);
 
-            return res.json({
-                message: "Producto creado!!!",
-                Product: newProduct,
-            });
+            return res.json(newProduct);
         } catch (err) {
             console.error("Error al guardar el Producto:", err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
@@ -95,9 +96,11 @@ const productController = {
         const userRole = req.session.userRole;
     
         try {
+            // Busca el producto y usuario por su ID
             const product = await productService.getProductDetail(productId);
             const user = await userService.getUserById(userId);
     
+            // Se encarga de que solo el administrador o el usuario premium que creo el producto pueda editar el producto
             if (userRole === 'admin' || (userRole === 'premium' && user && user._id.toString() == product.owner._id.toString())) {
                 const updatedProduct = await productService.updateProduct(productId, req, productUpdateData, userId);
     
@@ -135,13 +138,17 @@ const productController = {
         const userRole = req.session.userRole;
     
         try {
+            // Busca el producto y el usuario por su ID
             const product = await productService.getProductDetail(productId);
             const user = await userService.getUserById(userId);
-    
+            
+            // Se encarga de instanciar que el administrador puede eliminar cualquier producto
             if (userRole === 'admin') {
                 await productService.deleteProduct(productId);
                 return res.json({ message: "Producto eliminado!" });
             }
+            /* Se encarga de instanciar que el usuario que creo el producto y
+            que debe de tener rol premium, pueda eliminar el producto y recibe el mensaje */
             else if(userRole === 'premium' && user && user._id.toString() == product.owner._id.toString()){
                 await productService.deleteProduct(productId);
                 

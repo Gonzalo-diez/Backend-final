@@ -7,6 +7,7 @@ import { transport } from "../app.js";
 const userController = {
     getUsers: async (req, res) => {
         try {
+            // Se encarga de traer la lista de usuarios
             const users = await userService.getUsers();
 
             if (req.accepts("html")) {
@@ -24,6 +25,7 @@ const userController = {
         const jwtToken = req.session.token;
 
         try {
+            // Se en carga de buscar el id del admin y traer la lista de usuarios
             const user = await userService.getUserById(userId);
 
             const users = await userService.getUsers();
@@ -151,6 +153,7 @@ const userController = {
         const updatedUserData = req.body;
 
         try {
+            // Se encarga de actualizar el usuario, usando el ID y los datos como parámetros
             const updatedUser = await userService.updateUser(userId, updatedUserData);
             res.json(updatedUser);
         } catch (error) {
@@ -186,6 +189,7 @@ const userController = {
     requestPasswordReset: async (req, res) => {
         const { email } = req.body;
         try {
+            // Busca el usuario por su email y se le envie un mensaje a su email para cambiar la contraseña de la cuenta
             const user = await userService.getUserByEmail(email);
             if (!user) {
                 return res.status(404).json({ error: "Usuario no encontrado" });
@@ -232,6 +236,7 @@ const userController = {
         const userId = req.session.userId;
 
         try {
+            // Busca el reset token del usuario para verificar que se le haya mandado el mensaje y asi autorizar el cambio de contraseña
             const user = await userService.getUserByResetToken(token);
 
             if (!user || user.resetTokenExpires < Date.now()) {
@@ -253,6 +258,7 @@ const userController = {
         const { oldPassword, newPassword } = req.body;
 
         try {
+            // Se encarga cambiar la contraseña del usuario, verificando que la contraseña antigua sea la correcta
             const changedPassword = await userService.changePassword(userId, oldPassword, newPassword);
             res.json(changedPassword);
         }
@@ -280,6 +286,7 @@ const userController = {
         const files = req.files;
     
         try {
+            // Se encarga de cambiar el rol de user a premium
             const updatedPremium = await userService.changePremiumRole(userId, files);
             res.json(updatedPremium);
         } catch (error) {
@@ -307,6 +314,7 @@ const userController = {
         const userId = req.params.uid;
 
         try {
+            // Se encarga de cambiar el rol de premium a user
             const updatedUser = await userService.changeUserRole(userId);
             res.json(updatedUser);
         } catch (error) {
@@ -350,6 +358,7 @@ const userController = {
         const files = req.files;
 
         try {
+            // Se encarga de guardar los documentos que el usuario suba a la plataforma
             const uploadedDocs = await userService.uploadDocs(userId, files);
             res.json(uploadedDocs);
         }
@@ -365,6 +374,7 @@ const userController = {
         const jwtToken = req.session.token;
 
         try {
+            // Trae la lista de los documentos subidos del usuario
             const getDocs = await userService.getDocsByUser(userId);
 
             if (req.accepts('html')) {
@@ -378,14 +388,18 @@ const userController = {
 
     deleteInactiveUser: async (req, res) => {
         try {
+            // Variable para eliminar los usuarios que tengan 2 dias seguidos sin conectarse
             const inactivityPeriod = 2 * 24 * 60 * 60 * 1000;
 
+            /* Se encarga de buscar a los usuarios que cumplan con el parámetro de inactividad 
+            y enviar el mensaje de usuario eliminado por inactividad */
             const user = await userService.findInactiveUser(inactivityPeriod);
 
             if (!user) {
                 return res.status(404).json({ error: "Usuario no encontrado" });
             }
 
+            // En caso de que sea administrador, no eliminar
             if (user.role === "admin") {
                 return res.status(404).json({ error: "No se puede eliminar el administrador" });
             }
@@ -401,6 +415,7 @@ const userController = {
 
             const userId = user._id;
 
+            // Elimina a los usuarios inactivos
             const deleteInactiveUser = await userService.deleteInactiveUser(userId);
 
             if (!deleteInactiveUser) {
@@ -418,6 +433,7 @@ const userController = {
         const userId = req.params.uid;
 
         try {
+            // Se encarga de ser una herramienta para el adminstrador para cambiar los roles de los usuarios
             const changeUserRole = await userService.adminChangeUserRole(userId);
 
             if (!changeUserRole) {
@@ -435,6 +451,7 @@ const userController = {
         const userId = req.params.uid;
 
         try {
+            // Se encarga de ser una herramienta para el administrador para borrar el usuario por su ID
             const deleteUser = await userService.deleteUser(userId);
 
             if (!deleteUser) {
@@ -452,6 +469,7 @@ const userController = {
         const userId = req.session.userId;
 
         try {
+            // Se encarga de cerrar la sesión del usuario
             await userService.logOut(res, userId);
             req.session.userId = null;
             req.session.user = null;

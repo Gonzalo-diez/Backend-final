@@ -9,6 +9,7 @@ const cartController = {
         const jwtToken = req.session.token;
 
         try {
+            // Buscar el cart segund el id del usuario y del carrito si es que ya tiene uno
             const cart = await cartService.getCartById(cartId, userId);
 
             if (req.accepts("html")) {
@@ -26,6 +27,7 @@ const cartController = {
         const { productId, userId, userRole } = req.body;
 
         try {
+            // Agregar el producto al carrito del usuario
             const cart = await cartService.addProductToCart(productId, userId, userRole);
 
             return res.json({ message: "Producto agregado al carrito correctamente", cartItemId: cart._id });
@@ -40,6 +42,7 @@ const cartController = {
         const { products, userId } = req.body;
 
         try {
+            // Actualiza el carrito según los productos que se guarden
             const cart = await cartService.updateCart(cartId, userId, products);
 
             return res.json(cart);
@@ -54,6 +57,7 @@ const cartController = {
         const cartData = req.body;
 
         try {
+            // Se encarga de generar la compra y el ticket de compra para el usuario
             const ticket = await cartService.purchaseCart(cartId, cartData);
 
             return res.json({ message: "Compra realizada exitosamente", ticket });
@@ -85,6 +89,7 @@ const cartController = {
         const { quantity } = req.body;
     
         try {
+            // Actualiza la cantidad del producto que se encuentra dentro del cart
             const cart = await cartService.updateProductQuantityInCart(cid, userId, pid, quantity);
     
             if (!cart) {
@@ -103,6 +108,7 @@ const cartController = {
         const { userId } = req.body;
 
         try {
+            // Elimina el producto del cart
             const cart = await cartService.deleteProductFromCart(cid, userId, pid);
 
             return res.json({ message: "Producto eliminado del carrito correctamente", cart });
@@ -117,6 +123,7 @@ const cartController = {
         const { userId } = req.body;
 
         try {
+            // Limpia el carrito por completo
             const cart = await cartService.clearCart(cartId, userId);
 
             return res.json({ message: "Carrito vaciado completamente", cart });

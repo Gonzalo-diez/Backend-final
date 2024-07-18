@@ -13,7 +13,7 @@ const getPremium = documentUpload.fields([
 ]);
 
 // Maneja la solicitud de mostrar la lista de usuarios
-userRouter.get("/", userController.getUsers);
+userRouter.get("/", authToken, isAdmin, userController.getUsers);
 
 // Maneja la solicitud para buscar el usuario por id y ver el dashboard
 userRouter.get("/dashboard/:uid", authToken, isAdmin, userController.getUserById);

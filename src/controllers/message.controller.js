@@ -8,6 +8,7 @@ const messageController = {
         const userRole = req.session.userRole;
 
         try {
+            // Obtiene todos los mensajes de los usuarios
             const messages = await messageService.getMessages()
 
             if (req.accepts('html')) {
@@ -24,6 +25,7 @@ const messageController = {
         const { userEmail, text } = req.body;
 
         try {
+            // Agrega el mensaje del usuario al chat
             const newMessage = await messageService.addMessage(userEmail, text);
 
             return res.json({
