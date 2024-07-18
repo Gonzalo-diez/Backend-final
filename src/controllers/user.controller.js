@@ -6,12 +6,19 @@ import { transport } from "../app.js";
 
 const userController = {
     getUsers: async (req, res) => {
+        let currentPage = req.query.page || 1;
+        const userId = req.session.userId;
+        const user = req.session.user;
+        const isAuthenticated = req.session.isAuthenticated;
+        const jwtToken = req.session.token;
+        const userRole = req.session.userRole;
+
         try {
             // Se encarga de traer la lista de usuarios
-            const users = await userService.getUsers();
+            const response = await userService.getUsers(currentPage);
 
             if (req.accepts("html")) {
-                return res.render("usersList", {Users: users});
+                return res.render("usersList", { response, userId, user, isAuthenticated, jwtToken, userRole });
             }
         } catch (error) {
             console.error("Error al obtener la lista de usuarios:", error);
@@ -21,6 +28,7 @@ const userController = {
 
     getUserById: async (req, res) => {
         const userId = req.params.uid;
+        let currentPage = req.query.page || 1;
         const isAuthenticated = req.session.isAuthenticated;
         const jwtToken = req.session.token;
 
@@ -28,10 +36,10 @@ const userController = {
             // Se en carga de buscar el id del admin y traer la lista de usuarios
             const user = await userService.getUserById(userId);
 
-            const users = await userService.getUsers();
+            const response = await userService.getUsers(currentPage);
 
             if (req.accepts("html")) {
-                return res.render("user", { User: user, user, users, isAuthenticated, jwtToken });
+                return res.render("user", { User: user, user, response, isAuthenticated, jwtToken });
             }
         } catch (error) {
             console.error("Error al obtener usuario por ID:", error);

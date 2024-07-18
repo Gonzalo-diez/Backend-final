@@ -6,9 +6,9 @@ import UserDTO from "../DTO/user.dto.js";
 import logger from "../../utils/logger.js";
 
 const userService = {
-    getUsers: async () => {
+    getUsers: async (currentPage) => {
         try {
-            const users = await userRepository.getUsers();
+            const users = await userRepository.getUsers(currentPage);
             logger.info(`Usuarios encontrados: ${JSON.stringify(users)}`);
             return users;
         } catch (error) {

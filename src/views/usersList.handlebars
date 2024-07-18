@@ -1,20 +1,46 @@
 <div class="container mt-5">
     <div class="row" id="userList">
-        {{#each Users}}
+        {{#each response.Users}}
         <div class="col-md-4 mb-4">
             <div class="card">
                 <img src="/profiles/{{this.profile}}" class="card-img-top img-fluid" alt="{{this.first_name}}"
                     style="max-height: 400px; aspect-ratio: 3/2; object-fit: contain;">
                 <div class="card-body">
-                    <p class="card-text">Nombre: {{this.first_name}}</p>
-                    <p class="card-text">Apellido: {{this.last_name}}</p>
-                    <p class="card-text">Email: {{this.email}}</p>
-                    <p class="card-text">Edad: {{this.age}}</p>
-                    <p class="card-text">Rol: {{this.role}}</p>
-                    <p class="card-text">Última vez conectado: {{this.last_connection}}</p>
+                    <p class="card-text first_name">Nombre: {{this.first_name}}</p>
+                    <p class="card-text last_name">Apellido: {{this.last_name}}</p>
+                    <p class="card-text email">Email: {{this.email}}</p>
+                    <p class="card-text age">Edad: {{this.age}}</p>
+                    <p class="card-text user-role">Rol: {{this.role}}</p>
+                    <p class="card-text last_connection">Última vez conectado: {{this.last_connection}}</p>
+                    <button class="btn btn-warning update-btn" data-user-id="{{this._id}}">Cambiar Rol</button>
+                    <button class="btn btn-danger delete-btn" data-user-id="{{this._id}}">Eliminar Usuario</button>
                 </div>
             </div>
         </div>
         {{/each}}
+    </div>
+</div>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {{#if response.query.prevLink}}
+                    <li class="page-item">
+                        <a class="page-link" href="{{response.query.prevLink}}" tabindex="-1" aria-disabled="true">Anterior</a>
+                    </li>
+                    {{/if}}
+                    <li class="page-item disabled">
+                        <span class="page-link">Página {{response.query.page}}</span>
+                    </li>
+                    {{#if response.query.nextLink}}
+                    <li class="page-item">
+                        <a class="page-link" href="{{response.query.nextLink}}">Siguiente</a>
+                    </li>
+                    {{/if}}
+                </ul>
+            </nav>
+        </div>
     </div>
 </div>
