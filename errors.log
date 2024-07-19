@@ -503,3 +503,5 @@
 {"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Usted no esta logueado"}
 {"level":"error","message":"Error al comprar en el carrito ID: 669aaf8040aed60630e60dfb for user: 669aaee8a3ae6db82d205c5c - Purchase validation failed: payment.cardBank: Path `payment.cardBank` (4422664488668866) is more than maximum allowed value (16)., payment.securityNumber: Path `payment.securityNumber` (34) is more than maximum allowed value (3)."}
 {"level":"error","message":"Error al comprar en el carrito ID: 669aaf8040aed60630e60dfb for user: 669aaee8a3ae6db82d205c5c - Purchase validation failed: payment.cardBank: Path `payment.cardBank` (1616161616161616) is more than maximum allowed value (16)., payment.securityNumber: Path `payment.securityNumber` (34) is more than maximum allowed value (3)."}
+{"level":"warn","message":"User ya exite: gonzalodiez97@gmail.com"}
+{"level":"error","message":"Error al registrar el user: gonzalodiez97@gmail.com - El usuario ya existe"}

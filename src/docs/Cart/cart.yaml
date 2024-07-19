@@ -176,7 +176,7 @@ paths:
             street: "123 Main St"
             postal_code: "90001"
             phone: "+1-123-456-7890"
-            card_bank: "Visa"
+            card_bank: "3340440088006688"
             security_number: "123"
             userId: "user123"
       security:

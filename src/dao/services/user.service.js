@@ -331,8 +331,10 @@ const userService = {
 
             if (user == null) {
                 logger.info("No se ha encontrado usuarios inactivos");
+            } else if(user.role === "admin") {
+                logger.info("No se puede eliminar el administrador");
             } else {
-                logger.info(`Usuariios inactivos encontrados: ${user}`);
+                logger.info(`Usuarios inactivos encontrados: ${user}`);
             }
             return user;
         } catch (error) {

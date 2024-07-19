@@ -397,19 +397,21 @@ const userController = {
     deleteInactiveUser: async (req, res) => {
         try {
             // Variable para eliminar los usuarios que tengan 2 dias seguidos sin conectarse
-            const inactivityPeriod = 2 * 24 * 60 * 60 * 1000;
+            const inactivityPeriod = 30 * 1000;
 
             /* Se encarga de buscar a los usuarios que cumplan con el parámetro de inactividad 
             y enviar el mensaje de usuario eliminado por inactividad */
             const user = await userService.findInactiveUser(inactivityPeriod);
 
-            if (!user) {
-                return res.status(404).json({ error: "Usuario no encontrado" });
+            if (user.role == "admin") {
+                return res.status(404).json({ error: "No se puede eliminar el administrador" });
             }
 
-            // En caso de que sea administrador, no eliminar
-            if (user.role === "admin") {
-                return res.status(404).json({ error: "No se puede eliminar el administrador" });
+            // Elimina a los usuarios inactivos
+            const deleteInactiveUser = await userService.deleteInactiveUser(user._id);
+
+            if (!deleteInactiveUser) {
+                return res.status(404).json({ error: "No se ha podido eliminar el usuario inactivo" });
             }
 
             const mailOptions = {
@@ -420,15 +422,6 @@ const userController = {
             };
 
             await transport.sendMail(mailOptions);
-
-            const userId = user._id;
-
-            // Elimina a los usuarios inactivos
-            const deleteInactiveUser = await userService.deleteInactiveUser(userId);
-
-            if (!deleteInactiveUser) {
-                return res.status(404).json({ error: "No se ha podido eliminar el usuario inactivo" });
-            }
 
             res.status(200).json({ message: 'Correo de aviso de eliminación de usuario enviado con éxito' });
         } catch (error) {
