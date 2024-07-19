@@ -24,7 +24,9 @@ const cartController = {
     },
 
     addProductToCart: async (req, res) => {
-        const { productId, userId, userRole } = req.body;
+        const userId = req.session.userId;
+        const userRole = req.session.userRole;
+        const { productId } = req.body;
 
         try {
             // Agregar el producto al carrito del usuario

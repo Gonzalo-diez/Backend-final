@@ -9,8 +9,8 @@ const cartSchema = new mongoose.Schema({
     street: String,
     postal_code: Number,
     phone: Number,
-    card_bank: { type: Number, max: 16 },
-    security_number: { type: Number, max: 3 },
+    cardBank: { type: Number, min: 1000000000000000, max: 9999999999999999 },
+    securityNumber: { type: Number, min: 100, max: 999 },
     expiredDate: Date,
     date: {
         type: Date,
