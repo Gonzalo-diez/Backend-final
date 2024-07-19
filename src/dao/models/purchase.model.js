@@ -25,8 +25,9 @@ const purchaseSchema = new mongoose.Schema({
         phone: Number
     },
     payment: {
-        cardBank: Number,
-        securityNumber: Number
+        cardBank: { type: Number, max: 16 },
+        securityNumber: { type: Number, max: 3 },
+        expiredDate: Date,
     },
     purchaseDate: {
         type: Date,

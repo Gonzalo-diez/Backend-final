@@ -32,11 +32,15 @@
                 <h3>Información de Pago</h3>
                 <div class="form-group">
                     <label for="card_bank">Banco de la Tarjeta:</label>
-                    <input type="text" class="form-control" id="card_bank" name="card_bank" required>
+                    <input type="text" class="form-control" id="card_bank" name="card_bank" min="16" required>
                 </div>
                 <div class="form-group">
                     <label for="security_number">Número de Seguridad:</label>
-                    <input type="text" class="form-control" id="security_number" name="security_number" required>
+                    <input type="text" class="form-control" id="security_number" name="security_number" min="3" required>
+                </div>
+                <div class="form-group">
+                    <label for="expired_date">Fecha de caducidad:</label>
+                    <input type="date" class="form-control" id="expired_date" name="expired_date" required>
                 </div>
                 <button type="submit" class="btn btn-primary mt-2">Realizar Compra</button>
             </form>

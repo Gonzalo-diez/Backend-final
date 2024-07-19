@@ -127,7 +127,7 @@ const cartService = {
     },    
 
     purchaseCart: async (cartId, cartData) => {
-        const { country, state, city, street, postal_code, phone, card_bank, security_number, userId } = cartData;
+        const { country, state, city, street, postal_code, phone, card_bank, security_number, expired_date, userId } = cartData;
     
         try {
             logger.info(`Compra del carrito ID: ${cartId} del user: ${userId}`);
@@ -171,7 +171,8 @@ const cartService = {
             };
             const paymentDTO = {
                 cardBank: card_bank,
-                securityNumber: security_number
+                securityNumber: security_number,
+                expiredDate: expired_date,
             };
     
             const purchaseDTO = new PurchaseDTO({

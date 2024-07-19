@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const phone = document.getElementById("phone").value;
         const card_bank = document.getElementById("card_bank").value;
         const security_number = document.getElementById("security_number").value;
+        const expired_date = document.getElementById("expired_date").value;
 
         try {
             const response = await fetch(`http://localhost:8080/api/carts/${cartId}/purchase`, {
@@ -27,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Content-Type": "application/json",
                     "authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ country, state, city, street, postal_code, phone, card_bank, security_number, userId }),
+                body: JSON.stringify({ country, state, city, street, postal_code, phone, card_bank, security_number, expired_date, userId }),
             });
 
             const data = await response.json();

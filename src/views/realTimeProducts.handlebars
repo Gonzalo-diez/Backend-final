@@ -18,7 +18,7 @@
     {{/eq}}
 </div>
 
-{{#eq user.role "==" "user"}}
+{{#ifRole user.role "user" "premium"}}
 <form action="/api/products/" method="GET" id="cartForm">
     <label for="cart">Filtrar por carrito:</label>
     <select name="cart" id="cart">
@@ -29,7 +29,7 @@
     </select>
     <button type="button" id="goToCartBtn">Ir al carrito</button>
 </form>
-{{/eq}}
+{{/ifRole}}
 
 {{#ifRole user.role "admin" "premium"}}
 <div class="container mt-5">
