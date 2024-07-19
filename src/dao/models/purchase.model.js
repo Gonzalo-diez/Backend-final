@@ -22,7 +22,7 @@ const purchaseSchema = new mongoose.Schema({
         city: String,
         street: String,
         postalCode: Number,
-        phone: Number
+        phone: { type: Number, min: 1000000000, max: 999999999999999 }
     },
     payment: {
         cardBank: { type: Number, min: 1000000000000000, max: 9999999999999999 },

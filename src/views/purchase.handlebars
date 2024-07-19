@@ -27,7 +27,7 @@
                 </div>
                 <div class="form-group">
                     <label for="phone">Teléfono:</label>
-                    <input type="text" class="form-control" id="phone" name="phone" required>
+                    <input type="text" class="form-control" id="phone" name="phone" pattern="[0-9]{1,15}" placeholder="Agregue el número completo, ej: +54 xxxx" required>
                 </div>
                 <h3>Información de Pago</h3>
                 <div class="form-group">
@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-group">
                     <label for="expired_date">Fecha de caducidad:</label>
-                    <input type="date" class="form-control" id="expired_date" name="expired_date" required>
+                    <input type="month" class="form-control" id="expired_date" name="expired_date" required>
                 </div>
                 <button type="submit" class="btn btn-primary mt-2">Realizar Compra</button>
             </form>
