@@ -328,7 +328,12 @@ const userService = {
         try {
             logger.info("Buscando usuarios inactivos");
             const user = await userRepository.findInactiveUser(inactivityPeriod);
-            logger.info("Usuarios encontrados");
+
+            if (user == null) {
+                logger.info("No se ha encontrado usuarios inactivos");
+            } else {
+                logger.info(`Usuariios inactivos encontrados: ${user}`);
+            }
             return user;
         } catch (error) {
             logger.error(`Error al buscar el usuario por inactividad: ${error.message}`);
