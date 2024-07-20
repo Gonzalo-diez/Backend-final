@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import nodemailer from "nodemailer";
+import passport from "passport";
 import { EMAIL_USERNAME } from "../util.js";
 import userService from "../dao/services/user.service.js";
 import { transport } from "../app.js";
@@ -117,24 +118,13 @@ const userController = {
         }
     },
 
-    getGitHub: async (req, res) => {
-        try {
-            const githubAuth = await userService.getGitHub();
-            res.redirect(githubAuth);
-        } catch (error) {
-            console.error("Error al obtener la autenticación de GitHub:", error);
-            res.status(500).json({ error: "Error interno del servidor" });
-        }
+    getGitHub: (req, res, next) => {
+        passport.authenticate("github", { scope: ["user:email"] })(req, res, next);
     },
-
-    gitHubCallback: async (req, res, next) => {
-        try {
-            await userService.gitHubCallback()(req, res, next);
-        } catch (error) {
-            console.error("Error en el callback de GitHub:", error);
-            res.status(500).json({ error: "Error interno del servidor" });
-        }
-    },
+    
+    gitHubCallback: (req, res, next) => {
+        passport.authenticate("github", { failureRedirect: "/login" })(req, res, next);
+    },    
 
     handleGitHubCallback: async (req, res) => {
         try {

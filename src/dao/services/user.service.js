@@ -94,14 +94,6 @@ const userService = {
         }
     },
 
-    getGitHub: async () => {
-        return passport.authenticate("github", { scope: ["user:email"] });
-    },
-
-    gitHubCallback: async () => {
-        return passport.authenticate("github", { failureRedirect: "/login" });
-    },
-
     handleGitHubCallback: async (req) => {
         const user = req.user;
         try {
