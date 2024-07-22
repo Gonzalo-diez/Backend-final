@@ -5,7 +5,6 @@ import { authToken, isAdmin, isPremium, isPremiumOrAdmin } from "../config/auth.
 
 const productRouter = express.Router();
 const imgUpload = configureProductMulter();
-// Para rutas protegidas const protectWithJWT = passport.authenticate("jwt", { session: false });
 
 // Ruta para renderizar la vista de productos en tiempo real
 productRouter.get("/", productController.getProducts);

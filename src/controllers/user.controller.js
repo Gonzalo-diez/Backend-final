@@ -387,7 +387,7 @@ const userController = {
     deleteInactiveUser: async (req, res) => {
         try {
             // Variable para eliminar los usuarios que tengan 2 dias seguidos sin conectarse
-            const inactivityPeriod = 30 * 1000;
+            const inactivityPeriod = 2 * 24 * 60 * 60 * 1000;
 
             /* Se encarga de buscar a los usuarios que cumplan con el parámetro de inactividad 
             y enviar el mensaje de usuario eliminado por inactividad */

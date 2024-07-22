@@ -3,7 +3,6 @@ import cartController from "../controllers/cart.controller.js";
 import { authToken, isUserOrPremium } from "../config/auth.js";
 
 const cartRouter = express.Router();
-// Para rutas protegidas const protectWithJWT = passport.authenticate("jwt", { session: false });
 
 // Maneja la solicitud de renderizar el carrito
 cartRouter.get("/:cid", authToken, isUserOrPremium, cartController.getCartById);

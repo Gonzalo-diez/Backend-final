@@ -1,131 +1,11 @@
 openapi: 3.0.0
 info:
-  title: API de Productos
-  description: API para gestionar productos
+  title: Product API
   version: 1.0.0
-
-paths:
-  /api/product:
-    get:
-      summary: Obtener todos los productos
-      responses:
-        '200':
-          description: Retorna una lista de productos
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Product'
-    post:
-      summary: Agregar un nuevo producto
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProductInput'
-      responses:
-        '200':
-          description: Producto creado exitosamente
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
-        '500':
-          description: Error en la base de datos
-  /api/product/{pid}:
-    get:
-      summary: Obtener detalles de un producto por ID
-      parameters:
-        - in: path
-          name: pid
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Retorna los detalles de un producto
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
-        '500':
-          description: Error en la base de datos
-    put:
-      summary: Actualizar un producto por ID
-      parameters:
-        - in: path
-          name: pid
-          required: true
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProductInput'
-      responses:
-        '200':
-          description: Producto actualizado exitosamente
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Product'
-        '403':
-          description: No tienes permiso para realizar esta acción
-        '500':
-          description: Error en la base de datos
-    delete:
-      summary: Eliminar un producto por ID
-      parameters:
-        - in: path
-          name: pid
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Producto eliminado exitosamente
-        '403':
-          description: No tienes permiso para realizar esta acción
-        '500':
-          description: Error en la base de datos
-  /api/product/category/{category}:
-    get:
-      summary: Obtener productos por categoría
-      parameters:
-        - in: path
-          name: category
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Retorna productos de una categoría específica
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Product'
-        '500':
-          description: Error en la base de datos
-  /api/product/updateProduct/{pid}:
-    get:
-      summary: Renderizar formulario para editar un producto por ID
-      parameters:
-        - in: path
-          name: pid
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Renderiza el formulario de edición de producto
-        '500':
-          description: Error interno del servidor
+  description: API para gestionar productos en la tienda.
+servers:
+  - url: http://localhost:8080/api/products
+    description: Servidor local
 
 components:
   schemas:
@@ -134,51 +14,278 @@ components:
       properties:
         _id:
           type: string
+          example: "60c72b2f9b1d8e3a4c8b4567"
         title:
           type: string
+          example: "Laptop"
         brand:
           type: string
+          example: "Dell"
         description:
           type: string
+          example: "Una computadora gamer."
         price:
           type: number
+          example: 1500.00
         stock:
-          type: integer
+          type: number
+          example: 10
         category:
           type: string
-        imageName:
+          example: "electronica"
+        image:
           type: string
+          example: "laptop.jpg"
+        cart:
+          type: string
+          example: "60c72b2f9b1d8e3a4c8b4568"
         owner:
-          type: object
-          properties:
-            _id:
-              type: string
-      required:
-        - title
-        - price
-        - stock
-        - category
-        - owner
-    ProductInput:
+          type: string
+          example: "60c72b2f9b1d8e3a4c8b4569"
+    ErrorResponse:
       type: object
       properties:
-        title:
+        error:
           type: string
-        brand:
+          example: "Error en la base de datos"
+        details:
           type: string
-        description:
+          example: "Error al obtener los productos"
+    SuccessResponse:
+      type: object
+      properties:
+        message:
           type: string
-        price:
-          type: number
-        stock:
-          type: integer
-        category:
-          type: string
-        userId:
-          type: string
-      required:
-        - title
-        - price
-        - stock
-        - category
-        - userId
+          example: "Producto eliminado!"
+        product:
+          $ref: '#/components/schemas/Product'
+
+paths:
+  /:
+    get:
+      summary: Obtiene una lista de productos
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Filtra los productos por categoría
+        - in: query
+          name: brand
+          schema:
+            type: string
+          description: Filtra los productos por marca
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: [asc, desc]
+          description: Ordena los productos por precio (ascendente o descendente)
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Número de página para la paginación
+      responses:
+        200:
+          description: Lista de productos obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Lista de productos:"
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+        500:
+          description: Error en la base de datos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /{pid}:
+    get:
+      summary: Obtiene los detalles de un producto por ID
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Detalles del producto obtenidos exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        500:
+          description: Error en la base de datos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Actualiza un producto existente
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        200:
+          description: Producto actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        403:
+          description: No tienes permiso para realizar esta acción
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "No tienes permiso para realizar esta acción"
+        500:
+          description: Error en la base de datos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Elimina un producto existente
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Producto eliminado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        403:
+          description: No tienes permiso para realizar esta acción
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "No tienes permiso para realizar esta acción"
+        500:
+          description: Error en la base de datos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /category/{category}:
+    get:
+      summary: Obtiene productos por categoría
+      parameters:
+        - in: path
+          name: category
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: brand
+          schema:
+            type: string
+          description: Filtra los productos por marca
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: [asc, desc]
+          description: Ordena los productos por precio (ascendente o descendente)
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Número de página para la paginación
+      responses:
+        200:
+          description: Lista de productos obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Lista de productos por categoria:"
+                  response:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+        500:
+          description: Error en la base de datos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /updateProduct/{pid}:
+    get:
+      summary: Renderiza el formulario para editar un producto
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Formulario para editar producto renderizado exitosamente
+        500:
+          description: Error interno del servidor
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Error interno del servidor"
+
+  /addProduct:
+    post:
+      summary: Agrega un nuevo producto
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        200:
+          description: Producto agregado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        500:
+          description: Error en la base de datos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
