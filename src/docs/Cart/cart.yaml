@@ -101,46 +101,6 @@ paths:
         '500':
           description: Error en la base de datos
 
-  /{cid}/purchase:
-    get:
-      summary: Renderizar formulario de compra del carrito
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: cid
-          in: path
-          required: true
-          schema:
-            type: string
-          description: ID del carrito
-      responses:
-        '200':
-          description: Formulario de compra renderizado exitosamente
-        '500':
-          description: Error en la base de datos
-
-  /:
-    post:
-      summary: Agregar producto al carrito
-      security:
-        - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                productId:
-                  type: string
-                  example: 60c72b2f4f1a4c2a2c8e3e7b
-      responses:
-        '200':
-          description: Producto agregado al carrito correctamente
-        '500':
-          description: Error en la base de datos
-
-  /{cid}:
     put:
       summary: Actualizar carrito con nuevos productos
       security:
@@ -185,9 +145,8 @@ paths:
         '500':
           description: Error en la base de datos
 
-  /{cid}/products/{pid}:
-    put:
-      summary: Actualizar cantidad de un producto en el carrito
+    delete:
+      summary: Limpiar carrito
       security:
         - bearerAuth: []
       parameters:
@@ -197,12 +156,6 @@ paths:
           schema:
             type: string
           description: ID del carrito
-        - name: pid
-          in: path
-          required: true
-          schema:
-            type: string
-          description: ID del producto
       requestBody:
         required: true
         content:
@@ -210,16 +163,33 @@ paths:
             schema:
               type: object
               properties:
-                quantity:
-                  type: integer
-                  example: 3
+                userId:
+                  type: string
+                  example: 60c72b2f4f1a4c2a2c8e3e7d
       responses:
         '200':
-          description: Cantidad del producto actualizada correctamente
+          description: Carrito vaciado completamente
         '500':
           description: Error en la base de datos
 
   /{cid}/purchase:
+    get:
+      summary: Renderizar formulario de compra del carrito
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID del carrito
+      responses:
+        '200':
+          description: Formulario de compra renderizado exitosamente
+        '500':
+          description: Error en la base de datos
+
     post:
       summary: Realizar compra del carrito
       security:
@@ -276,6 +246,39 @@ paths:
           description: Error en la base de datos
 
   /{cid}/products/{pid}:
+    put:
+      summary: Actualizar cantidad de un producto en el carrito
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID del carrito
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID del producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: integer
+                  example: 3
+      responses:
+        '200':
+          description: Cantidad del producto actualizada correctamente
+        '500':
+          description: Error en la base de datos
+
     delete:
       summary: Borrar producto del carrito
       security:
@@ -306,33 +309,5 @@ paths:
       responses:
         '200':
           description: Producto eliminado del carrito correctamente
-        '500':
-          description: Error en la base de datos
-
-  /{cid}:
-    delete:
-      summary: Limpiar carrito
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: cid
-          in: path
-          required: true
-          schema:
-            type: string
-          description: ID del carrito
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                userId:
-                  type: string
-                  example: 60c72b2f4f1a4c2a2c8e3e7d
-      responses:
-        '200':
-          description: Carrito vaciado completamente
         '500':
           description: Error en la base de datos

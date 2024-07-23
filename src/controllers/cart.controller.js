@@ -3,17 +3,16 @@ import cartService from "../dao/services/cart.service.js";
 const cartController = {
     getCartById: async (req, res) => {
         const cartId = req.params.cid;
-        const userId = req.session.userId;
-        const user = req.session.user;
-        const isAuthenticated = req.session.isAuthenticated;
-        const jwtToken = req.session.token;
+        const userId = req.user._id;
+        const user = req.user;
+        const jwtToken = req.user.access_token;
 
         try {
             // Buscar el cart segund el id del usuario y del carrito si es que ya tiene uno
             const cart = await cartService.getCartById(cartId, userId);
 
             if (req.accepts("html")) {
-                return res.render("cart", { cid: cart._id, Cart: cart, user, isAuthenticated, jwtToken });
+                return res.render("cart", { cid: cart._id, Cart: cart, user, jwtToken });
             }
 
             return res.json(cart);
@@ -24,8 +23,8 @@ const cartController = {
     },
 
     addProductToCart: async (req, res) => {
-        const userId = req.session.userId;
-        const userRole = req.session.userRole;
+        const userId = req.user._id;
+        const userRole = req.user.role;
         const { productId } = req.body;
 
         try {
@@ -71,15 +70,14 @@ const cartController = {
 
     getPurchaseCart: async (req, res) => {
         const cartId = req.params.cid;
-        const userId = req.session.userId;
-        const user = req.session.user;
-        const isAuthenticated = req.session.isAuthenticated;
-        const jwtToken = req.session.token;
+        const userId = req.user._id;
+        const user = req.user;
+        const jwtToken = req.user.access_token;
 
         try {
             const cart = await cartService.getCartById(cartId, userId)
             const purchaseCartView = await cartService.getPurchaseCart();
-            res.render(purchaseCartView, { user, isAuthenticated, jwtToken, Cart: cart })
+            res.render(purchaseCartView, { user, jwtToken, Cart: cart })
         } catch (error) {
 
         }
@@ -87,7 +85,7 @@ const cartController = {
 
     updateProductQuantityInCart: async (req, res) => {
         const { cid, pid } = req.params;
-        const userId = req.session.userId;
+        const userId = req.user._id;
         const { quantity } = req.body;
     
         try {

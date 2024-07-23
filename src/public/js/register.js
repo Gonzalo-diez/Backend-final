@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function () {
             fetch('http://localhost:8080/api/sessions/register', {
                 method: 'POST',
                 body: formData
-                // No especificamos 'Content-Type' ya que el navegador se encargará de esto cuando usamos FormData
             })
             .then(response => {
                 if (response.status === 200) {

@@ -8,11 +8,10 @@ const productController = {
     getProducts: async (req, res) => {
         const { category, brand, sort } = req.query;
         let currentPage = req.query.page || 1;
-        const userId = req.session.userId;
-        const user = req.session.user;
-        const isAuthenticated = req.session.isAuthenticated;
-        const jwtToken = req.session.token;
-        const userRole = req.session.userRole;
+        const userId = req.user._id;
+        const user = req.user;
+        const jwtToken = req.user.access_token;
+        const userRole = req.user.role;
 
         try {
             // Obtiene la lista de los productos con páginación, con filtros de categorias y el carrito
@@ -21,7 +20,7 @@ const productController = {
             const response = await productService.getProducts({ category, brand, sort }, currentPage);
 
             if (req.accepts('html')) {
-                res.render('realTimeProducts', { response, Carts: carts, user, isAuthenticated, jwtToken, userRole });
+                res.render('realTimeProducts', { response, Carts: carts, user, jwtToken, userRole });
             } else {
                 res.json({ message: "Lista de productos:", response });
             }
@@ -33,17 +32,16 @@ const productController = {
 
     getProductDetail: async (req, res) => {
         const productId = req.params.pid;
-        const user = req.session.user;
-        const isAuthenticated = req.session.isAuthenticated;
-        const jwtToken = req.session.token;
-        const userRole = req.session.userRole;
+        const user = req.user;
+        const jwtToken = req.user.access_token;
+        const userRole = req.user.role;
 
         try {
             // Muestra en detalle el producto según su id
             const productDetail = await productService.getProductDetail(productId);
 
             if (req.accepts('html')) {
-                return res.render('product', { Product: productDetail, user, isAuthenticated, jwtToken, userRole });
+                return res.render('product', { Product: productDetail, user, jwtToken, userRole });
             }
         } catch (err) {
             console.error("Error al ver los detalles:", err);
@@ -55,17 +53,16 @@ const productController = {
         const category = req.params.category;
         const { brand, sort } = req.query;
         let currentPage = req.query.page || 1;
-        const user = req.session.user;
-        const isAuthenticated = req.session.isAuthenticated;
-        const jwtToken = req.session.token;
-        const userRole = req.session.userRole;
+        const user = req.user;
+        const jwtToken = req.user.access_token;
+        const userRole = req.user.role;
 
         try {
             // Obtiene la lista de los productos según la categoria y la páginación
             const response = await productService.getProductCategory(category, { brand, sort }, currentPage);
 
             if (req.accepts('html')) {
-                res.render('category', { response, user, isAuthenticated, jwtToken, userRole });
+                res.render('category', { response, user, jwtToken, userRole });
             } else {
                 res.json({ message: "Lista de productos por categoria:", response });
             }
@@ -92,8 +89,8 @@ const productController = {
     updateProduct: async (req, res) => {
         const productId = req.params.pid;
         const productUpdateData = req.body;
-        const userId = req.session.userId;
-        const userRole = req.session.userRole;
+        const userId = req.user._id;
+        const userRole = req.user.role;
     
         try {
             // Busca el producto y usuario por su ID
@@ -116,9 +113,8 @@ const productController = {
 
     getUpdateProduct: async (req, res) => {
         const productId = req.params.pid;
-        const user = req.session.user;
-        const isAuthenticated = req.session.isAuthenticated;
-        const jwtToken = req.session.token;
+        const user = req.user;
+        const jwtToken = req.user.access_token;
 
         try {
             const product = await productService.getProductDetail(productId);
@@ -134,8 +130,8 @@ const productController = {
 
     deleteProduct: async (req, res) => {
         const productId = req.params.pid;
-        const userId = req.session.userId;
-        const userRole = req.session.userRole;
+        const userId = req.user._id;
+        const userRole = req.user.role;
     
         try {
             // Busca el producto y el usuario por su ID

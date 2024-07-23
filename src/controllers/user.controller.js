@@ -8,18 +8,17 @@ import { transport } from "../app.js";
 const userController = {
     getUsers: async (req, res) => {
         let currentPage = req.query.page || 1;
-        const userId = req.session.userId;
-        const user = req.session.user;
-        const isAuthenticated = req.session.isAuthenticated;
-        const jwtToken = req.session.token;
-        const userRole = req.session.userRole;
+        const userId = req.user._id;
+        const user = req.user;
+        const jwtToken = req.user.access_token;
+        const userRole = req.user.role;
 
         try {
             // Se encarga de traer la lista de usuarios
             const response = await userService.getUsers(currentPage);
 
             if (req.accepts("html")) {
-                return res.render("usersList", { response, userId, user, isAuthenticated, jwtToken, userRole });
+                return res.render("usersList", { response, userId, user, jwtToken, userRole });
             }
         } catch (error) {
             console.error("Error al obtener la lista de usuarios:", error);
@@ -30,8 +29,8 @@ const userController = {
     getUserById: async (req, res) => {
         const userId = req.params.uid;
         let currentPage = req.query.page || 1;
-        const isAuthenticated = req.session.isAuthenticated;
-        const jwtToken = req.session.token;
+        const isAuthenticated = req.user;
+        const jwtToken = req.user.access_token;
 
         try {
             // Se en carga de buscar el id del admin y traer la lista de usuarios
@@ -64,12 +63,14 @@ const userController = {
         try {
             const { user, access_token } = await userService.login(email, password);
 
+            /* Antes lo utilice para setear el usuario, pero es innecesario
             // Establece la sesión del usuario
             req.session.token = access_token;
             req.session.userId = user._id;
             req.session.user = user;
             req.session.isAuthenticated = true;
             req.session.userRole = user.role;
+            */
 
             console.log("Datos del login:", user, "token:", access_token);
 
@@ -99,12 +100,14 @@ const userController = {
         try {
             const { newUser, access_token } = await userService.register(userData, file);
 
+            /*
             // Establece la sesión del usuario
             req.session.token = access_token;
             req.session.userId = newUser._id;
             req.session.user = newUser;
             req.session.isAuthenticated = true;
             req.session.userRole = newUser.role;
+            */
 
             console.log("Datos del registro:", newUser, "token:", access_token);
 
@@ -130,12 +133,14 @@ const userController = {
         try {
             const { user, access_token } = await userService.handleGitHubCallback(req);
 
+            /*
             // Establece la sesión del usuario
             req.session.token = access_token;
             req.session.userId = user._id;
             req.session.user = user;
             req.session.isAuthenticated = true;
             req.session.userRole = user.role;
+            */
 
             res.cookie("jwtToken", access_token, {
                 httpOnly: true,
@@ -161,9 +166,8 @@ const userController = {
     },
 
     getUpdateUser: async (req, res) => {
-        const user = req.session.user;
-        const isAuthenticated = req.session.isAuthenticated;
-        const jwtToken = req.session.token;
+        const user = req.user;
+        const jwtToken = req.user.access_token;
 
         try {
             const updateUserView = await userService.getUpdateUser();
@@ -231,7 +235,7 @@ const userController = {
     resetPassword: async (req, res) => {
         const { token } = req.params;
         const { newPassword } = req.body;
-        const userId = req.session.userId;
+        const userId = req.user._id;
 
         try {
             // Busca el reset token del usuario para verificar que se le haya mandado el mensaje y asi autorizar el cambio de contraseña
@@ -267,8 +271,8 @@ const userController = {
     },
 
     getChangePassword: async (req, res) => {
-        const isAuthenticated = req.session.isAuthenticated;
-        const jwtToken = req.session.token;
+        const isAuthenticated = req.user;
+        const jwtToken = req.user.access_token;
 
         try {
             const changePasswordView = await userService.getChangePassword();
@@ -294,14 +298,13 @@ const userController = {
     },    
     
     getChangePremiumRole: async (req, res) => {
-        const user = req.session.user;
-        const isAuthenticated = req.session.isAuthenticated;
-        const jwtToken = req.session.token;
         const userId = req.params.uid;
+        const user = req.user;
+        const jwtToken = req.user.access_token;
 
         try {
             const changeUserRoleView = await userService.getChangePremiumRole();
-            res.render(changeUserRoleView, { user, isAuthenticated, jwtToken, userId })
+            res.render(changeUserRoleView, { user, jwtToken, userId })
         } catch (error) {
             console.error("Error al obtener la vista de cambio de role:", error);
             res.status(500).json({ error: "Error interno del servidor" });
@@ -338,8 +341,8 @@ const userController = {
     
     getUploadDocs: async (req, res) => {
         const userId = req.params.uid;
-        const isAuthenticated = req.session.isAuthenticated;
-        const jwtToken = req.session.token;
+        const isAuthenticated = req.user;
+        const jwtToken = req.user.access_token;
 
         try {
             const user = await userService.getUserById(userId);
@@ -368,8 +371,8 @@ const userController = {
 
     getDocsByUser: async (req, res) => {
         const userId = req.params.uid;
-        const isAuthenticated = req.session.isAuthenticated;
-        const jwtToken = req.session.token;
+        const isAuthenticated = req.user;
+        const jwtToken = req.user.access_token;
 
         try {
             // Trae la lista de los documentos subidos del usuario
@@ -457,7 +460,7 @@ const userController = {
     },
 
     logOut: async (req, res) => {
-        const userId = req.session.userId;
+        const userId = req.user._id;
 
         try {
             // Se encarga de cerrar la sesión del usuario
