@@ -24,10 +24,12 @@ describe("Product tests", async function () {
     };
 
     before(async function () {
+        //Conectarse a base de datos
         await mongoose.connect(MONGO_URL);
     });
 
     beforeEach(async function () {
+        // Realizar login
         const loginResponse = await requester
             .post("/api/sessions/login")
             .send(userCredentials);
@@ -117,6 +119,7 @@ describe("Product tests", async function () {
         });    
     });
 
+    // Error
     describe("Prueba de actualización del producto", () => {
         it("El endpoint /api/products/:pid debera de actualizar el producto con el updateProductMock", async function () {
             try {
@@ -144,7 +147,7 @@ describe("Product tests", async function () {
         });    
     });    
 
-
+    // Error
     describe("Prueba de eliminación del producto creado", () => {
         it("El endpoint /api/products/:pid debera de eliminar el producto creado", async function () {
             try {
@@ -166,4 +169,4 @@ describe("Product tests", async function () {
         await mongoose.disconnect();
     });
 })
-*/
+*/    

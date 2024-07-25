@@ -89,7 +89,7 @@ const productService = {
         const { title, brand, description, price, stock, category } = productUpdateData;
     
         try {
-            logger.info(`Actualizando el producto ID: ${productId} with data: ${JSON.stringify(productUpdateData)}`);
+            logger.info(`Actualizando el producto ID: ${productId} del usuario: ${userId} con data: ${JSON.stringify(productUpdateData)}`);
     
             // Verificar si el producto existe
             const existingProduct = await productRepository.getProductById(productId);
