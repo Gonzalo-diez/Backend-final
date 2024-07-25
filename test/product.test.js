@@ -1,61 +1,69 @@
-/*
 import { expect } from "chai";
 import supertest from "supertest";
 import mongoose from "mongoose";
 import path from "path";
 import fs from "fs";
 import { MONGO_URL } from "../src/util.js";
-import Product from "../src/dao/models/product.model.js";
 import __dirname from "../src/util.js";
 
 const requester = supertest("http://localhost:8080");
 
-let authToken;
-let userId;
-let userRole;
-let productId;
+describe("Product tests", async function () {
+    let user;
+    let authToken;
+    let userId;
+    let userRole;
+    let productId;
+    let productMock;
+    let updateProductMock;
 
-const userCredentials = {
-    email: 'test@example.com',
-    password: 'password123'
-};
+    const userCredentials = {
+        email: 'test@example.com',
+        password: 'password123'
+    };
 
-const productMock = {
-    title: 'Test Product',
-    brand: 'Example Brand',
-    description: 'This is an example product',
-    price: 3000,
-    stock: 10,
-    category: "tecnologia",
-    owner: null,
-};
+    before(async function () {
+        await mongoose.connect(MONGO_URL);
+    });
 
-before(async function () {
-    await mongoose.connect(MONGO_URL);
-
-    const loginResponse = await requester.post("/api/sessions/login").send(userCredentials);
-    expect(loginResponse.statusCode).to.equal(200);
-    console.log("Login exitoso:", loginResponse._body);
-    authToken = loginResponse.body.access_token;
-    userId = loginResponse.body.userId;
-    userRole = loginResponse.body.userRole;
-});
-
-describe("Pruebas para CRUD de productos", function () {
     beforeEach(async function () {
-        productMock.owner = userId;
+        const loginResponse = await requester
+            .post("/api/sessions/login")
+            .send(userCredentials);
 
-        // Crear un producto inicial si no existe
-        try {
-            const existingProduct = await Product.findOne({ title: productMock.title });
+        expect(loginResponse.statusCode).to.equal(200);
+        user = loginResponse.body;
+        userId = loginResponse.body.userId;
+        userRole = loginResponse.body.userRole;
+        authToken = loginResponse.body.access_token;
+        console.log("Login exitoso:", loginResponse.body);
+        console.log("TOKEN:", authToken);
 
-            if (existingProduct) {
-                productId = existingProduct._id;
-                console.log("El producto ya existe:", existingProduct);
-            } else {
-                const imagePath = path.resolve(__dirname, 'public/img', 'ps5.jpg');
+        productMock = {
+            title: 'Test Product',
+            brand: 'Example Brand',
+            description: 'Ejemplo de producto',
+            price: 3000,
+            stock: 10,
+            category: "tecnologia",
+        };
+        
+        updateProductMock = {
+            title: 'Test Update Product',
+            brand: 'Example Update Brand',
+            description: 'Ejemplo de producto actualizado',
+            price: 4500,
+            stock: 5,
+            category: "tecnologia",
+        }
+    });
 
-                const createProductResponse = await requester
+    describe("Prueba de agregado de producto", () => {
+        it("El endpoint /api/products/ debera de agregar un producto", async function () {
+            try {
+                const imagePath = path.resolve(__dirname, 'public/products', 'ps.png');
+
+                const addProduct = await requester
                     .post("/api/products/")
                     .set('Authorization', `Bearer ${authToken}`)
                     .field('title', productMock.title)
@@ -64,51 +72,97 @@ describe("Pruebas para CRUD de productos", function () {
                     .field('price', productMock.price)
                     .field('stock', productMock.stock)
                     .field('category', productMock.category)
-                    .field('owner', productMock.owner)
+                    .field('owner', userId)
                     .attach('image', fs.createReadStream(imagePath));
 
-                expect(createProductResponse.statusCode).to.equal(200);
-                console.log("Producto creado:", createProductResponse.body);
-                productId = createProductResponse.body.Product._id;
-            }
-        } catch (error) {
-            console.error("Error durante la preparación del producto:", error);
-            throw error;
-        }
-    });
-
-    describe("Ver los productos", () => {
-        it("El endpoint /api/products/ debe mostrar la lista de productos", async function () {
-            try {
-                const productsList = await requester.get("/api/products/");
-
-                expect(productsList.statusCode).to.equal(200);
-                console.log("Lista de los productos:", productsList.body);
+                expect(addProduct.statusCode).to.equal(200);
+                console.log("Producto agregado:", addProduct.body);
+                productId = addProduct.body._id;
+                console.log("ID DEL PRODUCTO:", productId);
             } catch (error) {
-                console.error("Error en la búsqueda de los productos:", error);
+                console.log("Error al agregar el producto", error.response ? error.response.body : error);
+                throw error;
+            }
+        });
+    });
+    /*
+    describe("Prueba de vista de productos", () => {
+        it("El endpoint /api/products debera mostrar la vista de productos", async function () {
+            try {
+                const getProducts = await requester
+                    .get("/api/products")
+
+                expect(getProducts.statusCode).to.equal(200);
+                console.log("Vista de productos:", getProducts.text);
+            } catch (error) {
+                console.log("Error en la vista de productos", error.response ? error.response.body : error);
                 throw error;
             }
         });
     });
 
-    describe("Mostrar el producto creado", () => {
-        it("El endpoint /api/products/:pid debe mostrar el producto creado", async function () {
+    describe("Prueba de vista del producto creado", () => {
+        it("El endpoint /api/products/:pid debera de mostrar la vista del producto creado", async function () {
             try {
-                const productCreatedResponse = await requester
-                    .get(`/api/products/${productId}`);
+                const getCreatedProduct = await requester
+                    .get(`/api/products/${productId}`)
 
-                expect(productCreatedResponse.statusCode).to.equal(200);
-                console.log("Producto que se ha creado:", productCreatedResponse.text);
+                expect(getCreatedProduct.statusCode).to.equal(200);
+                console.log("Vista de producto creado", getCreatedProduct.text);
             } catch (error) {
-                console.error("Error durante la solicitud al endpoint:", error);
+                console.log("Error en la vista del producto creado", error.response ? error.response.body : error);
                 throw error;
             }
-        });
+        });    
     });
-});
 
-after(async function () {
-    await Product.deleteMany({ title: productMock.title });
-    await mongoose.disconnect();
-});
-*/
+    describe("Prueba de actualización del producto", () => {
+        it("El endpoint /api/products/:pid debera de actualizar el producto con el updateProductMock", async function () {
+            try {
+                const imagePath = path.resolve(__dirname, 'public/products', 'ps.png');
+    
+                const updateProduct = await requester
+                    .put(`/api/products/${productId}`)
+                    .set('Authorization', `Bearer ${authToken}`)
+                    .field('title', updateProductMock.title)
+                    .field('brand', updateProductMock.brand)
+                    .field('description', updateProductMock.description)
+                    .field('price', updateProductMock.price)
+                    .field('stock', updateProductMock.stock)
+                    .field('category', updateProductMock.category)
+                    .field('owner', userId)
+                    .attach('image', fs.createReadStream(imagePath));
+                
+                console.log("En caso de error en actualizar el producto:", updateProduct.body);
+                expect(updateProduct.statusCode).to.equal(200);
+                console.log("Producto actualizado:", updateProduct.body);    
+            } catch (error) {
+                console.log("Error al actualizar el producto", error.response ? error.response.body : error);
+                throw error;
+            }
+        });    
+    });    
+
+
+    describe("Prueba de eliminación del producto creado", () => {
+        it("El endpoint /api/products/:pid debera de eliminar el producto creado", async function () {
+            try {
+                const deleteProduct = await requester
+                    .delete(`/api/products/${productId}`)
+                    .set('Authorization', `Bearer ${authToken}`);
+
+                console.log("En caso de error en eliminar el producto:", deleteProduct.body);
+                expect(deleteProduct.statusCode).to.equal(200);
+                console.log("Producto eliminado:", deleteProduct.body);
+            } catch (error) {
+                console.log("Error al eliminar el producto", error.response ? error.response.body : error);
+                throw error;
+            }
+        });    
+    });
+    */
+
+    after(async function () {
+        await mongoose.disconnect();
+    });
+})

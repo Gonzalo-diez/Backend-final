@@ -105,7 +105,7 @@ app.use(addLogger)
 app.use(session({
     store: MongoStore.create({
         mongoUrl: MONGO_URL,
-        ttl: 15,
+        ttl: 3600,
     }),
     secret: "secret_key",
     resave: false,

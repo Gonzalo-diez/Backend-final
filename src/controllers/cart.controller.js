@@ -3,9 +3,9 @@ import cartService from "../dao/services/cart.service.js";
 const cartController = {
     getCartById: async (req, res) => {
         const cartId = req.params.cid;
-        const userId = req.user._id;
-        const user = req.user;
-        const jwtToken = req.user.access_token;
+        const userId = req.session.userId;
+        const user = req.session.user;
+        const jwtToken = req.session.token;
 
         try {
             // Buscar el cart segund el id del usuario y del carrito si es que ya tiene uno
@@ -23,8 +23,8 @@ const cartController = {
     },
 
     addProductToCart: async (req, res) => {
-        const userId = req.user._id;
-        const userRole = req.user.role;
+        const userId = req.session.userId;
+        const userRole = req.session.userRole;
         const { productId } = req.body;
 
         try {
@@ -70,9 +70,9 @@ const cartController = {
 
     getPurchaseCart: async (req, res) => {
         const cartId = req.params.cid;
-        const userId = req.user._id;
-        const user = req.user;
-        const jwtToken = req.user.access_token;
+        const userId = req.session.userId;
+        const user = req.session.user;
+        const jwtToken = req.session.token;
 
         try {
             const cart = await cartService.getCartById(cartId, userId)
@@ -85,7 +85,7 @@ const cartController = {
 
     updateProductQuantityInCart: async (req, res) => {
         const { cid, pid } = req.params;
-        const userId = req.user._id;
+        const userId = req.session.userId;
         const { quantity } = req.body;
     
         try {

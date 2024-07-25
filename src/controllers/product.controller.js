@@ -8,10 +8,10 @@ const productController = {
     getProducts: async (req, res) => {
         const { category, brand, sort } = req.query;
         let currentPage = req.query.page || 1;
-        const userId = req.user._id;
-        const user = req.user;
-        const jwtToken = req.user.access_token;
-        const userRole = req.user.role;
+        const userId = req.session.userId;
+        const user = req.session.user;
+        const jwtToken = req.session.token;
+        const userRole = req.session.userRole;
 
         try {
             // Obtiene la lista de los productos con páginación, con filtros de categorias y el carrito
@@ -32,9 +32,9 @@ const productController = {
 
     getProductDetail: async (req, res) => {
         const productId = req.params.pid;
-        const user = req.user;
-        const jwtToken = req.user.access_token;
-        const userRole = req.user.role;
+        const user = req.session.user;
+        const jwtToken = req.session.token;
+        const userRole = req.session.userRole;
 
         try {
             // Muestra en detalle el producto según su id
@@ -53,9 +53,9 @@ const productController = {
         const category = req.params.category;
         const { brand, sort } = req.query;
         let currentPage = req.query.page || 1;
-        const user = req.user;
-        const jwtToken = req.user.access_token;
-        const userRole = req.user.role;
+        const user = req.session.user;
+        const jwtToken = req.session.token;
+        const userRole = req.session.userRole;
 
         try {
             // Obtiene la lista de los productos según la categoria y la páginación
@@ -89,8 +89,8 @@ const productController = {
     updateProduct: async (req, res) => {
         const productId = req.params.pid;
         const productUpdateData = req.body;
-        const userId = req.user._id;
-        const userRole = req.user.role;
+        const userId = req.session.userId;
+        const userRole = req.session.userRole;
     
         try {
             // Busca el producto y usuario por su ID
@@ -113,8 +113,8 @@ const productController = {
 
     getUpdateProduct: async (req, res) => {
         const productId = req.params.pid;
-        const user = req.user;
-        const jwtToken = req.user.access_token;
+        const user = req.session.user;
+        const jwtToken = req.session.token;
 
         try {
             const product = await productService.getProductDetail(productId);
@@ -130,8 +130,8 @@ const productController = {
 
     deleteProduct: async (req, res) => {
         const productId = req.params.pid;
-        const userId = req.user._id;
-        const userRole = req.user.role;
+        const userId = req.session.userId;
+        const userRole = req.session.userRole;
     
         try {
             // Busca el producto y el usuario por su ID
