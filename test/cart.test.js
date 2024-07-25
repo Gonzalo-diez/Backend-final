@@ -1,4 +1,3 @@
-/*
 import { expect } from "chai";
 import supertest from "supertest";
 import mongoose from "mongoose";
@@ -13,6 +12,7 @@ describe("Cart Tests", function () {
     let authToken;
     let cartMock;
     let updateCartMock;
+    let updateQuantityProductMock;
     let cartId;
 
     const userCredentials = {
@@ -31,14 +31,16 @@ describe("Cart Tests", function () {
 
         expect(loginResponse.statusCode).to.equal(200);
         user = loginResponse.body;
-        userId = loginResponse.body.userId;
-        userRole = loginResponse.body.role;
+        userId = loginResponse.body.message._id;
+        userRole = loginResponse.body.message.role;
         authToken = loginResponse.body.access_token;
         console.log("Login exitoso:", loginResponse.body);
         console.log("UserId: ", userId);
 
         cartMock = {
-            productId: "667ccbaeb05b03f8181be1c3",
+            productId: "667ccbb4b05b03f8181be1d5",
+            userId: userId,
+            userRole: userRole,
         };
 
         updateQuantityProductMock = {
@@ -67,6 +69,7 @@ describe("Cart Tests", function () {
                     .set('Authorization', `Bearer ${authToken}`)
                     .send(cartMock);
 
+                console.log("En caso de error:", addProductToCart.body);
                 expect(addProductToCart.statusCode).to.equal(200);
                 console.log("Producto en carrito:", addProductToCart.body);
                 cartId = addProductToCart.body.cartItemId;
@@ -77,6 +80,7 @@ describe("Cart Tests", function () {
         });
     });
 
+    /*
     describe("Prueba de vista del carrito", () => {
         it("El endpoint /api/carts/:cid debera de mostrar el carrito creado", async function () {
             try {
@@ -128,7 +132,6 @@ describe("Cart Tests", function () {
         });
     });
 
-    Hay que ver el metodo para eliminar el producto del carrito
     describe("Prueba de eliminación del producto del carrito", () => {
         it("El endpoint /api/carts/:cid/products/:pid debera de eliminar el producto del carrito", async function () {
             try {   
@@ -162,10 +165,10 @@ describe("Cart Tests", function () {
             }
         });
     });
+    */
     
 
     after(async function () {
         await mongoose.disconnect();
     });
 });
-*/

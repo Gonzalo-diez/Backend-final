@@ -88,9 +88,7 @@ const productController = {
 
     updateProduct: async (req, res) => {
         const productId = req.params.pid;
-        const productUpdateData = req.body;
-        const userId = req.session.userId;
-        const userRole = req.session.userRole;
+        const { productUpdateData, userId, userRole } = req.body;
     
         try {
             // Busca el producto y usuario por su ID
@@ -130,8 +128,7 @@ const productController = {
 
     deleteProduct: async (req, res) => {
         const productId = req.params.pid;
-        const userId = req.session.userId;
-        const userRole = req.session.userRole;
+        const { userId, userRole } = req.body; 
     
         try {
             // Busca el producto y el usuario por su ID

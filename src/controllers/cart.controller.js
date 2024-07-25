@@ -23,9 +23,7 @@ const cartController = {
     },
 
     addProductToCart: async (req, res) => {
-        const userId = req.session.userId;
-        const userRole = req.session.userRole;
-        const { productId } = req.body;
+        const { productId, userId, userRole } = req.body;
 
         try {
             // Agregar el producto al carrito del usuario
@@ -85,8 +83,7 @@ const cartController = {
 
     updateProductQuantityInCart: async (req, res) => {
         const { cid, pid } = req.params;
-        const userId = req.session.userId;
-        const { quantity } = req.body;
+        const { quantity, userId } = req.body;
     
         try {
             // Actualiza la cantidad del producto que se encuentra dentro del cart
