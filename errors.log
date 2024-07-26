@@ -664,3 +664,15 @@
 {"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
 {"level":"warn","message":"Producto no encontrado: undefined"}
 {"level":"error","message":"Error al agregar el producto al carrito del user: undefined - Producto no encontrado"}
+{"level":"error","message":"Error al buscar el carrito por ID: 66a08256fae300cd96cc0824 para el user: undefined - Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Error al actualizar el carrito ID: 66a08256fae300cd96cc0824 - Error al actualizar el carrito: Cast to embedded failed for value \"669ed76a5aa77be8d8e0545c\" (type string) at path \"products\" because of \"ObjectParameterError\""}
+{"level":"error","message":"Error al buscar el carrito por ID: 66a2ee9f84f588652f61b2b1 para el user: undefined - Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Error al actualizar el carrito ID: 66a2ee9f84f588652f61b2b1 - Error al actualizar el carrito: Cast to embedded failed for value \"669ed76a5aa77be8d8e0545c\" (type string) at path \"products\" because of \"ObjectParameterError\""}
+{"level":"error","message":"Error al buscar el carrito por ID: 66a2ef2f84f588652f61b2c1 para el user: undefined - Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Error al actualizar el carrito ID: 66a2ef2f84f588652f61b2c1 - Error al actualizar el carrito: Cast to embedded failed for value \"669ed76a5aa77be8d8e0545c\" (type string) at path \"products\" because of \"ObjectParameterError\""}
+{"level":"error","message":"Error al buscar el carrito por ID: 66a2ef7184f588652f61b2d1 para el user: undefined - Cannot read properties of null (reading 'products')"}
+{"level":"error","message":"Error al actualizar el carrito ID: 66a2ef7184f588652f61b2d1 - Error al actualizar el carrito: Cast to embedded failed for value \"669ed76a5aa77be8d8e0545c\" (type string) at path \"products\" because of \"ObjectParameterError\""}
+{"level":"error","message":"Error al encontrar el producto ID: undefined - Error al obtener el producto por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Product\""}
+{"level":"error","message":"Error al encontrar el producto ID: undefined - Error al obtener el producto por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Product\""}
+{"level":"error","message":"Error al encontrar el producto ID: undefined - Error al obtener el producto por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Product\""}
+{"level":"error","message":"Error al encontrar el producto ID: undefined - Error al obtener el producto por ID: Cast to ObjectId failed for value \"undefined\" (type string) at path \"_id\" for model \"Product\""}

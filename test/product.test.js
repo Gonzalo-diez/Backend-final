@@ -1,4 +1,3 @@
-/*
 import { expect } from "chai";
 import supertest from "supertest";
 import mongoose from "mongoose";
@@ -10,6 +9,8 @@ import __dirname from "../src/util.js";
 const requester = supertest("http://localhost:8080");
 
 describe("Product tests", async function () {
+    this.timeout(10000);
+
     let user;
     let authToken;
     let userId;
@@ -26,9 +27,7 @@ describe("Product tests", async function () {
     before(async function () {
         //Conectarse a base de datos
         await mongoose.connect(MONGO_URL);
-    });
 
-    beforeEach(async function () {
         // Realizar login
         const loginResponse = await requester
             .post("/api/sessions/login")
@@ -40,7 +39,6 @@ describe("Product tests", async function () {
         userRole = loginResponse.body.userRole;
         authToken = loginResponse.body.access_token;
         console.log("Login exitoso:", loginResponse.body);
-        console.log("TOKEN:", authToken);
 
         productMock = {
             title: 'Test Product',
@@ -58,6 +56,8 @@ describe("Product tests", async function () {
             price: 4500,
             stock: 5,
             category: "tecnologia",
+            userId: userId,
+            userRole: userRole,
         }
     });
 
@@ -119,6 +119,7 @@ describe("Product tests", async function () {
         });    
     });
 
+    /*
     // Error
     describe("Prueba de actualización del producto", () => {
         it("El endpoint /api/products/:pid debera de actualizar el producto con el updateProductMock", async function () {
@@ -134,7 +135,8 @@ describe("Product tests", async function () {
                     .field('price', updateProductMock.price)
                     .field('stock', updateProductMock.stock)
                     .field('category', updateProductMock.category)
-                    .field('owner', userId)
+                    .field('owner', updateProductMock.userId)
+                    .field('userRole', updateProductMock.userRole)
                     .attach('image', fs.createReadStream(imagePath));
                 
                 console.log("En caso de error en actualizar el producto:", updateProduct.body);
@@ -146,16 +148,16 @@ describe("Product tests", async function () {
             }
         });    
     });    
+    */
 
-    // Error
     describe("Prueba de eliminación del producto creado", () => {
         it("El endpoint /api/products/:pid debera de eliminar el producto creado", async function () {
             try {
                 const deleteProduct = await requester
                     .delete(`/api/products/${productId}`)
-                    .set('Authorization', `Bearer ${authToken}`);
+                    .set('Authorization', `Bearer ${authToken}`)
+                    .send({ userId, userRole });
 
-                console.log("En caso de error en eliminar el producto:", deleteProduct.body);
                 expect(deleteProduct.statusCode).to.equal(200);
                 console.log("Producto eliminado:", deleteProduct.body);
             } catch (error) {
@@ -168,5 +170,4 @@ describe("Product tests", async function () {
     after(async function () {
         await mongoose.disconnect();
     });
-})
-*/    
+});

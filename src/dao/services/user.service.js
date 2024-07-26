@@ -29,6 +29,18 @@ const userService = {
         }
     },
 
+    findUser: async(userId) => {
+        try {
+            logger.info(`Buscando user ID: ${userId}`);
+            const user = await userRepository.findUser(userId);
+            logger.info(`User encontrado exitosamente: ${userId}`);
+            return user;
+        } catch (error) {
+            logger.error(`Error al buscar el user ID: ${userId} - ${error.message}`);
+            throw new Error("Error al obtener usuario por ID: " + error.message);
+        }
+    },
+
     getLogin: async () => {
         return "login";
     },

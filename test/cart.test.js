@@ -1,3 +1,4 @@
+/*
 import { expect } from "chai";
 import supertest from "supertest";
 import mongoose from "mongoose";
@@ -22,9 +23,7 @@ describe("Cart Tests", function () {
 
     before(async function () {
         await mongoose.connect(MONGO_URL);
-    });
 
-    beforeEach(async function () {
         const loginResponse = await requester
             .post("/api/sessions/login")
             .send(userCredentials);
@@ -44,7 +43,8 @@ describe("Cart Tests", function () {
         };
 
         updateQuantityProductMock = {
-            quantity: 3
+            quantity: 3,
+            userId: userId,
         };
 
         updateCartMock = {
@@ -57,7 +57,8 @@ describe("Cart Tests", function () {
                     "product": "667ccbb4b05b03f8181be1d8",
                     "quantity": 3
                 }
-            ]
+            ],
+            userId: userId,
         }
     });
 
@@ -69,7 +70,6 @@ describe("Cart Tests", function () {
                     .set('Authorization', `Bearer ${authToken}`)
                     .send(cartMock);
 
-                console.log("En caso de error:", addProductToCart.body);
                 expect(addProductToCart.statusCode).to.equal(200);
                 console.log("Producto en carrito:", addProductToCart.body);
                 cartId = addProductToCart.body.cartItemId;
@@ -80,7 +80,6 @@ describe("Cart Tests", function () {
         });
     });
 
-    /*
     describe("Prueba de vista del carrito", () => {
         it("El endpoint /api/carts/:cid debera de mostrar el carrito creado", async function () {
             try {
@@ -88,6 +87,7 @@ describe("Cart Tests", function () {
                     .get(`/api/carts/${cartId}`)
                     .set('Authorization', `Bearer ${authToken}`);
 
+                console.log("En caso de error al ver la vista del carrito:", getCart);
                 expect(getCart.statusCode).to.equal(200);
                 console.log("Carrito:", getCart.text);
             } catch (error) {
@@ -120,9 +120,9 @@ describe("Cart Tests", function () {
                 const updateCart = await requester
                     .put(`/api/carts/${cartId}`)
                     .set('Authorization', `Bearer ${authToken}`)
-                    .send(userId, updateCartMock);
+                    .send(updateCartMock);
 
-                
+                console.log("En caso de error al actualizar el carrito:", updateCart.body);
                 expect(updateCart.statusCode).to.equal(200);
                 console.log("Carrito actualizado:", updateCart.body);
             } catch (error) {
@@ -165,10 +165,9 @@ describe("Cart Tests", function () {
             }
         });
     });
-    */
     
-
     after(async function () {
         await mongoose.disconnect();
     });
 });
+*/

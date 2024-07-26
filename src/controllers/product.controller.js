@@ -137,13 +137,13 @@ const productController = {
             
             // Se encarga de instanciar que el administrador puede eliminar cualquier producto
             if (userRole === 'admin') {
-                await productService.deleteProduct(productId);
+                const deleteProduct = await productService.deleteProduct(productId);
                 return res.json({ message: "Producto eliminado!" });
             }
             /* Se encarga de instanciar que el usuario que creo el producto y
             que debe de tener rol premium, pueda eliminar el producto y recibe el mensaje */
             else if(userRole === 'premium' && user && user._id.toString() == product.owner._id.toString()){
-                await productService.deleteProduct(productId);
+                const deleteProduct = await productService.deleteProduct(productId);
                 
                 const mailOptions = {
                     to: user.email,
@@ -154,7 +154,7 @@ const productController = {
     
                 await transport.sendMail(mailOptions);
                 
-                return res.json({ message: "Producto eliminado!" });
+                return res.json({ message: "Producto eliminado!", deletedProduct: deleteProduct });
             } else {
                 return res.status(403).json({ message: 'No tienes permiso para realizar esta acción' });
             }

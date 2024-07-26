@@ -11,6 +11,10 @@ const errorDictionary = {
         message: "No se pudo crear el producto.",
         statusCode: 500,
     },
+    NOT_ROLE: {
+        message: "No tienes permiso para realizar esta acción",
+        statusCode: 403,
+    },
     INVALID_IMAGE: {
         message: "Imagen o archivo no valido",
         statusCode: 400,
