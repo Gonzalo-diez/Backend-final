@@ -3,9 +3,9 @@ import cartService from "../dao/services/cart.service.js";
 const cartController = {
     getCartById: async (req, res) => {
         const cartId = req.params.cid;
-        const userId = req.session.userId;
         const user = req.session.user;
         const jwtToken = req.session.token;
+        const { userId } = req.body;
 
         try {
             // Buscar el cart segund el id del usuario y del carrito si es que ya tiene uno

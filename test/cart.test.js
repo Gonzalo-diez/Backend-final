@@ -47,19 +47,26 @@ describe("Cart Tests", function () {
             userId: userId,
         };
 
-        updateCartMock = {
-            products: [
-                {
-                    "product": "667ccbb3b05b03f8181be1cf",
-                    "quantity": 2
-                },
-                {
-                    "product": "667ccbb4b05b03f8181be1d8",
-                    "quantity": 3
-                }
-            ],
-            userId: userId,
-        }
+        updateCartMock = [
+            {
+                userId: userId,
+                products: [
+                    {
+                        "product": "667ccbb3b05b03f8181be1cf",
+                        "productQuantity": 2,
+                        "productPrice": 1350000,
+                        "productPrice": 2700000
+                    },
+                    {
+                        "product": "667ccbb4b05b03f8181be1d8",
+                        "productQuantity": 3,
+                        "productPrice": 1350000,
+                        "productTotal": 4050000
+                    }
+                ],
+                "total": 6750000
+            }
+        ]
     });
 
     describe("Prueba de agregar el producto al carrito del usuario", () => {
@@ -85,9 +92,9 @@ describe("Cart Tests", function () {
             try {
                 const getCart = await requester
                     .get(`/api/carts/${cartId}`)
-                    .set('Authorization', `Bearer ${authToken}`);
+                    .set('Authorization', `Bearer ${authToken}`)
+                    .send({ userId });
 
-                console.log("En caso de error al ver la vista del carrito:", getCart);
                 expect(getCart.statusCode).to.equal(200);
                 console.log("Carrito:", getCart.text);
             } catch (error) {
@@ -124,7 +131,7 @@ describe("Cart Tests", function () {
 
                 console.log("En caso de error al actualizar el carrito:", updateCart.body);
                 expect(updateCart.statusCode).to.equal(200);
-                console.log("Carrito actualizado:", updateCart.body);
+                console.log("Carrito actualizado:", updateCart.body.products);
             } catch (error) {
                 console.log("Error al actualizar el carrito", error.response ? error.response.body : error);
                 throw error;

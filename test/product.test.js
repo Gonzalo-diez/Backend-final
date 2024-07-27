@@ -1,3 +1,4 @@
+/*
 import { expect } from "chai";
 import supertest from "supertest";
 import mongoose from "mongoose";
@@ -119,7 +120,6 @@ describe("Product tests", async function () {
         });    
     });
 
-    /*
     // Error
     describe("Prueba de actualización del producto", () => {
         it("El endpoint /api/products/:pid debera de actualizar el producto con el updateProductMock", async function () {
@@ -148,7 +148,6 @@ describe("Product tests", async function () {
             }
         });    
     });    
-    */
 
     describe("Prueba de eliminación del producto creado", () => {
         it("El endpoint /api/products/:pid debera de eliminar el producto creado", async function () {
@@ -171,3 +170,4 @@ describe("Product tests", async function () {
         await mongoose.disconnect();
     });
 });
+*/

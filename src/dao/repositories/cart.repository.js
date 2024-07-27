@@ -22,6 +22,10 @@ const cartRepository = {
                 })
                 .lean();
 
+            if (!cart) {
+                throw new Error("No se encontro el carrito");
+            }
+
             return cart;
         } catch (error) {
             throw new Error("Error al obtener el carrito por ID: " + error.message);
@@ -109,7 +113,7 @@ const cartRepository = {
             const cart = await Cart.findByIdAndUpdate(
                 cartId,
                 { products: products, total: total },
-                { new: true }
+                { new: true, runValidators: true }
             );
             return cart;
         } catch (error) {
