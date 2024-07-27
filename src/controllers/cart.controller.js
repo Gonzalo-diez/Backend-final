@@ -38,19 +38,19 @@ const cartController = {
 
     updateCart: async (req, res) => {
         const cartId = req.params.cid;
-        const { products, userId } = req.body;
-
+        const { products, userId, total } = req.body;
+    
         try {
             // Actualiza el carrito según los productos que se guarden
-            const cart = await cartService.updateCart(cartId, userId, products);
-
+            const cart = await cartService.updateCart(cartId, userId, products, total);
+    
             return res.json(cart);
         } catch (error) {
             console.error("Error al actualizar el carrito:", error);
             return res.status(500).json({ error: "Error en la base de datos", details: error.message });
         }
     },
-
+    
     purchaseCart: async (req, res) => {
         const cartId = req.params.cid;
         const cartData = req.body;

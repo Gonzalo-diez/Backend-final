@@ -92,17 +92,17 @@ const cartService = {
         }
     },
 
-    updateCart: async (cartId, products, total) => {
+    updateCart: async (cartId, userId, products, total) => {
         try {
-            logger.info(`Actualizando el carrito ID: ${cartId}`);
-            const cart = await cartRepository.updateCart(cartId, products, total);
-            logger.info(`Carrito actualizado con exito: ${JSON.stringify(cart)}`);
+            logger.info(`Actualizando el carrito ID: ${cartId} para el usuario ID: ${userId}`);
+            const cart = await cartRepository.updateCart(cartId, userId, products, total);
+            logger.info(`Carrito actualizado con éxito: ${JSON.stringify(cart)}`);
             return cart;
         } catch (error) {
-            logger.error(`Error al actualizar el carrito ID: ${cartId} - ${error.message}`);
+            logger.error(`Error al actualizar el carrito ID: ${cartId} para el usuario ID: ${userId} - ${error.message}`);
             throw new Error("Error al actualizar el carrito: " + error.message);
         }
-    },
+    },    
 
     updateProductQuantityInCart: async (cartId, userId, productId, quantity) => {
         try {

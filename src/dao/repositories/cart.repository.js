@@ -108,18 +108,43 @@ const cartRepository = {
         }
     },
 
-    updateCart: async (cartId, products, total) => {
+    updateCart: async (cartId, userId, newProducts, total) => {
         try {
-            const cart = await Cart.findByIdAndUpdate(
-                cartId,
-                { products: products, total: total },
-                { new: true, runValidators: true }
-            );
+            const cart = await Cart.findById(cartId);
+    
+            if (!cart) {
+                throw new Error("No se encontró el carrito");
+            }
+    
+            // Verificar que el userId del carrito coincide con el userId proporcionado
+            if (cart.user.toString() !== userId) {
+                throw new Error("No autorizado para actualizar este carrito");
+            }
+    
+            // Iterar sobre los nuevos productos para actualizar o agregar
+            newProducts.forEach(newProduct => {
+                const existingProduct = cart.products.find(p => p.product.toString() === newProduct.product);
+    
+                if (existingProduct) {
+                    // Si el producto ya existe, actualiza la cantidad y el total
+                    existingProduct.productQuantity += newProduct.productQuantity;
+                    existingProduct.productTotal += newProduct.productTotal;
+                } else {
+                    // Si el producto no existe, añádelo al array
+                    cart.products.push(newProduct);
+                }
+            });
+    
+            // Actualiza el total del carrito
+            cart.total = total;
+    
+            // Guarda el carrito actualizado
+            await cart.save();
             return cart;
         } catch (error) {
             throw new Error("Error al actualizar el carrito: " + error.message);
         }
-    },
+    },    
 
     updateProductQuantityInCart: async (cartId, productId, parsedQuantity) => {
         try {
