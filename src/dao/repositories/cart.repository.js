@@ -174,8 +174,15 @@ const cartRepository = {
 
     clearCart: async (cartId) => {
         try {
-            const cart = await Cart.findByIdAndDelete(
+            const cart = await Cart.findByIdAndUpdate(
                 cartId,
+                {
+                    $set: {
+                        products: [],
+                        stock: 0,
+                        total: 0,
+                    }
+                },
                 { new: true }
             );
             return cart;

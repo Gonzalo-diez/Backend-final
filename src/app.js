@@ -248,5 +248,5 @@ io.on('connection', socket => {
     socket.on("changeRole", (changeRoleUserId) => {
         console.log("Cambio de rol usuario", changeRoleUserId);
         io.emit("changeRole", changeRoleUserId);
-    })
+    });
 });

@@ -35,6 +35,7 @@
                     <p class="card-text">Total a Pagar: ${{Cart.totalPrice}}</p>
                     <a href="http://localhost:8080/api/products/" class="btn btn-primary">Seguir Comprando</a>
                     <a href="http://localhost:8080/api/carts/{{Cart._id}}/purchase" class="btn btn-success" id="purchaseBtn" data-cart-id="{{Cart._id}}">Realizar compra</a>
+                    <button class="btn btn-danger clear-btn" data-cart-id="{{Cart._id}}">Vaciar carrito</button>
                 </div>
             </div>
         </div>

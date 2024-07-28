@@ -1,4 +1,3 @@
-/*
 import { expect } from "chai";
 import supertest from "supertest";
 import mongoose from "mongoose";
@@ -175,4 +174,3 @@ describe("Cart Tests", function () {
         await mongoose.disconnect();
     });
 });
-*/

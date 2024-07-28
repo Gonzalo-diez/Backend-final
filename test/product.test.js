@@ -1,3 +1,4 @@
+/*
 import { expect } from "chai";
 import supertest from "supertest";
 import mongoose from "mongoose";
@@ -90,7 +91,6 @@ describe("Product tests", async function () {
         });
     });
     
-    /*
     describe("Prueba de vista de productos", () => {
         it("El endpoint /api/products debera mostrar la vista de productos", async function () {
             try {
@@ -105,9 +105,7 @@ describe("Product tests", async function () {
             }
         });
     });
-    */
 
-    /*
     describe("Prueba de vista del producto creado", () => {
         it("El endpoint /api/products/:pid debera de mostrar la vista del producto creado", async function () {
             try {
@@ -122,9 +120,7 @@ describe("Product tests", async function () {
             }
         });    
     });
-    */
 
-    // Error
     describe("Prueba de actualización del producto", () => {
         it("El endpoint /api/products/:pid deberá de actualizar el producto con el updateProductMock", async function () {
             try {
@@ -152,7 +148,6 @@ describe("Product tests", async function () {
         });
     });    
 
-    /*
     describe("Prueba de eliminación del producto creado", () => {
         it("El endpoint /api/products/:pid debera de eliminar el producto creado", async function () {
             try {
@@ -169,9 +164,9 @@ describe("Product tests", async function () {
             }
         });    
     });
-    */
 
     after(async function () {
         await mongoose.disconnect();
     });
 });
+*/

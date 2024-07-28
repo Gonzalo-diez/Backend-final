@@ -28,7 +28,7 @@ async function deleteProductFromCart(cid, pid) {
     }
 }
 
-// Función para manejar el evento de hacer clic en el botón "Eliminar Producto"
+// Función para manejar el evento de hacer click en el botón "Eliminar Producto"
 function handleDeleteProductCart(event) {
     if (!event.target.classList.contains('delete-btn')) {
         return;
@@ -52,5 +52,51 @@ socket.on('deleteProductCart', (deleteProductCartId) => {
         console.log(`Producto con ID ${deleteProductCartId} eliminado`);
     } else {
         console.log(`No se encontró el producto con ID ${deleteProductCartId}`);
+    }
+});
+
+// Función para vaciar el carrito
+async function clearCart(cid) {
+    try {
+        const response = await fetch(`http://localhost:8080/api/carts/${cid}`, {
+            method: 'DELETE',
+            headers: {
+                "authorization": `Bearer ${token}`,
+            },
+            body: JSON.stringify({ userId })
+        });
+
+        if (response.ok) {
+            console.log(`Carrito vaciado: ${cid}`);
+        } else {
+            console.error(`Error al vaciar el carrito`);
+        }
+    } catch (error) {
+        console.error('Error de red:', error);
+    }
+}
+
+// Función para manejar el evento de hacer click en el boton "Vaciar carrito"
+function handleClearCart(event, cid) {
+    if (!event.target.classList.contains('clear-btn')) {
+        return;
+    }
+
+    // Emitir el evento "clearCart" al servidor con el ID del producto a eliminar
+    socket.emit('clearCart', cid);
+}
+
+// Agregar un event listener para el evento click en el contenedor productList
+document.getElementById('cartList').addEventListener('click', handleClearCart);
+
+// Manejar el evento de producto borrado desde el servidor
+socket.on('clearCart', (clearCart) => {
+    // Eliminar el producto del DOM
+    const cartElement = cid;
+    if (cartElement) {
+        cartElement.parentElement.parentElement.remove();
+        console.log(`Carrito con ID ${clearCart} vaciado`);
+    } else {
+        console.log(`No se encontró el carrito con ID ${clearCart}`);
     }
 });
