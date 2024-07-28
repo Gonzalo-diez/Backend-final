@@ -4,15 +4,16 @@ const cartController = {
     getCartById: async (req, res) => {
         const cartId = req.params.cid;
         const user = req.session.user;
+        const userId = req.session.userId;
         const jwtToken = req.session.token;
-        const { userId } = req.body;
+        const isAuthenticated = req.session.isAuthenticated;
 
         try {
             // Buscar el cart segund el id del usuario y del carrito si es que ya tiene uno
             const cart = await cartService.getCartById(cartId, userId);
 
             if (req.accepts("html")) {
-                return res.render("cart", { cid: cart._id, Cart: cart, user, jwtToken });
+                return res.render("cart", { cid: cart._id, Cart: cart, user, jwtToken, isAuthenticated });
             }
 
             return res.json(cart);
@@ -71,11 +72,12 @@ const cartController = {
         const userId = req.session.userId;
         const user = req.session.user;
         const jwtToken = req.session.token;
+        const isAuthenticated = req.session.isAuthenticated;
 
         try {
             const cart = await cartService.getCartById(cartId, userId)
             const purchaseCartView = await cartService.getPurchaseCart();
-            res.render(purchaseCartView, { user, jwtToken, Cart: cart })
+            res.render(purchaseCartView, { user, jwtToken, Cart: cart, isAuthenticated })
         } catch (error) {
 
         }

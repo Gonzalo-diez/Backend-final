@@ -241,6 +241,11 @@ const cartService = {
         try {
             logger.info(`Vaciando el carrito ID: ${cartId}`);
             const cart = await cartRepository.clearCart(cartId);
+
+            if(!cart) {
+                logger.warn("No se encontro el carrito");
+            }
+
             logger.info(`Carrito vaciado: ${JSON.stringify(cart)}`);
             return cart;
         } catch (error) {

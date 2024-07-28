@@ -4,9 +4,8 @@ const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
 const userRole = localStorage.getItem("userRole");
 
-if (userId && userRole === "admin" || userRole === "premium") {
-    document.getElementById('userId').value = userId;
-}
+console.log("ID del usuario:", userId);
+console.log("Rol de usuario:", userRole);
 
 console.log("Token:", token);
 
@@ -75,9 +74,8 @@ if (userRole === "user" || userRole === "premium") {
         fetch(cartUrl, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
             },
-            body: JSON.stringify({ userId })
         })
             .then(response => {
                 // Verificar si la respuesta es exitosa

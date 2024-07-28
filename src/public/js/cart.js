@@ -87,12 +87,12 @@ function handleClearCart(event, cid) {
 }
 
 // Agregar un event listener para el evento click en el contenedor productList
-document.getElementById('cartList').addEventListener('click', handleClearCart);
+document.getElementById('cartOptions').addEventListener('click', handleClearCart);
 
 // Manejar el evento de producto borrado desde el servidor
 socket.on('clearCart', (clearCart) => {
     // Eliminar el producto del DOM
-    const cartElement = cid;
+    const cartElement = document.querySelector(`[data-cart-id="${clearCart}"]`);;
     if (cartElement) {
         cartElement.parentElement.parentElement.remove();
         console.log(`Carrito con ID ${clearCart} vaciado`);

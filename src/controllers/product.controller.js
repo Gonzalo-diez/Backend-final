@@ -12,6 +12,7 @@ const productController = {
         const user = req.session.user;
         const jwtToken = req.session.token;
         const userRole = req.session.userRole;
+        const isAuthenticated = req.session.isAuthenticated;
 
         try {
             // Obtiene la lista de los productos con páginación, con filtros de categorias y el carrito
@@ -20,7 +21,7 @@ const productController = {
             const response = await productService.getProducts({ category, brand, sort }, currentPage);
 
             if (req.accepts('html')) {
-                res.render('realTimeProducts', { response, Carts: carts, user, jwtToken, userRole });
+                res.render('realTimeProducts', { response, Carts: carts, user, jwtToken, userRole, isAuthenticated });
             } else {
                 res.json({ message: "Lista de productos:", response });
             }
@@ -35,13 +36,14 @@ const productController = {
         const user = req.session.user;
         const jwtToken = req.session.token;
         const userRole = req.session.userRole;
+        const isAuthenticated = req.session.isAuthenticated;
 
         try {
             // Muestra en detalle el producto según su id
             const productDetail = await productService.getProductDetail(productId);
 
             if (req.accepts('html')) {
-                return res.render('product', { Product: productDetail, user, jwtToken, userRole });
+                return res.render('product', { Product: productDetail, user, jwtToken, userRole, isAuthenticated });
             }
         } catch (err) {
             console.error("Error al ver los detalles:", err);
@@ -56,13 +58,14 @@ const productController = {
         const user = req.session.user;
         const jwtToken = req.session.token;
         const userRole = req.session.userRole;
+        const isAuthenticated = req.session.isAuthenticated;
 
         try {
             // Obtiene la lista de los productos según la categoria y la páginación
             const response = await productService.getProductCategory(category, { brand, sort }, currentPage);
 
             if (req.accepts('html')) {
-                res.render('category', { response, user, jwtToken, userRole });
+                res.render('category', { response, user, jwtToken, userRole, isAuthenticated });
             } else {
                 res.json({ message: "Lista de productos por categoria:", response });
             }
@@ -109,13 +112,14 @@ const productController = {
         const productId = req.params.pid;
         const user = req.session.user;
         const jwtToken = req.session.token;
+        const isAuthenticated = req.session.isAuthenticated;
 
         try {
             const product = await productService.getProductDetail(productId);
 
             const updateProductView = await productService.getUpdateProduct();
 
-            res.render(updateProductView, { isAuthenticated, jwtToken, user, product });
+            res.render(updateProductView, { isAuthenticated, jwtToken, user, product, isAuthenticated });
         } catch (error) {
             console.error("Error al obtener la vista de editar el producto:", error);
             res.status(500).json({ error: "Error interno del servidor" });
