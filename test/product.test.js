@@ -1,4 +1,3 @@
-/*
 import { expect } from "chai";
 import supertest from "supertest";
 import mongoose from "mongoose";
@@ -51,15 +50,16 @@ describe("Product tests", async function () {
         };
         
         updateProductMock = {
-            title: 'Test Update Product',
-            brand: 'Example Update Brand',
-            description: 'Ejemplo de producto actualizado',
-            price: 4500,
-            stock: 5,
-            category: "tecnologia",
-            userId: userId,
-            userRole: userRole,
-        }
+            productUpdateData: {
+                title: 'Test Update Product',
+                brand: 'Example Update Brand',
+                description: 'Ejemplo de producto actualizado',
+                price: 4500,
+                stock: 5,
+                category: "tecnologia"
+            },
+            userId: userId
+        }        
     });
 
     describe("Prueba de agregado de producto", () => {
@@ -90,6 +90,7 @@ describe("Product tests", async function () {
         });
     });
     
+    /*
     describe("Prueba de vista de productos", () => {
         it("El endpoint /api/products debera mostrar la vista de productos", async function () {
             try {
@@ -104,7 +105,9 @@ describe("Product tests", async function () {
             }
         });
     });
+    */
 
+    /*
     describe("Prueba de vista del producto creado", () => {
         it("El endpoint /api/products/:pid debera de mostrar la vista del producto creado", async function () {
             try {
@@ -119,36 +122,37 @@ describe("Product tests", async function () {
             }
         });    
     });
+    */
 
     // Error
     describe("Prueba de actualización del producto", () => {
-        it("El endpoint /api/products/:pid debera de actualizar el producto con el updateProductMock", async function () {
+        it("El endpoint /api/products/:pid deberá de actualizar el producto con el updateProductMock", async function () {
             try {
                 const imagePath = path.resolve(__dirname, 'public/products', 'ps.png');
     
                 const updateProduct = await requester
                     .put(`/api/products/${productId}`)
                     .set('Authorization', `Bearer ${authToken}`)
-                    .field('title', updateProductMock.title)
-                    .field('brand', updateProductMock.brand)
-                    .field('description', updateProductMock.description)
-                    .field('price', updateProductMock.price)
-                    .field('stock', updateProductMock.stock)
-                    .field('category', updateProductMock.category)
-                    .field('owner', updateProductMock.userId)
-                    .field('userRole', updateProductMock.userRole)
+                    .field('productUpdateData[title]', updateProductMock.productUpdateData.title)
+                    .field('productUpdateData[brand]', updateProductMock.productUpdateData.brand)
+                    .field('productUpdateData[description]', updateProductMock.productUpdateData.description)
+                    .field('productUpdateData[price]', updateProductMock.productUpdateData.price)
+                    .field('productUpdateData[stock]', updateProductMock.productUpdateData.stock)
+                    .field('productUpdateData[category]', updateProductMock.productUpdateData.category)
+                    .field('userId', updateProductMock.userId)
                     .attach('image', fs.createReadStream(imagePath));
-                
-                console.log("En caso de error en actualizar el producto:", updateProduct.body);
+    
+                console.log("En caso de error al actualizar el producto:", updateProduct.body);
                 expect(updateProduct.statusCode).to.equal(200);
-                console.log("Producto actualizado:", updateProduct.body);    
+                console.log("Producto actualizado:", updateProduct.body);
             } catch (error) {
                 console.log("Error al actualizar el producto", error.response ? error.response.body : error);
                 throw error;
             }
-        });    
+        });
     });    
 
+    /*
     describe("Prueba de eliminación del producto creado", () => {
         it("El endpoint /api/products/:pid debera de eliminar el producto creado", async function () {
             try {
@@ -165,9 +169,9 @@ describe("Product tests", async function () {
             }
         });    
     });
+    */
 
     after(async function () {
         await mongoose.disconnect();
     });
 });
-*/

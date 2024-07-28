@@ -85,11 +85,9 @@ const productService = {
         }
     },
 
-    updateProduct: async (productId, req, productUpdateData, userId) => {
-        const { title, brand, description, price, stock, category } = productUpdateData;
-    
+    updateProduct: async (productId, req, updateData, userId, user, userRole, product) => {
         try {
-            logger.info(`Actualizando el producto ID: ${productId} del usuario: ${userId} con data: ${JSON.stringify(productUpdateData)}`);
+            logger.info(`Actualizando el producto ID: ${productId} del usuario: ${userId} con data: ${JSON.stringify(updateData)}`);
     
             // Verificar si el producto existe
             const existingProduct = await productRepository.getProductById(productId);
@@ -98,29 +96,24 @@ const productService = {
                 throw new Error("El producto no existe");
             }
     
+            if ((userRole === 'admin' || (userRole === 'premium' && user && user._id.toString() === product.owner._id.toString()))) {
+                logger.warn("Usted no está autorizado");
+                throw new Error("No tiene los permisos requeridos");
+            }
+    
             // Verificar si hay un archivo de imagen en la solicitud
-            const imageName = req.file ? req.file.filename : existingProduct.imageName;
-
+            if (req.file) {
+                updateData.imageName = req.file.filename;
+            }
+    
             // Verificar que los valores de stock y price sean positivos
-            if (price < 0 || stock < 0) {
+            if (updateData.price < 0 || updateData.stock < 0) {
                 logger.warn("El precio y/o stock deben de ser de valores positivos");
                 throw { code: 'PRODUCT_POSITIVE_VALUE' };
             }
     
-            // Crear instancia DTO
-            const updateProductDTO = new ProductDTO(
-                title || existingProduct.title,
-                brand || existingProduct.brand,
-                description || existingProduct.description,
-                price !== undefined ? price : existingProduct.price,
-                stock !== undefined ? stock : existingProduct.stock,
-                category || existingProduct.category,
-                imageName,
-                userId || existingProduct.owner
-            );
-    
-            // Paso directamente el DTO al repositorio
-            const updatedProduct = await productRepository.updateProduct(productId, updateProductDTO);
+            // Paso los datos de actualización directamente al repositorio
+            const updatedProduct = await productRepository.updateProduct(productId, updateData);
     
             logger.info(`Producto actualizado exitosamente: ${JSON.stringify(updatedProduct)}`);
             return updatedProduct;
@@ -128,7 +121,7 @@ const productService = {
             logger.error(`Error al actualizar el producto ID: ${productId} - ${error.message}`);
             throw { code: 'PRODUCT_UPDATE_FAILED', message: error.message };
         }
-    },    
+    },      
 
     getUpdateProduct: async () => {
         return "updateProduct";

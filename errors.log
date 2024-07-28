@@ -714,3 +714,5 @@
 {"level":"error","message":"Error al actualizar el carrito ID: 66a523e175a799dbd5b68ead - Error al actualizar el carrito: Cast to embedded failed for value \"669ed76a5aa77be8d8e0545c\" (type string) at path \"products\" because of \"ObjectParameterError\""}
 {"level":"error","message":"Error al actualizar el carrito ID: 66a523e175a799dbd5b68ead - Error al actualizar el carrito: Cannot read properties of undefined (reading 'forEach')"}
 {"level":"error","message":"Error al actualizar el carrito ID: 66a523e175a799dbd5b68ead para el usuario ID: undefined - Error al actualizar el carrito: No autorizado para actualizar este carrito"}
+{"level":"warn","message":"Usted no está autorizado"}
+{"level":"error","message":"Error al actualizar el producto ID: 66a1ad19be6f40ab4f1a6088 - No tiene los permisos requeridos"}

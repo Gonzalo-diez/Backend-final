@@ -47,8 +47,7 @@ describe("Cart Tests", function () {
             userId: userId,
         };
 
-        updateCartMock = [
-            {
+        updateCartMock = {
                 userId: userId,
                 products: [
                     {
@@ -66,7 +65,6 @@ describe("Cart Tests", function () {
                 ],
                 "total": 6750000
             }
-        ]
     });
 
     describe("Prueba de agregar el producto al carrito del usuario", () => {

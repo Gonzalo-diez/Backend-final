@@ -153,14 +153,18 @@ const productRepository = {
         }
     },
 
-    updateProduct: async (productId, updatedProductData) => {
+    updateProduct: async (productId, updateData) => {
         try {
-            const updatedProduct = await Product.findByIdAndUpdate(productId, { $set: updatedProductData }, { new: true });
+            const updatedProduct = await Product.findByIdAndUpdate(
+                productId,
+                { $set: updateData },
+                { new: true }
+            );
             return updatedProduct;
         } catch (error) {
             throw new Error("Error al actualizar el producto: " + error.message);
         }
-    },    
+    },     
 
     deleteProductById: async (productId) => {
         try {

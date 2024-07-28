@@ -88,21 +88,17 @@ const productController = {
 
     updateProduct: async (req, res) => {
         const productId = req.params.pid;
-        const { productUpdateData, userId, userRole } = req.body;
+        const { userId, userRole, ...updateData } = req.body;
     
         try {
             // Busca el producto y usuario por su ID
             const product = await productService.getProductDetail(productId);
-            const user = await userService.getUserById(userId);
+            const user = await userService.findUser(userId);
     
-            // Se encarga de que solo el administrador o el usuario premium que creo el producto pueda editar el producto
-            if (userRole === 'admin' || (userRole === 'premium' && user && user._id.toString() == product.owner._id.toString())) {
-                const updatedProduct = await productService.updateProduct(productId, req, productUpdateData, userId);
+            // Se encarga de que solo el administrador o el usuario premium que creó el producto pueda editar el producto
+            const updatedProduct = await productService.updateProduct(productId, req, updateData, userId, user, userRole, product);
     
-                return res.json({ message: "Producto actualizado!", product: updatedProduct });
-            } else {
-                return res.status(403).json({ message: 'No tienes permiso para realizar esta acción' });
-            }
+            return res.json({ message: "Producto actualizado!", product: updatedProduct });
         } catch (err) {
             console.error('Error:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
@@ -128,13 +124,13 @@ const productController = {
 
     deleteProduct: async (req, res) => {
         const productId = req.params.pid;
-        const { userId, userRole } = req.body; 
-    
+        const { userId, userRole } = req.body;
+
         try {
             // Busca el producto y el usuario por su ID
             const product = await productService.getProductDetail(productId);
             const user = await userService.getUserById(userId);
-            
+
             // Se encarga de instanciar que el administrador puede eliminar cualquier producto
             if (userRole === 'admin') {
                 const deleteProduct = await productService.deleteProduct(productId);
@@ -142,18 +138,18 @@ const productController = {
             }
             /* Se encarga de instanciar que el usuario que creo el producto y
             que debe de tener rol premium, pueda eliminar el producto y recibe el mensaje */
-            else if(userRole === 'premium' && user && user._id.toString() == product.owner._id.toString()){
+            else if (userRole === 'premium' && user && user._id.toString() == product.owner._id.toString()) {
                 const deleteProduct = await productService.deleteProduct(productId);
-                
+
                 const mailOptions = {
                     to: user.email,
                     from: EMAIL_USERNAME,
                     subject: 'Eliminación de producto',
                     text: `Está recibiendo este mensaje porque se ha eliminado su producto ${product.title}.`
                 };
-    
+
                 await transport.sendMail(mailOptions);
-                
+
                 return res.json({ message: "Producto eliminado!", deletedProduct: deleteProduct });
             } else {
                 return res.status(403).json({ message: 'No tienes permiso para realizar esta acción' });
@@ -162,7 +158,7 @@ const productController = {
             console.error('Error:', err);
             return res.status(500).json({ error: "Error en la base de datos", details: err.message });
         }
-    }  
+    }
 }
 
 export default productController;
