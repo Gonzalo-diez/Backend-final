@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Content-Type": "application/json",
                     "authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ title, brand, description, price, stock, category, image, userId }),
+                body: JSON.stringify({ title, brand, description, price, stock, category, image, userId, userRole }),
             });
 
             const data = await response.json();

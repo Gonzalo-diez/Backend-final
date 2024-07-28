@@ -34,7 +34,7 @@ function handleAddToCart(event) {
             "authorization": `Bearer ${token}`,
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ productId })
+        body: JSON.stringify({ productId, userId, userRole })
     })
         .then(response => {
             if (!response.ok) {
@@ -76,7 +76,8 @@ if (userRole === "user" || userRole === "premium") {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            body: JSON.stringify({ userId })
         })
             .then(response => {
                 // Verificar si la respuesta es exitosa
@@ -186,7 +187,8 @@ if (userRole === "admin" || "premium") {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`,
-            }
+            },
+            body: JSON.stringify({ userId, userRole })
         })
         .then(response => {
             if (!response.ok) {

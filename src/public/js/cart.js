@@ -14,7 +14,8 @@ async function deleteProductFromCart(cid, pid) {
             headers: {
                 "authorization": `Bearer ${token}`,
                 'Content-Type': 'application/json'
-            }
+            },
+            body: JSON.stringify({ userId })
         });
 
         if (response.ok) {
