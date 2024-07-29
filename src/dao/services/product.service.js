@@ -44,7 +44,7 @@ const productService = {
         }
     },
 
-    addProduct: async (productData, req) => {
+    addProduct: async (productData, file) => {
         const { title, brand, description, price, stock, category, owner } = productData;
 
         try {
@@ -57,7 +57,7 @@ const productService = {
                 throw { code: 'USER_NOT_FOUND' };
             }
 
-            const imageName = req.file ? req.file.filename : null;
+            const imageName = file ? file.filename : null;
 
             // Verificar que se subi una imagen valida
             if (!imageName) {
@@ -96,7 +96,7 @@ const productService = {
                 throw new Error("El producto no existe");
             }
     
-            if (userRole !== 'admin' || (userRole !== 'premium' && user && user._id.toString() !== product.owner._id.toString())) {
+            if (userRole !== 'admin' && !(userRole === 'premium' && user._id.toString() === product.owner._id.toString())) {
                 logger.warn("Usted no está autorizado");
                 throw new Error("No tiene los permisos requeridos");
             }

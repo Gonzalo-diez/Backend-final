@@ -136,35 +136,33 @@ socket.on('addProduct', (addProduct) => {
 
 if (userRole === "admin" || userRole === "premium") {
     // Manejar el envío del formulario para agregar un producto
-    document.getElementById('addProductForm').addEventListener('submit', async (event) => {
-        event.preventDefault();
-
-        // Obtener los valores del formulario
-        const formData = new FormData(event.target);
-
+    document.getElementById('addProductForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); 
+    
+        const form = document.getElementById('addProductForm');
+        const formData = new FormData(form);
+    
         try {
-            const response = await fetch('http://localhost:8080/api/products/', {
+            const response = await fetch('/api/products/', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    "authorization": `Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`,
                 },
-                body: formData,
+                body: formData
             });
-
+    
             if (!response.ok) {
-                throw new Error('Error al agregar el producto');
+                const errorData = await response.json();
+                console.error('Error:', errorData);
+                alert('Error al agregar el producto. Por favor, verifica los datos e inténtalo de nuevo.');
+            } else {
+                const responseData = await response.json();
+                console.log('Success:', responseData);
+                alert('Producto agregado exitosamente');
             }
-
-            const data = await response.json();
-            socket.emit("addProduct", data.Product);
-            console.log('Producto agregado:', data.Product);
-
-            // Limpiar el formulario después de agregar el producto
-            event.target.reset();
-
         } catch (error) {
-            console.error('Error al agregar el producto:', error);
+            console.error('Error de red:', error);
+            alert('Hubo un problema con la solicitud. Por favor, intenta de nuevo.');
         }
     });
 

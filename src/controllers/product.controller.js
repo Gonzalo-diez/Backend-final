@@ -77,10 +77,11 @@ const productController = {
 
     addProduct: async (req, res) => {
         const productData = req.body;
+        const file = req.file;
 
         try {
             // Se encarga de agregar los productos del usuario premium y/o admin
-            const newProduct = await productService.addProduct(productData, req);
+            const newProduct = await productService.addProduct(productData, file);
 
             return res.json(newProduct);
         } catch (err) {

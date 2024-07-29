@@ -10,22 +10,16 @@ document.addEventListener("DOMContentLoaded", () => {
     editProductForm.addEventListener("submit", async (event) => {
         event.preventDefault();
 
-        const title = document.getElementById("title").value;
-        const brand = document.getElementById("brand").value;
-        const description = document.getElementById("description").value;
-        const price = document.getElementById("price").value;
-        const stock = document.getElementById("stock").value;
-        const category = document.getElementById("category").value;
-        const image = document.getElementById("image").value;
+        const form = document.getElementById('editProductForm');
+        const formData = new FormData(form);
 
         try {
             const response = await fetch(`http://localhost:8080/api/products/${productId}`, {
                 method: "PUT",
                 headers: {
-                    "Content-Type": "application/json",
                     "authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ title, brand, description, price, stock, category, image, userId, userRole }),
+                body: formData,
             });
 
             const data = await response.json();
