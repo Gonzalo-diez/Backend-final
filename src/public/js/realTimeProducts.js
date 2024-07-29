@@ -4,11 +4,6 @@ const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
 const userRole = localStorage.getItem("userRole");
 
-console.log("ID del usuario:", userId);
-console.log("Rol de usuario:", userRole);
-
-console.log("Token:", token);
-
 function handleAddToCart(event) {
     if (!event.target.classList.contains('cart-btn')) {
         return;
@@ -139,7 +134,7 @@ socket.on('addProduct', (addProduct) => {
     renderProducts(addProduct);
 });
 
-if (userRole === "admin" || "premium") {
+if (userRole === "admin" || userRole === "premium") {
     // Manejar el envío del formulario para agregar un producto
     document.getElementById('addProductForm').addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -150,10 +145,11 @@ if (userRole === "admin" || "premium") {
         try {
             const response = await fetch('http://localhost:8080/api/products/', {
                 method: 'POST',
-                body: formData,
                 headers: {
+                    'Content-Type': 'application/json',
                     "authorization": `Bearer ${token}`,
                 },
+                body: formData,
             });
 
             if (!response.ok) {
@@ -180,28 +176,29 @@ if (userRole === "admin" || "premium") {
 
         const productId = event.target.getAttribute('data-product-id');
 
-         // Realizar la solicitud HTTP DELETE para eliminar el producto
-         fetch(`http://localhost:8080/api/products/${productId}`, {
+        // Realizar la solicitud HTTP DELETE para eliminar el producto
+        fetch(`http://localhost:8080/api/products/${productId}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                "authorization": `Bearer ${token}`,
             },
             body: JSON.stringify({ userId, userRole })
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al eliminar el producto');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Producto eliminado:', data);
-            // Emitir el evento "deleteProduct" al servidor con el ID del producto a eliminar
-            socket.emit('deleteProduct', productId, userId);
-        })
-        .catch(error => {
-            console.error('Error al eliminar el producto:', error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al eliminar el producto');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Producto eliminado:', data);
+                // Emitir el evento "deleteProduct" al servidor con el ID del producto a eliminar
+                socket.emit('deleteProduct', productId);
+            })
+            .catch(error => {
+                console.error('Error al eliminar el producto:', error);
+            });
     }
 
     // Agregar un event listener para el evento click en el contenedor productList

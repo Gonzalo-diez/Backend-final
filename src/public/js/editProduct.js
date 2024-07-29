@@ -1,5 +1,6 @@
 const token = localStorage.getItem('token');
 const userId = localStorage.getItem('userId');
+const userRole = localStorage.getItem('userRole');
 
 document.addEventListener("DOMContentLoaded", () => {
     const editProductForm = document.getElementById("editProductForm");

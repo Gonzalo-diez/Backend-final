@@ -138,7 +138,8 @@ const productController = {
             // Se encarga de instanciar que el administrador puede eliminar cualquier producto
             if (userRole === 'admin') {
                 const deleteProduct = await productService.deleteProduct(productId);
-                return res.json({ message: "Producto eliminado!" });
+
+                return res.json({ message: "Producto eliminado!", deletdeletedProduct: deleteProduct });
             }
             /* Se encarga de instanciar que el usuario que creo el producto y
             que debe de tener rol premium, pueda eliminar el producto y recibe el mensaje */

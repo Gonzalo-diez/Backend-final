@@ -67,7 +67,7 @@ async function clearCart(cid) {
         });
 
         if (response.ok) {
-            console.log(`Carrito vaciado: ${cid}`);
+            console.log(`Carrito vaciado: ${cid} - ${response.body}`);
         } else {
             console.error(`Error al vaciar el carrito`);
         }

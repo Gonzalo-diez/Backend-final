@@ -96,7 +96,7 @@ const productService = {
                 throw new Error("El producto no existe");
             }
     
-            if ((userRole === 'admin' || (userRole === 'premium' && user && user._id.toString() === product.owner._id.toString()))) {
+            if (userRole !== 'admin' || (userRole !== 'premium' && user && user._id.toString() !== product.owner._id.toString())) {
                 logger.warn("Usted no está autorizado");
                 throw new Error("No tiene los permisos requeridos");
             }

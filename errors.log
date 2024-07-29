@@ -718,3 +718,19 @@
 {"level":"error","message":"Error al actualizar el producto ID: 66a1ad19be6f40ab4f1a6088 - No tiene los permisos requeridos"}
 {"level":"error","message":"Error al actualizar el carrito ID: 66a523e175a799dbd5b68ead para el usuario ID: 669ed76a5aa77be8d8e0545c - Error al actualizar el carrito: Cart validation failed: products.1.productTotal: Cast to Number failed for value \"NaN\" (type number) at path \"productTotal\""}
 {"level":"error","message":"Error al buscar el carrito por ID: 66a523e175a799dbd5b68ead para el user: undefined - Error al obtener el carrito por ID: No se encontro el carrito"}
+{"level":"warn","message":"Usted no está autorizado"}
+{"level":"error","message":"Error al actualizar el producto ID: 66a1ad19be6f40ab4f1a6088 - No tiene los permisos requeridos"}
+{"level":"warn","message":"Usted no está autorizado"}
+{"level":"error","message":"Error al actualizar el producto ID: 66a1b5b1443886326a97fe64 - No tiene los permisos requeridos"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@example.com"}
+{"level":"warn","message":"Credenciales de inicio de sesión no válidas para email: test@gmail.com"}
+{"level":"warn","message":"Producto no encontrado ID: 66a1b77a5db3ad7c3adba513"}
+{"level":"error","message":"Error al encontrar el producto ID: 66a1b77a5db3ad7c3adba513 - undefined"}
+{"level":"warn","message":"Producto no encontrado ID: 66a1b99f91fd19b75914b4dc"}
+{"level":"error","message":"Error al encontrar el producto ID: 66a1b99f91fd19b75914b4dc - undefined"}
+{"level":"warn","message":"Producto no encontrado ID: 66a1b7b75db3ad7c3adba526"}
+{"level":"error","message":"Error al encontrar el producto ID: 66a1b7b75db3ad7c3adba526 - undefined"}
+{"level":"warn","message":"Producto no encontrado ID: 66a1b7b75db3ad7c3adba526"}
+{"level":"error","message":"Error al encontrar el producto ID: 66a1b7b75db3ad7c3adba526 - undefined"}
+{"level":"warn","message":"Producto no encontrado ID: 66a1b7b75db3ad7c3adba526"}
+{"level":"error","message":"Error al encontrar el producto ID: 66a1b7b75db3ad7c3adba526 - undefined"}
