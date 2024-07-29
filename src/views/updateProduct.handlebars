@@ -37,6 +37,8 @@
                     <label for="imageName">Imagen:</label>
                     <input type="file" class="form-control" name="image" id="image" accept="image/*">
                 </div>
+                <input type="hidden" class="form-control" name="userId" id="userId" value="{{product.owner._id}}">
+                <input type="hidden" class="form-control" name="userRole" id="userRole" value="{{product.owner.role}}">
                 <button type="submit" class="btn btn-primary mt-2">Editar producto</button>
             </form>
         </div>

@@ -753,3 +753,8 @@
 {"level":"error","message":"Error al actualizar el producto ID: 66a8005ed89ff2d66bfa9d61 - No tiene los permisos requeridos"}
 {"level":"warn","message":"Usted no está autorizado"}
 {"level":"error","message":"Error al actualizar el producto ID: 66a8005ed89ff2d66bfa9d61 - No tiene los permisos requeridos"}
+{"level":"warn","message":"Usted no está autorizado"}
+{"level":"error","message":"Error al actualizar el producto ID: 66a804502e8d6f80d1f43a0c - No tiene los permisos requeridos"}
+{"level":"warn","message":"Usted no está autorizado"}
+{"level":"error","message":"Error al actualizar el producto ID: 66a804502e8d6f80d1f43a0c - No tiene los permisos requeridos"}
+{"level":"error","message":"Error al buscar el user ID: [object Object] - Error al buscar usuario por ID: Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"User\""}
