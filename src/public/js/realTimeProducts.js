@@ -1,4 +1,4 @@
-const socket = io.connect('http://localhost:8080');
+const socket = io.connect('https://backend-final-production-8834.up.railway.app/');
 
 const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
