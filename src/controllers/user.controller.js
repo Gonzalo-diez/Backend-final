@@ -1,9 +1,8 @@
 import crypto from "crypto";
 import nodemailer from "nodemailer";
 import passport from "passport";
-import { EMAIL_USERNAME } from "../util.js";
+import { EMAIL_USERNAME, transport } from "../util.js";
 import userService from "../dao/services/user.service.js";
-import { transport } from "../app.js";
 
 const userController = {
     getUsers: async (req, res) => {

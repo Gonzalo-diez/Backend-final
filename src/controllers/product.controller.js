@@ -1,5 +1,4 @@
-import { EMAIL_USERNAME } from "../util.js";
-import { transport } from "../app.js";
+import { EMAIL_USERNAME, transport } from "../util.js";
 import productService from "../dao/services/product.service.js";
 import cartService from "../dao/services/cart.service.js";
 import userService from "../dao/services/user.service.js";

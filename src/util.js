@@ -1,7 +1,8 @@
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
 import multer from "multer";
-import dotenv from "dotenv"
+import dotenv from "dotenv";
+import nodemailer from "nodemailer";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -77,5 +78,19 @@ export function generateRandomCode(length) {
     }
     return result;
 }
+
+// Nodemailer
+const dataTransport = {
+    service: "gmail",
+    host: "smtp.gmail.com",
+    secure: false,
+    port: 587,
+    auth: {
+        user: process.env.EMAIL_USERNAME || EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD || EMAIL_PASSWORD
+    }
+}
+
+export const transport = nodemailer.createTransport(dataTransport);
 
 export default __dirname;

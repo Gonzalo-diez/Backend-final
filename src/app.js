@@ -11,7 +11,6 @@ import session from "express-session";
 import FileStore from "session-file-store";
 import MongoStore from "connect-mongo";
 import cors from "cors";
-import nodemailer from "nodemailer";
 import compression from "express-compression";
 import { fakerES as faker } from "@faker-js/faker";
 import cluster from "cluster";
@@ -60,20 +59,6 @@ Handlebars.registerHelper('eq', function (v1, operator, v2, options) {
             return options.inverse(this);
     }
 });
-
-// Nodemailer
-const dataTransport = {
-    service: "gmail",
-    host: "smtp.gmail.com",
-    secure: false,
-    port: 587,
-    auth: {
-        user: EMAIL_USERNAME,
-        pass: EMAIL_PASSWORD
-    }
-}
-
-export const transport = nodemailer.createTransport(dataTransport);
 
 const fileStore = FileStore(session);
 const app = express();
