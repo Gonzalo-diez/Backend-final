@@ -1,7 +1,7 @@
 import express from "express"
 import { configureProductMulter } from "../util.js";
 import productController from "../controllers/product.controller.js";
-import { authToken, isAdmin, isPremium, isPremiumOrAdmin } from "../config/auth.js";
+import { authToken, isPremiumOrAdmin } from "../config/auth.js";
 
 const productRouter = express.Router();
 const imgUpload = configureProductMulter();

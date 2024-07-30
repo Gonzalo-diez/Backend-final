@@ -1,5 +1,5 @@
-# Usar una imagen base de Node.js
-FROM node
+# Usar una imagen base de Node.js con una versión específica
+FROM node:16
 
 # Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /app
@@ -9,6 +9,11 @@ COPY package*.json ./
 
 # Instalar las dependencias del proyecto
 RUN npm install
+
+# Recompilar módulos nativos para la plataforma de Docker
+RUN npm rebuild bcrypt --build-from-source
+
+# Instalar nodemon globalmente
 RUN npm install -g nodemon
 
 # Copiar el resto de los archivos del proyecto

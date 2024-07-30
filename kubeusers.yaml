@@ -14,10 +14,10 @@ spec:
     spec:
       containers:
         - name: kubecontainer
-          image: <username>/usercreator:1.0.0
+          image: gonza10/apptienda:1.0.0
           ports:
             - containerPort: 8080
           env:
             - name: MONGO_URL
-              value: URL de mongo
+              value: mongodb+srv://gonza:Coder2001@ecommerce.salixhx.mongodb.net/
           imagePullPolicy: Always

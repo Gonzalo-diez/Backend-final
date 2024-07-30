@@ -1,7 +1,7 @@
 import express from "express";
 import { configureDocumentMulter, configureProfileMulter } from "../util.js";
 import userController from "../controllers/user.controller.js";
-import { authToken, isAdmin, isPremium, isUser, isUserOrPremium, isAll } from "../config/auth.js";
+import { authToken, isAdmin, isPremium, isUser, isAll } from "../config/auth.js";
 
 const userRouter = express.Router();
 const profileUpload = configureProfileMulter();
