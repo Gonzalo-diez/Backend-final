@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const formData = new FormData(registerForm);
             const errorMessage = document.getElementById('errorMessage');
 
-            fetch('http://localhost:8080/api/sessions/register', {
+            fetch('https://backend-final-production-8834.up.railway.app/api/sessions/register', {
                 method: 'POST',
                 body: formData
             })
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 console.log("User Id:", userId);
                 console.log("User Role:", userRole);
                 console.log("Registro exitoso!");
-                window.location.href = "http://localhost:8080/api/products/";
+                window.location.href = "https://backend-final-production-8834.up.railway.app/api/products/";
             })
             .catch(error => {
                 console.error('Error en el registro:', error);

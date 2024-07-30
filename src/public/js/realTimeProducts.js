@@ -11,18 +11,18 @@ function handleAddToCart(event) {
 
     if (!token) {
         console.log("Usuario no logueado o registrado");
-        window.location.href = "http://localhost:8080/api/sessions/login"
+        window.location.href = "https://backend-final-production-8834.up.railway.app/api/sessions/login"
     }
 
     if (userRole === "admin") {
         alert("Usted es el administrador");
-        window.location.href = "http://localhost:8080/api/sessions/login"
+        window.location.href = "https://backend-final-production-8834.up.railway.app/api/sessions/login"
     }
 
     const productId = event.target.getAttribute('data-product-id');
 
     // Realizar una solicitud HTTP POST para agregar el producto al carrito
-    fetch("http://localhost:8080/api/carts/", {
+    fetch("https://backend-final-production-8834.up.railway.app/api/carts/", {
         method: 'POST',
         headers: {
             "authorization": `Bearer ${token}`,
@@ -53,7 +53,7 @@ if (userRole === "user" || userRole === "premium") {
         // Obtener el valor seleccionado en el select
         const selectedCartId = document.getElementById('cart').value;
         // Construir la URL del carrito utilizando el ID seleccionado
-        const cartUrl = `http://localhost:8080/api/carts/${selectedCartId}`;
+        const cartUrl = `https://backend-final-production-8834.up.railway.app/api/carts/${selectedCartId}`;
 
         // Obtener el token de localStorage
         const token = localStorage.getItem('token');
@@ -109,15 +109,15 @@ async function renderProducts(products) {
                     <p class="card-text">Precio: ${products.price}</p>
                     <p class="card-text">Stock: ${products.stock}</p>
                     <p class="card-text">Categoría: ${products.category}</p>
-                    <a href="http://localhost:8080/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a>
+                    <a href="https://backend-final-production-8834.up.railway.app/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a>
                     {{#eq ../user.role "==" "admin"}}
                     <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
-                    <a href="http://localhost:8080/api/products/updateProduct/{{this._id}}" class="btn btn-warning">Editar Producto</a>
+                    <a href="https://backend-final-production-8834.up.railway.app/api/products/updateProduct/{{this._id}}" class="btn btn-warning">Editar Producto</a>
                     {{/eq}}
                     {{#eq ../user.role "==" "premium"}}
                     {{#eq ../user._id "==" this.owner}}
                     <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
-                    <a href="http://localhost:8080/api/products/updateProduct/{{this._id}}" class="btn btn-warning">Editar Producto</a>
+                    <a href="https://backend-final-production-8834.up.railway.app/api/products/updateProduct/{{this._id}}" class="btn btn-warning">Editar Producto</a>
                     {{/eq}}
                     {{/eq}}
                     {{#ifRole ../user.role "user" "premium"}}
@@ -175,7 +175,7 @@ if (userRole === "admin" || userRole === "premium") {
         const productId = event.target.getAttribute('data-product-id');
 
         // Realizar la solicitud HTTP DELETE para eliminar el producto
-        fetch(`http://localhost:8080/api/products/${productId}`, {
+        fetch(`https://backend-final-production-8834.up.railway.app/api/products/${productId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

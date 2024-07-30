@@ -1,4 +1,4 @@
-const socket = io.connect('http://localhost:8080');
+const socket = io.connect('https://backend-final-production-8834.up.railway.app/');
 const token = localStorage.getItem('token');
 const userRole = localStorage.getItem('userRole');
 
@@ -22,7 +22,7 @@ document.getElementById('messageForm').addEventListener('submit', async (event) 
 
     if (userEmail && message) {
         try {
-            const response = await fetch('http://localhost:8080/api/messages/addMessage', {
+            const response = await fetch('https://backend-final-production-8834.up.railway.app/api/messages/addMessage', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

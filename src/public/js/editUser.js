@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const email = document.getElementById("email").value;
 
         try {
-            const response = await fetch(`http://localhost:8080/api/sessions/updateUser/${userId}`, {
+            const response = await fetch(`https://backend-final-production-8834.up.railway.app/api/sessions/updateUser/${userId}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             // El perfil se editó exitosamente, redirigir a otra página o mostrar un mensaje de éxito
-            window.location.href = "http://localhost:8080/api/products/";
+            window.location.href = "https://backend-final-production-8834.up.railway.app/api/products/";
         } catch (error) {
             errorMessage.textContent = error.message;
             errorMessage.style.display = "block";

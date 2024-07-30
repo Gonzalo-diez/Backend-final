@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const expired_date = document.getElementById("expired_date").value;
 
         try {
-            const response = await fetch(`http://localhost:8080/api/carts/${cartId}/purchase`, {
+            const response = await fetch(`https://backend-final-production-8834.up.railway.app/api/carts/${cartId}/purchase`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 icon: 'success',
                 confirmButtonText: 'Aceptar'
             }).then(() => {
-                window.location.href = "http://localhost:8080/api/products/";
+                window.location.href = "https://backend-final-production-8834.up.railway.app/api/products/";
             });
         } catch (error) {
             Swal.fire({

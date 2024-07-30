@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const token = window.location.pathname.split("/").pop(); 
 
         try {
-            const response = await fetch(`http://localhost:8080/api/sessions/resetPassword/${token}`, {
+            const response = await fetch(`https://backend-final-production-8834.up.railway.app/api/sessions/resetPassword/${token}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (response.ok) {
                 alert("Contraseña restablecida correctamente.");
-                window.location.href = "http://localhost:8080/api/sessions/login"; 
+                window.location.href = "https://backend-final-production-8834.up.railway.app/api/sessions/login"; 
             } else {
                 errorMessage.style.display = "block";
                 errorMessage.textContent = result.error || "Ocurrió un error al restablecer la contraseña.";

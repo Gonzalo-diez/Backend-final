@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const email = document.getElementById("email").value;
 
         try {
-            const response = await fetch("http://localhost:8080/api/sessions/requestPasswordReset", {
+            const response = await fetch("https://backend-final-production-8834.up.railway.app/api/sessions/requestPasswordReset", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

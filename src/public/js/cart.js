@@ -1,4 +1,4 @@
-const socket = io.connect('http://localhost:8080');
+const socket = io.connect('https://backend-final-production-8834.up.railway.app/');
 
 const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
@@ -9,7 +9,7 @@ async function deleteProductFromCart(cid, pid) {
     console.log("id del producto:", pid);
 
     try {
-        const response = await fetch(`http://localhost:8080/api/carts/${cid}/products/${pid}`, {
+        const response = await fetch(`https://backend-final-production-8834.up.railway.app/api/carts/${cid}/products/${pid}`, {
             method: 'DELETE',
             headers: {
                 "authorization": `Bearer ${token}`,
@@ -58,7 +58,7 @@ socket.on('deleteProductCart', (deleteProductCartId) => {
 // Función para vaciar el carrito
 async function clearCart(cid) {
     try {
-        const response = await fetch(`http://localhost:8080/api/carts/${cid}`, {
+        const response = await fetch(`https://backend-final-production-8834.up.railway.app/api/carts/${cid}`, {
             method: 'DELETE',
             headers: {
                 "authorization": `Bearer ${token}`,

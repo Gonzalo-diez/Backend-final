@@ -5,7 +5,7 @@ const logout = async () => {
     console.log("ID del usuario antes de enviarlo al servidor:", userId);
 
     try {
-        const response = await fetch('http://localhost:8080/api/sessions/logout', {
+        const response = await fetch('https://backend-final-production-8834.up.railway.app/api/sessions/logout', {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${token}`
@@ -45,7 +45,7 @@ const perfil = async () => {
     const userId = localStorage.getItem('userId');
 
     try {
-        const response = await fetch(`http://localhost:8080/api/sessions/dashboard/${userId}`, {
+        const response = await fetch(`https://backend-final-production-8834.up.railway.app/api/sessions/dashboard/${userId}`, {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${token}`
@@ -82,7 +82,7 @@ const changePassword = async () => {
     const userId = localStorage.getItem('userId');
 
     try {
-        const response = await fetch(`http://localhost:8080/api/sessions/changePassword/${userId}`, {
+        const response = await fetch(`https://backend-final-production-8834.up.railway.app/api/sessions/changePassword/${userId}`, {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${token}`
@@ -119,7 +119,7 @@ const editUser = async () => {
     const userId = localStorage.getItem('userId');
 
     try {
-        const response = await fetch(`http://localhost:8080/api/sessions/updateUser/${userId}`, {
+        const response = await fetch(`https://backend-final-production-8834.up.railway.app/api/sessions/updateUser/${userId}`, {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${token}`
@@ -154,7 +154,7 @@ const chat = async () => {
     const token = localStorage.getItem('token');
 
     try {
-        const response = await fetch(`http://localhost:8080/api/messages`, {
+        const response = await fetch(`https://backend-final-production-8834.up.railway.app/api/messages`, {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${token}`
@@ -162,7 +162,7 @@ const chat = async () => {
         });
 
         if (response.ok) {
-            window.location.replace(`http://localhost:8080/api/messages`);
+            window.location.replace(`https://backend-final-production-8834.up.railway.app/api/messages`);
         } else {
             const errorMessage = await response.text();
             console.error('Error en ir al chat:', errorMessage);
@@ -190,7 +190,7 @@ const changePremiumRole = async () => {
     const userId = localStorage.getItem('userId');
 
     try {
-        const response = await fetch(`http://localhost:8080/api/sessions/premium/${userId}`, {
+        const response = await fetch(`https://backend-final-production-8834.up.railway.app/api/sessions/premium/${userId}`, {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${token}`
@@ -198,7 +198,7 @@ const changePremiumRole = async () => {
         });
 
         if (response.ok) {
-            window.location.replace(`http://localhost:8080/api/sessions/premium/${userId}`);
+            window.location.replace(`https://backend-final-production-8834.up.railway.app/api/sessions/premium/${userId}`);
         } else {
             const errorMessage = await response.text();
             console.error('Error en ir a cambiar roles:', errorMessage);
@@ -226,7 +226,7 @@ const changeUserRole = async () => {
     const userId = localStorage.getItem('userId');
 
     try {
-        const response = await fetch(`http://localhost:8080/api/sessions/user/${userId}`, {
+        const response = await fetch(`https://backend-final-production-8834.up.railway.app/api/sessions/user/${userId}`, {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${token}`
@@ -234,7 +234,7 @@ const changeUserRole = async () => {
         });
 
         if (response.ok) {
-            window.location.replace(`http://localhost:8080/api/sessions/user/${userId}`);
+            window.location.replace(`https://backend-final-production-8834.up.railway.app/api/sessions/user/${userId}`);
         } else {
             const errorMessage = await response.text();
             console.error('Error en ir a cambiar roles:', errorMessage);
@@ -262,7 +262,7 @@ const uploadDocs = async () => {
     const userId = localStorage.getItem('userId');
 
     try {
-        const response = await fetch(`http://localhost:8080/api/sessions/${userId}/uploadDocuments`, {
+        const response = await fetch(`https://backend-final-production-8834.up.railway.app/api/sessions/${userId}/uploadDocuments`, {
             method: 'GET',
             headers: {
                 "authorization": `Bearer ${token}`
@@ -270,7 +270,7 @@ const uploadDocs = async () => {
         });
 
         if (response.ok) {
-            window.location.replace(`http://localhost:8080/api/sessions/${userId}/uploadDocuments`);
+            window.location.replace(`https://backend-final-production-8834.up.railway.app/api/sessions/${userId}/uploadDocuments`);
         } else {
             const errorMessage = await response.text();
             console.error('Error en ir a subir los documentos:', errorMessage);
