@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 
                 if (response.ok) {
                     alert("Se ha cambiado el rol del usuario.");
-                    window.location.href = "https://backend-final-production-8834.up.railway.app/api/products"; 
+                    window.location.href = "https://backend-final-production-8834.up.railway.app/api/sessions/login"; 
                 } else {
                     errorMessage.style.display = "block";
                     errorMessage.textContent = result.error || "Ocurrió un error al cambiar el rol del usuario.";
