@@ -16,12 +16,12 @@ const userRepository = {
             // Links para las páginas siguientes y anteriores
             let prevLink = null;
             if (filter.hasPrevPage) {
-                prevLink = `http://localhost:8080/api/sessions/?page=${filter.prevPage}`;
+                prevLink = `/api/sessions/?page=${filter.prevPage}`;
             }
 
             let nextLink = null;
             if (filter.hasNextPage) {
-                nextLink = `http://localhost:8080/api/sessions/?page=${filter.nextPage}`;
+                nextLink = `/api/sessions/?page=${filter.nextPage}`;
             }
             
             const response = {
