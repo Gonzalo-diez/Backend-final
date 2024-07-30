@@ -102,15 +102,15 @@
                     <p class="card-text">Precio: ${{this.price}}</p>
                     <p class="card-text">Stock: {{this.stock}}</p>
                     <p class="card-text">Categoría: {{this.category}}</p>
-                    <a href="http://localhost:8080/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a>
+                    <a href="/api/products/{{this._id}}" class="btn btn-primary">Ver detalles</a>
                     {{#eq ../user.role "==" "admin"}}
                     <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
-                    <a href="http://localhost:8080/api/products/updateProduct/{{this._id}}" class="btn btn-warning">Editar Producto</a>
+                    <a href="/api/products/updateProduct/{{this._id}}" class="btn btn-warning">Editar Producto</a>
                     {{/eq}}
                     {{#eq ../user.role "==" "premium"}}
                     {{#eq ../user._id "==" this.owner}}
                     <button class="btn btn-danger delete-btn" data-product-id="{{this._id}}">Eliminar Producto</button>
-                    <a href="http://localhost:8080/api/products/updateProduct/{{this._id}}" class="btn btn-warning">Editar Producto</a>
+                    <a href="/api/products/updateProduct/{{this._id}}" class="btn btn-warning">Editar Producto</a>
                     {{/eq}}
                     {{/eq}}
                     {{#ifRole ../user.role "user" "premium"}}
