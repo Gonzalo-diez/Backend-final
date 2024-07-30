@@ -25,6 +25,7 @@ import errorHandler from "./errors/errorHandler.js";
 import __dirname from "./util.js";
 import { addLogger } from "./utils/logger-env.js";
 import logger from "./utils/logger.js";
+import { PORT } from "./util.js";
 
 // Metodos handlebars para ayudarme en el lado cliente
 Handlebars.registerHelper('ifRole', function(role, ...args) {
@@ -201,8 +202,6 @@ app.get("/loggerTest", (req, res) => {
       res.status(500).send("Error al probar los logs");
     }
 });
-
-const PORT = 8080;
 
 // Servidor HTTP
 httpServer.listen(PORT, () => {

@@ -8,6 +8,7 @@ const __dirname = dirname(__filename);
 
 dotenv.config({ path: path.resolve(__dirname, './.env') });
 
+export const PORT = process.env.PORT || 8080;
 export const MONGO_URL = process.env.MONGO_URL;
 export const JWT_SECRET = process.env.jwtSecret;
 export const CLIENT_ID = process.env.clientId;
