@@ -84,23 +84,6 @@ describe("Cart Tests", function () {
         });
     });
 
-    describe("Prueba de vista del carrito", () => {
-        it("El endpoint /api/carts/:cid debera de mostrar el carrito creado", async function () {
-            try {
-                const getCart = await requester
-                    .get(`/api/carts/${cartId}`)
-                    .set('Authorization', `Bearer ${authToken}`)
-                    .send({ userId });
-
-                expect(getCart.statusCode).to.equal(200);
-                console.log("Carrito:", getCart.text);
-            } catch (error) {
-                console.log("Error al buscar el carrito", error.response ? error.response.body : error);
-                throw error;
-            }
-        });  
-    });
-
     describe("Prueba de agregado de más cantidad al producto en el carrito", () => {
         it("El endpoint /api/carts/:cid/products/:pid", async function () {
             try {

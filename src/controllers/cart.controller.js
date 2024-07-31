@@ -4,9 +4,9 @@ const cartController = {
     getCartById: async (req, res) => {
         const cartId = req.params.cid;
         const user = req.session.user;
+        const userId = req.session.userId;
         const jwtToken = req.session.token;
         const isAuthenticated = req.session.isAuthenticated;
-        const { userId } = req.body;
 
         try {
             // Buscar el cart segund el id del usuario y del carrito si es que ya tiene uno
