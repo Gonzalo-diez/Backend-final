@@ -758,3 +758,12 @@
 {"level":"warn","message":"Usted no está autorizado"}
 {"level":"error","message":"Error al actualizar el producto ID: 66a804502e8d6f80d1f43a0c - No tiene los permisos requeridos"}
 {"level":"error","message":"Error al buscar el user ID: [object Object] - Error al buscar usuario por ID: Cast to ObjectId failed for value \"[object Object]\" (type string) at path \"_id\" for model \"User\""}
+{"level":"error","message":"Error al buscar el carrito por ID: 66a523e175a799dbd5b68ead para el user: undefined - Error al obtener el carrito por ID: No se encontro el carrito"}
+{"level":"warn","message":"Usted no está autorizado"}
+{"level":"error","message":"Error al actualizar el producto ID: 66aa686547ba40f3411d7c76 - No tiene los permisos requeridos"}
+{"level":"error","message":"Error al buscar el carrito por ID: 66a523e175a799dbd5b68ead para el user: undefined - Error al obtener el carrito por ID: No se encontro el carrito"}
+{"level":"warn","message":"Usted no está autorizado"}
+{"level":"error","message":"Error al actualizar el producto ID: 66aa694247ba40f3411d7cb9 - No tiene los permisos requeridos"}
+{"level":"error","message":"Error al buscar el carrito por ID: 66a523e175a799dbd5b68ead para el user: undefined - Error al obtener el carrito por ID: No se encontro el carrito"}
+{"level":"error","message":"Error al buscar el carrito por ID: 66a523e175a799dbd5b68ead para el user: undefined - Error al obtener el carrito por ID: No se encontro el carrito"}
+{"level":"error","message":"Error al buscar el carrito por ID: 66a523e175a799dbd5b68ead para el user: undefined - Error al obtener el carrito por ID: No se encontro el carrito"}

@@ -1,4 +1,3 @@
-/*
 import { expect } from "chai";
 import supertest from "supertest";
 import mongoose from "mongoose";
@@ -59,7 +58,8 @@ describe("Product tests", async function () {
                 stock: 5,
                 category: "tecnologia"
             },
-            userId: userId
+            userId: userId,
+            userRole: userRole
         }        
     });
 
@@ -129,13 +129,14 @@ describe("Product tests", async function () {
                 const updateProduct = await requester
                     .put(`/api/products/${productId}`)
                     .set('Authorization', `Bearer ${authToken}`)
-                    .field('productUpdateData[title]', updateProductMock.productUpdateData.title)
-                    .field('productUpdateData[brand]', updateProductMock.productUpdateData.brand)
-                    .field('productUpdateData[description]', updateProductMock.productUpdateData.description)
-                    .field('productUpdateData[price]', updateProductMock.productUpdateData.price)
-                    .field('productUpdateData[stock]', updateProductMock.productUpdateData.stock)
-                    .field('productUpdateData[category]', updateProductMock.productUpdateData.category)
+                    .field('title', updateProductMock.productUpdateData.title)
+                    .field('brand', updateProductMock.productUpdateData.brand)
+                    .field('description', updateProductMock.productUpdateData.description)
+                    .field('price', updateProductMock.productUpdateData.price)
+                    .field('stock', updateProductMock.productUpdateData.stock)
+                    .field('category', updateProductMock.productUpdateData.category)
                     .field('userId', updateProductMock.userId)
+                    .field('userRole', updateProductMock.userRole)
                     .attach('image', fs.createReadStream(imagePath));
     
                 console.log("En caso de error al actualizar el producto:", updateProduct.body);
@@ -169,4 +170,3 @@ describe("Product tests", async function () {
         await mongoose.disconnect();
     });
 });
-*/

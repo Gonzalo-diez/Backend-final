@@ -1,4 +1,3 @@
-/*
 import { expect } from "chai";
 import supertest from "supertest";
 import mongoose from "mongoose";
@@ -84,4 +83,3 @@ describe("Testeo de mensajes dao", function() {
         await mongoose.disconnect();
     });
 });
-*/
