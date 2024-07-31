@@ -225,10 +225,10 @@ const cartService = {
         return "purchase";
     },
 
-    deleteProductFromCart: async (cartId, productId) => {
+    deleteProductFromCart: async (cartId, userId, productId) => {
         try {
-            logger.info(`Borrando el producto ID: ${productId} del carrito ID: ${cartId}`);
-            const cart = await cartRepository.deleteProductFromCart(cartId, productId);
+            logger.info(`Borrando el producto ID: ${productId} del carrito ID: ${cartId} del user: ${userId}`);
+            const cart = await cartRepository.deleteProductFromCart(cartId, userId, productId);
             logger.info(`Producto borrado exitosamente del carrito: ${JSON.stringify(cart)}`);
             return cart;
         } catch (error) {

@@ -159,10 +159,10 @@ const cartRepository = {
         }
     },    
 
-    deleteProductFromCart: async (cartId, productId) => {
+    deleteProductFromCart: async (cartId, userId, productId) => {
         try {
             const cart = await Cart.findOneAndUpdate(
-                { _id: cartId },
+                { _id: cartId, user: userId },
                 { $pull: { products: { product: productId } } },
                 { new: true }
             );
