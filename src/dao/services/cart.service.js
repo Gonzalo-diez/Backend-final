@@ -201,8 +201,6 @@ const cartService = {
                 }))
             });
     
-            console.log("Ticket en proceso:", ticketDTO);
-    
             const ticket = await ticketRepository.createTicket(ticketDTO);
             const purchase = await purchaseRepository.createPurchase(purchaseDTO);
     
@@ -212,7 +210,6 @@ const cartService = {
             logger.info(`Compra exitosa: ${JSON.stringify(purchase)}`);
     
             await cartRepository.clearCart(cartId);
-            await cartRepository.updateCart(cartId, productsToKeepInCart, totalPurchaseAmount);
     
             return ticket;
         } catch (error) {
