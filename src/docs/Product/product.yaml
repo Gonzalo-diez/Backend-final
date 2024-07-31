@@ -59,6 +59,14 @@ components:
           example: "Producto eliminado!"
         product:
           $ref: '#/components/schemas/Product'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []
 
 paths:
   /:
@@ -139,8 +147,9 @@ paths:
           schema:
             type: string
       requestBody:
+        required: true
         content:
-          multipart/form-data:
+          application/json:
             schema:
               $ref: '#/components/schemas/Product'
       responses:
@@ -272,6 +281,7 @@ paths:
     post:
       summary: Agrega un nuevo producto
       requestBody:
+        required: true
         content:
           multipart/form-data:
             schema:
