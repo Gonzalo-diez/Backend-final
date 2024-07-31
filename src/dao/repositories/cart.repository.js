@@ -166,6 +166,9 @@ const cartRepository = {
                 { $pull: { products: { product: productId } } },
                 { new: true }
             );
+
+            console.log(`Carrito después de eliminar producto: ${JSON.stringify(cart)}`);
+
             return cart;
         } catch (error) {
             throw new Error("Error al eliminar el producto del carrito: " + error.message);
