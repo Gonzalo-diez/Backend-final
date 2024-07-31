@@ -1,5 +1,4 @@
 import cartRepository from "../repositories/cart.repository.js";
-import CartDTO from "../DTO/cart.dto.js";
 import { generateRandomCode } from "../../util.js";
 import userRepository from "../repositories/user.repository.js";
 import productRepository from "../repositories/product.repository.js";
