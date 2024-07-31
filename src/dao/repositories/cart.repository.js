@@ -163,7 +163,7 @@ const cartRepository = {
         try {
             const cart = await Cart.findOneAndUpdate(
                 { _id: cartId, user: userId },
-                { $pull: { products: { product: productId } } },
+                { $pull: { products: { _id: productId } } },
                 { new: true }
             );
 
