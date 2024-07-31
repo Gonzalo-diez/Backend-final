@@ -137,9 +137,7 @@ const userController = {
 
             res.cookie("jwtToken", access_token, {
                 httpOnly: true,
-            })
-            
-            res.redirect("/api/products");
+            }).send({ status: "Success", message: user, access_token, userId: user._id, userRole: user.role });
         } catch (error) {
             console.error('Error en el callback de GitHub:', error);
             res.status(500).json({ error: "Error interno del servidor" });
