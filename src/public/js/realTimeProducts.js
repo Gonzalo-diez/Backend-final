@@ -71,6 +71,7 @@ if (userRole === "user" || userRole === "premium") {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
+            body: JSON.stringify({ userId })
         })
             .then(response => {
                 // Verificar si la respuesta es exitosa
