@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 
 const userRepository = {
+    // Método para traer la lista de usuarios con páginación
     getUsers: async (currentPage) => {
         try {
             const options = {
@@ -48,6 +49,7 @@ const userRepository = {
         }
     },
 
+    // Método para buscar el usuario por su email
     findByEmail: async (email) => {
         try {
             const user = await User.findOne({ email });
@@ -57,6 +59,7 @@ const userRepository = {
         }
     },
 
+    // Método para buscar el usuario en la base de datos y que pueda ver los datos en el handlebars
     findById: async (userId) => {
         try {
             const user = await User.findById(userId).lean();
@@ -66,6 +69,7 @@ const userRepository = {
         }
     },
     
+    // Método para buscar el usuario en la base de datos
     findUser: async (userId) => {
         try {
             const user = await User.findById(userId);
@@ -75,6 +79,7 @@ const userRepository = {
         }
     },
 
+    // Método para buscar a los usuarios inactivos
     findInactiveUser: async (inactivityPeriod) => {
         const inactivityDate = new Date(Date.now() - inactivityPeriod);
         try {
@@ -85,6 +90,7 @@ const userRepository = {
         }
     },
 
+    // Método para eliminar a los usuarios inactivos
     deleteInactiveUser: async (userId) => {
         try {
             const deleteInactiveUser = await User.deleteOne({ _id: userId });
@@ -94,6 +100,7 @@ const userRepository = {
         }
     },
 
+    // Método para crear a los usuarios en el registro
     createUser: async (userData) => {
         try {
             const newUser = new User(userData);
@@ -104,6 +111,7 @@ const userRepository = {
         }
     },
 
+    // Método para buscar el usuario por el token enviado
     findByResetToken: async (token) => {
         try {
             const user = await User.findOne({ resetToken: token });
@@ -113,6 +121,27 @@ const userRepository = {
         }
     },
 
+    // Método para actualizar el token de restablecimiento
+    updateUserToken: async (userId, { resetToken, resetTokenExpires }) => {
+        try {
+            await User.findByIdAndUpdate(userId, { resetToken, resetTokenExpires }, { new: true });
+        } catch (error) {
+            logger.error(`Error al actualizar el token de restablecimiento: ${error.message}`);
+            throw new Error("Error al actualizar el token de restablecimiento: " + error.message);
+        }
+    },
+
+    // Método para actualizar la contraseña del usuario
+    updateUserPassword: async (userId, { password }) => {
+        try {
+            await User.findByIdAndUpdate(userId, { password }, { new: true });
+        } catch (error) {
+            logger.error(`Error al actualizar la contraseña del usuario: ${error.message}`);
+            throw new Error("Error al actualizar la contraseña del usuario: " + error.message);
+        }
+    },
+
+    // Método para subir los documentos
     uploadDocs: async (userId, documents) => {
         try {
             const user = await User.findById(userId);
@@ -134,6 +163,7 @@ const userRepository = {
         }
     },
 
+    // Método para buscar los documentos del usuario
     getDocsByUser: async (userId) => {
         try {
             const user = await User.findById(userId).select('documents');
@@ -148,6 +178,7 @@ const userRepository = {
         }
     },
 
+    // Método para borrar el usuario por su ID
     deleteUser: async (userId) => {
         try {   
             const deleteUser = await User.findByIdAndDelete({ _id: userId });
@@ -162,6 +193,7 @@ const userRepository = {
         }
     },
 
+    // Método para actualizar el usuario
     updateUser: async (userId, updateData) => {
         try {
             const updatedUser = await User.findByIdAndUpdate(userId, updateData, { new: true });

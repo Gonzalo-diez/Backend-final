@@ -1,6 +1,7 @@
 import Cart from "../models/cart.model.js";
 
 const cartRepository = {
+    // Método para buscar el carrito del usuario por su ID
     findByUserId: async (userId) => {
         try {
             const cart = await Cart.findOne({ user: userId });
@@ -12,6 +13,7 @@ const cartRepository = {
         }
     },
 
+    // Método para mostrar el carrito al usuario según su ID
     getCartById: async (cartId, userId) => {
         try {
             const cart = await Cart.findOne({ _id: cartId, user: userId })
@@ -32,6 +34,7 @@ const cartRepository = {
         }
     },
 
+    // Método para buscar el carrito del usuario por su ID para handlebars
     getCartByUser: async(userId) => {
         try {
             const cart = await Cart.find({user: userId}).lean();
@@ -46,6 +49,7 @@ const cartRepository = {
         }
     },
 
+    // Método para agregar un producto al carrrito y/o actualizar el carrito con un nuevo producto
     addProductToCart: async (productId, userId, cart, product) => {
         try {
             if (cart) {
@@ -94,6 +98,7 @@ const cartRepository = {
         }
     },
 
+    // Método para crear el carrito
     createCart: async () => {
         try {
             const cart = new Cart({
@@ -108,6 +113,7 @@ const cartRepository = {
         }
     },
 
+    // Método para actualizar el carrito con una lista de productos
     updateCart: async (cartId, userId, newProducts, total) => {
         try {
             const cart = await Cart.findById(cartId);
@@ -146,6 +152,7 @@ const cartRepository = {
         }
     },    
 
+    // Método para actualizar la cantidad del producto en el carrito
     updateProductQuantityInCart: async (cartId, productId, parsedQuantity) => {
         try {
             const cart = await Cart.findOneAndUpdate(
@@ -159,6 +166,7 @@ const cartRepository = {
         }
     },    
 
+    // Método para borrar el producto del carrito
     deleteProductFromCart: async (cartId, userId, productId) => {
         try {
             const cart = await Cart.findOneAndUpdate(
@@ -175,6 +183,7 @@ const cartRepository = {
         }
     },
 
+    // Método para vaciar el carrito completo
     clearCart: async (cartId) => {
         try {
             const cart = await Cart.findByIdAndUpdate(

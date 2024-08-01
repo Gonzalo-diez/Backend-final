@@ -1,6 +1,7 @@
 import Product from "../models/product.model.js";
 
 const productRepository = {
+    // Método para traer la lista de productos con páginación
     getAllProducts: async (query, currentPage) => {
         try {
             // Paginación
@@ -60,6 +61,7 @@ const productRepository = {
         }
     },
 
+    // Método para encontrar el producto por su ID
     findProductById: async (productId) => {
         try {
             const product = await Product.findById(productId);
@@ -70,6 +72,7 @@ const productRepository = {
         }
     },
 
+    // Método para mostrar el producto en handlebars
     getProductById: async (productId) => {
         try {
             const product = await Product.findById(productId).populate('owner').lean();
@@ -79,6 +82,7 @@ const productRepository = {
         }
     },
 
+    // Método para obtener el producto del carrito
     getProductForCart: async (productId) => {
         try {
             const product = await Product.findById(productId);
@@ -88,6 +92,7 @@ const productRepository = {
         }
     },
 
+    // Método para traer la lista de productos según su categoria y con páginación
     getProductsByCategory: async (category, query, currentPage) => {
         try {
             // Paginación
@@ -143,6 +148,7 @@ const productRepository = {
         }
     },
 
+    // Método para crear productos
     createProduct: async (productData) => {
         try {
             const newProduct = new Product(productData);
@@ -153,6 +159,7 @@ const productRepository = {
         }
     },
 
+    // Método para actualizar el producto según su ID
     updateProduct: async (productId, updateData) => {
         try {
             const updatedProduct = await Product.findByIdAndUpdate(
@@ -166,6 +173,7 @@ const productRepository = {
         }
     },     
 
+    // Método para borrar el producto por su ID
     deleteProductById: async (productId) => {
         try {
             const deleteResult = await Product.deleteOne({ _id: productId });

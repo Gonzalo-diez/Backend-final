@@ -188,7 +188,7 @@ const userService = {
 
     savePasswordResetToken: async (userId, resetToken, resetTokenExpires) => {
         try {
-            await userRepository.updateUser(userId, { resetToken, resetTokenExpires });
+            await userRepository.updateUserToken(userId, { resetToken, resetTokenExpires });
         } catch (error) {
             logger.error(`Error al guardar el token de restablecimiento: ${error.message}`);
             throw new Error("Error al guardar el token de restablecimiento: " + error.message);
@@ -212,7 +212,7 @@ const userService = {
             }
 
             const hashedPassword = await bcrypt.hash(newPassword, 10);
-            await userRepository.updateUser(userId, { password: hashedPassword });
+            await userRepository.updateUserPassword(userId, { password: hashedPassword });
         } catch (error) {
             logger.error(`Error al actualizar la contraseña del usuario: ${userId} - ${error.message}`);
             throw new Error("Error al actualizar la contraseña del usuario: " + error.message);
@@ -221,7 +221,7 @@ const userService = {
 
     clearPasswordResetToken: async (userId) => {
         try {
-            await userRepository.updateUser(userId, { resetToken: null, resetTokenExpires: null });
+            await userRepository.updateUserToken(userId, { resetToken: null, resetTokenExpires: null });
         } catch (error) {
             logger.error(`Error al limpiar el token de restablecimiento del usuario: ${userId} - ${error.message}`);
             throw new Error("Error al limpiar el token de restablecimiento del usuario: " + error.message);
