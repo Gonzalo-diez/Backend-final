@@ -228,7 +228,6 @@ const userController = {
     resetPassword: async (req, res) => {
         const { token } = req.params;
         const { newPassword } = req.body;
-        const userId = req.session.userId;
 
         try {
             // Busca el reset token del usuario para verificar que se le haya mandado el mensaje y asi autorizar el cambio de contraseña
@@ -238,8 +237,8 @@ const userController = {
                 return res.status(400).json({ error: "Token de restablecimiento inválido o expirado" });
             }
 
-            await userService.updatePassword(userId, newPassword);
-            await userService.clearPasswordResetToken(userId);
+            await userService.updatePassword(user._id, newPassword);
+            await userService.clearPasswordResetToken(user._id);
 
             res.status(200).json({ message: "Contraseña restablecida con éxito" });
         } catch (error) {
