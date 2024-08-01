@@ -213,7 +213,6 @@ const userService = {
             }
 
             const hashedPassword = await bcrypt.hash(newPassword, 10);
-            logger.info(`Nueva contraseña asegurada: ${hashedPassword}`);
             const updatePassword = await userRepository.updateUserPassword(userId, { password: hashedPassword });
             return updatePassword;
         } catch (error) {
