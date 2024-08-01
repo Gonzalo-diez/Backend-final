@@ -214,7 +214,7 @@ const userService = {
 
             const hashedPassword = await bcrypt.hash(newPassword, 10);
             const updatePassword = await userRepository.updateUserPassword(userId, hashedPassword);
-            logger.info(`Se ha cambiado la contraseña el user: ${userId}`)
+            logger.info(`Se ha cambiado la contraseña el user: ${userId}, ${hashedPassword}`)
             return updatePassword;
         } catch (error) {
             logger.error(`Error al actualizar la contraseña del usuario: ${userId} - ${error.message}`);
