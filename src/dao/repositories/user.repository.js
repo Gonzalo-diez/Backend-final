@@ -135,7 +135,11 @@ const userRepository = {
     // Método para actualizar la contraseña del usuario
     updateUserPassword: async (userId, hashedPassword) => {
         try {
-            const updatePassword = await User.findByIdAndUpdate(userId, hashedPassword, { new: true });
+            const updatePassword = await User.findByIdAndUpdate(
+                userId, 
+                { password: hashedPassword }, 
+                { new: true }
+            );
             await updatePassword.save();
             return updatePassword;
         } catch (error) {
