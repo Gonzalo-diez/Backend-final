@@ -124,7 +124,8 @@ const userRepository = {
     // Método para actualizar el token de restablecimiento
     updateUserToken: async (userId, { resetToken, resetTokenExpires }) => {
         try {
-            await User.findByIdAndUpdate(userId, { resetToken, resetTokenExpires }, { new: true });
+            const token = await User.findByIdAndUpdate(userId, { resetToken, resetTokenExpires }, { new: true });
+            return token;
         } catch (error) {
             logger.error(`Error al actualizar el token de restablecimiento: ${error.message}`);
             throw new Error("Error al actualizar el token de restablecimiento: " + error.message);
@@ -134,7 +135,8 @@ const userRepository = {
     // Método para actualizar la contraseña del usuario
     updateUserPassword: async (userId, { password }) => {
         try {
-            await User.findByIdAndUpdate(userId, { password }, { new: true });
+            const updatePassword = await User.findByIdAndUpdate(userId, { password }, { new: true });
+            return updatePassword;
         } catch (error) {
             logger.error(`Error al actualizar la contraseña del usuario: ${error.message}`);
             throw new Error("Error al actualizar la contraseña del usuario: " + error.message);
