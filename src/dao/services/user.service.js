@@ -198,6 +198,7 @@ const userService = {
     getUserByResetToken: async (token) => {
         try {
             const user = await userRepository.findByResetToken(token);
+            logger.info(`Usuario encontrado: ${user}`);
             return user;
         } catch (error) {
             logger.error(`Error al buscar usuario por token de restablecimiento: ${token} - ${error.message}`);
@@ -212,7 +213,8 @@ const userService = {
             }
 
             const hashedPassword = await bcrypt.hash(newPassword, 10);
-            await userRepository.updateUserPassword(userId, { password: hashedPassword });
+            const updatePassword = await userRepository.updateUserPassword(userId, { password: hashedPassword });
+            return updatePassword;
         } catch (error) {
             logger.error(`Error al actualizar la contraseña del usuario: ${userId} - ${error.message}`);
             throw new Error("Error al actualizar la contraseña del usuario: " + error.message);
