@@ -136,6 +136,7 @@ const userRepository = {
     updateUserPassword: async (userId, { password }) => {
         try {
             const updatePassword = await User.findByIdAndUpdate(userId, { password }, { new: true });
+            await updatePassword.save();
             return updatePassword;
         } catch (error) {
             logger.error(`Error al actualizar la contraseña del usuario: ${error.message}`);
